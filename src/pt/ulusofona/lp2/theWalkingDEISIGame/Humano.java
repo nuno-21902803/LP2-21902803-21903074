@@ -24,7 +24,9 @@ public class Humano {
         this.y = y;
     }
 
-    public Humano(int id, int idTipo, String nomeEquipa, String nome, int x, int y, ArrayList<Equipamento> equipamentosApanhados) {
+    public Humano(int id, int idTipo, String nomeEquipa, String nome, int x, int y,
+                  ArrayList<Equipamento> equipamentosApanhados) {
+
         this.id = id;
         this.idTipo = idTipo;
         this.nomeEquipa = nomeEquipa;
@@ -46,7 +48,10 @@ public class Humano {
         return this.equipamentosApanhados.size();
     }
 
+
+    @Override
     public String toString(){
-        return id +" | "+ 1 +" | "+ nomeEquipa +" | "+ nome+ " "+ equipamentosApanhados.size() +"@ ("+x+", "+y+")";
+        return id +" | "+ 1 +" | "+ nomeEquipa +" | "+ nome+ " "
+                + equipamentosApanhados.size() +" @ ("+x+", "+y+")";
     }
 }

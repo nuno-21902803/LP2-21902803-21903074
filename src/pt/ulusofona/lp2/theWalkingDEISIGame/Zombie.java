@@ -24,7 +24,9 @@ public class Zombie {
         this.y = y;
     }
 
-    public Zombie(int id, int idTipo, String nomeEquipa, String nome, int x, int y, ArrayList<Equipamento> equipamentosDestruidos) {
+    public Zombie(int id, int idTipo, String nomeEquipa, String nome, int x, int y,
+                  ArrayList<Equipamento> equipamentosDestruidos) {
+
         this.id = id;
         this.idTipo = idTipo;
         this.nomeEquipa = nomeEquipa;
@@ -47,7 +49,10 @@ public class Zombie {
         return this.equipamentosDestruidos.size();
     }
 
+
+    @Override
     public String toString(){
-        return id +" | "+ idTipo +" | "+ nomeEquipa +" | "+ nome+ " "+ equipamentosDestruidos.size() +"@ ("+x+", "+y+")";
+        return id +" | "+ idTipo +" | "+ nomeEquipa +" | "+ nome+ " "
+                + equipamentosDestruidos.size() +" @ ("+x+", "+y+")";
     }
 }

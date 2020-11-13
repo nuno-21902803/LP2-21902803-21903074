@@ -17,7 +17,7 @@ public class TWDGameManager {
     ArrayList<Equipamento> equipamentos= new ArrayList<>();
     HashMap<Integer,Zombie> zombieHashMap= new HashMap<>();
     HashMap<Integer,Humano> humanoHashMap = new HashMap<>();
-
+    HashMap<Integer,Equipamento> equipamentoHashMap = new HashMap<>();
 
 
     int numeroLinhas;
@@ -68,37 +68,37 @@ public class TWDGameManager {
                     if (Integer.parseInt(dadosCriatura[1])== 0){
                         //é zombie
 
-                        int idz = Integer.parseInt(dadosCriatura[0]);
-                        int idTipoz = 0;
-                        String nomez =dadosCriatura[2];
-                        int xz = Integer.parseInt(dadosCriatura[3]);
-                        int yz = Integer.parseInt(dadosCriatura[4]);
+                        int idZ = Integer.parseInt(dadosCriatura[0]);
+                        int idTipoZ = 0;
+                        String nomeZ =dadosCriatura[2];
+                        int xZ = Integer.parseInt(dadosCriatura[3]);
+                        int yZ = Integer.parseInt(dadosCriatura[4]);
 
 
 
-                        if (zombieHashMap.get(idz) == null) {
-                            Zombie zombie1 = new Zombie(idz,idTipoz,nomez,xz,yz);
-                            System.out.println(zombie1);
-                            zombieHashMap.put(idz,zombie1);
-                            zombies.add(zombie1);
+                        if (zombieHashMap.get(idZ) == null) {
+                            Zombie zombie = new Zombie(idZ,idTipoZ,nomeZ,xZ,yZ);
+
+                            zombieHashMap.put(idZ,zombie);
+                            zombies.add(zombie);
                         }
 
 
                     } else if (Integer.parseInt(dadosCriatura[1])== 1){
                         //é humano
 
-                        int idh = Integer.parseInt(dadosCriatura[0]);
-                        int idTipoh = 0;
-                        String nomeh =dadosCriatura[2];
-                        int xh = Integer.parseInt(dadosCriatura[3]);
-                        int yh = Integer.parseInt(dadosCriatura[4]);
+                        int idH = Integer.parseInt(dadosCriatura[0]);
+                        int idTipoH = 0;
+                        String nomeH =dadosCriatura[2];
+                        int xH = Integer.parseInt(dadosCriatura[3]);
+                        int yH = Integer.parseInt(dadosCriatura[4]);
 
 
-                        if (humanoHashMap.get(idh) == null) {
-                            Humano humano1 = new Humano(idh,idTipoh,nomeh,xh,yh);
-                            System.out.println(humano1);
-                            humanoHashMap.put(idh,humano1);
-                            humanos.add(humano1);
+                        if (humanoHashMap.get(idH) == null) {
+                            Humano humano = new Humano(idH,idTipoH,nomeH,xH,yH);
+
+                            humanoHashMap.put(idH,humano);
+                            humanos.add(humano);
                         }
                     }
 
@@ -110,14 +110,21 @@ public class TWDGameManager {
 
                     String[] dadosEquipamento = leitorFicheiro.nextLine().split(" : ");
 
-                    int id = Integer.parseInt(dadosEquipamento[0]);
-                    int idTipo = 1;
-                    int x = Integer.parseInt(dadosEquipamento[2]);
-                    int y = Integer.parseInt(dadosEquipamento[3]);
+                    int idE = Integer.parseInt(dadosEquipamento[0]);
+                    int idTipoE = 1;
+                    int xE = Integer.parseInt(dadosEquipamento[2]);
+                    int yE = Integer.parseInt(dadosEquipamento[3]);
 
-                    Equipamento equipamento = new Equipamento(id,idTipo,x,y);
 
-                    equipamentos.add(equipamento);
+                    if (equipamentoHashMap.get(idE) == null) {
+                        Equipamento equipamento = new Equipamento(idE,idTipoE,xE,yE);
+
+                        equipamentoHashMap.put(idE,equipamento);
+                        equipamentos.add(equipamento);
+                    }
+
+
+
                 }
             }
             leitorFicheiro.close();
@@ -140,11 +147,11 @@ public class TWDGameManager {
     }
 
     public List<Humano> getHumans(){
-        return this.humanos;
+        return humanos;
     }
 
     public List<Zombie> getZombies(){
-        return this.zombies;
+        return zombies;
     }
 
     public boolean move(int xO, int yO, int xD, int yD){
@@ -172,7 +179,7 @@ public class TWDGameManager {
         this.authors.add(string1);
         this.authors.add(string2);
 
-        return this.authors;
+        return authors;
     }
 
     public int getCurrentTeamId(){
@@ -200,7 +207,7 @@ public class TWDGameManager {
     }
 
     public boolean isDay(){
-        return this.day;
+        return day;
     }
 
     public boolean hasEquipment(int creatureId, int equipmentTypeId){
