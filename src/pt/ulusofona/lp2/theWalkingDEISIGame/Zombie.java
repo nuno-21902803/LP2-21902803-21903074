@@ -40,7 +40,6 @@ public class Zombie {
         return this.id;
     }
 
-
     public String getImagePNG(){
         return null;
     }
@@ -49,10 +48,24 @@ public class Zombie {
         return this.equipamentosDestruidos.size();
     }
 
+    public void colocarCoordenada(int x, int y){
+        this.x = x;
+        this.y = y;
+
+    }
+
+    public int cordenadaX(){
+        return this.x;
+    }
+
+    public int cordenadaY(){
+        return this.y;
+    }
+
 
     @Override
     public String toString(){
-        return id +" | "+ idTipo +" | "+ nomeEquipa +" | "+ nome+ " "
+        return id +" | "+ "Zombie" +" | "+ nomeEquipa +" | "+ nome+ " "
                 + equipamentosDestruidos.size() +" @ ("+x+", "+y+")";
     }
 }

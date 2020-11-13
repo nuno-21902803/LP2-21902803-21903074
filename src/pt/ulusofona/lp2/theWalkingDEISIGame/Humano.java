@@ -48,10 +48,23 @@ public class Humano {
         return this.equipamentosApanhados.size();
     }
 
+    public void colocarCoordenada(int x, int y){
+        this.x = x;
+        this.y = y;
+
+    }
+
+    public int cordenadaX(){
+        return this.x;
+    }
+
+    public int cordenadaY(){
+        return this.y;
+    }
 
     @Override
     public String toString(){
-        return id +" | "+ 1 +" | "+ nomeEquipa +" | "+ nome+ " "
+        return id +" | "+ "Humano" +" | "+ nomeEquipa +" | "+ nome+ " "
                 + equipamentosApanhados.size() +" @ ("+x+", "+y+")";
     }
 }

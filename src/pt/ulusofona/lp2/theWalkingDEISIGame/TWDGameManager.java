@@ -15,13 +15,15 @@ public class TWDGameManager {
     ArrayList<Zombie> zombies= new ArrayList<>();
     ArrayList<Humano> humanos= new ArrayList<>();
     ArrayList<Equipamento> equipamentos= new ArrayList<>();
+
+    HashMap<Integer,Integer> criaturas = new HashMap<>();
     HashMap<Integer,Zombie> zombieHashMap= new HashMap<>();
     HashMap<Integer,Humano> humanoHashMap = new HashMap<>();
     HashMap<Integer,Equipamento> equipamentoHashMap = new HashMap<>();
 
 
-    int numeroLinhas;
-    int numeroColunas;
+    static  int numeroLinhas;
+    static  int numeroColunas;
     int idEquipaInicial;
     int idEquipaAtual;
     boolean day = true;
@@ -76,9 +78,10 @@ public class TWDGameManager {
 
 
 
-                        if (zombieHashMap.get(idZ) == null) {
+                        if (criaturas.get(idZ) == null) {
                             Zombie zombie = new Zombie(idZ,idTipoZ,nomeZ,xZ,yZ);
 
+                            criaturas.put(idZ,idZ);
                             zombieHashMap.put(idZ,zombie);
                             zombies.add(zombie);
                         }
@@ -97,6 +100,7 @@ public class TWDGameManager {
                         if (humanoHashMap.get(idH) == null) {
                             Humano humano = new Humano(idH,idTipoH,nomeH,xH,yH);
 
+                            criaturas.put(idH,idH);
                             humanoHashMap.put(idH,humano);
                             humanos.add(humano);
                         }
@@ -155,16 +159,49 @@ public class TWDGameManager {
     }
 
     public boolean move(int xO, int yO, int xD, int yD){
-        this.x = xO;
-        this.y = yO;
-
-        if ((x + xD <= numeroLinhas && x + xD >= 0) && (y + yD <= numeroColunas && y + yD >= 0)){
-            this.x = x + xD;
-            this.y = y + yD;
+        Moves moves = new Moves(xO,yO);
+        int idCriatura =0;
+        boolean isHumano = false;
+        boolean isZombie = false;
 
 
+        //adquirir o id da criatura naquela posicao
+        for (Zombie zombie1 : zombies){
+            if (zombie1.cordenadaX() == xO && zombie1.cordenadaY() == yO){
+                idCriatura = zombie1.getId();
+                isZombie = true;
+                break;
+            }
+        }
+
+        if (!isZombie) {
+            //se nao for zombie ele entra aqui para verificar se é humano
+            for (Humano humano1 : humanos) {
+                if (humano1.cordenadaX() == xO && humano1.cordenadaY() == yO) {
+                    idCriatura = humano1.getId();
+                    isHumano = true;
+                    break;
+                }
+            }
+        }
+        //---
+
+        //validar o movimento
+        if (!moves.validarMove(xD, yD)){
+            return false;
+        }
+
+        //ver se é humano ou zombie e atualizar a coordenada
+        if(isHumano){
+            humanoHashMap.get(idCriatura).colocarCoordenada(xD,yD);
             return true;
         }
+
+        if (isZombie){
+            zombies.get(idCriatura).colocarCoordenada(xD,yD);
+            return true;
+        }
+        
         return false;
     }
 
@@ -173,11 +210,8 @@ public class TWDGameManager {
     }
 
     public List<String> getAuthors(){
-        String string1 = "Nuno Capela";
-        String string2 = "Francisco Lucas";
-
-        this.authors.add(string1);
-        this.authors.add(string2);
+        this.authors.add("Nuno Capela");
+        this.authors.add("Francisco Lucas");
 
         return authors;
     }
