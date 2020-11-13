@@ -1,18 +1,21 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 
-import java.util.List;
+import java.util.ArrayList;
+
 
 public class Zombie {
 
     int id;
     int idTipo = 0;
-    String nomeEquipa;
-    String nome;
+    String nomeEquipa = "Os Outros";
+    String nome ="";
     int x,y;
-    List<Equipamento> equipamentosDestruidos;
+    ArrayList<Equipamento> equipamentosDestruidos = new ArrayList<>();
 
     //zombie
+
+
     public Zombie(int id, int idTipo, String nome, int x, int y) {
         this.id = id;
         this.idTipo = idTipo;
@@ -21,7 +24,7 @@ public class Zombie {
         this.y = y;
     }
 
-    public Zombie(int id, int idTipo, String nomeEquipa, String nome, int x, int y, List<Equipamento> equipamentosDestruidos) {
+    public Zombie(int id, int idTipo, String nomeEquipa, String nome, int x, int y, ArrayList<Equipamento> equipamentosDestruidos) {
         this.id = id;
         this.idTipo = idTipo;
         this.nomeEquipa = nomeEquipa;
@@ -45,6 +48,6 @@ public class Zombie {
     }
 
     public String toString(){
-        return this.id +" | "+ this.idTipo +" | "+ this.nomeEquipa +" | "+ this.nome+ " "+ this.equipamentosDestruidos.size() +"@ (<x>, <y>)";
+        return id +" | "+ idTipo +" | "+ nomeEquipa +" | "+ nome+ " "+ equipamentosDestruidos.size() +"@ ("+x+", "+y+")";
     }
 }

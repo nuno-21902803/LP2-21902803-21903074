@@ -1,16 +1,19 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 
-import java.util.List;
+import java.util.ArrayList;
+
 
 public class Humano {
     //humano
     int id;
     int idTipo =1;
-    String nomeEquipa;
-    String nome;
+    String nomeEquipa = "Os Vivos";
+    String nome = "";
     int x,y;
-    List<Equipamento> equipamentosApanhados;
+    ArrayList<Equipamento> equipamentosApanhados = new ArrayList<>();
+
+
 
 
     public Humano(int id, int idTipo, String nome, int x, int y) {
@@ -21,7 +24,7 @@ public class Humano {
         this.y = y;
     }
 
-    public Humano(int id, int idTipo, String nomeEquipa, String nome, int x, int y, List<Equipamento> equipamentosApanhados) {
+    public Humano(int id, int idTipo, String nomeEquipa, String nome, int x, int y, ArrayList<Equipamento> equipamentosApanhados) {
         this.id = id;
         this.idTipo = idTipo;
         this.nomeEquipa = nomeEquipa;
@@ -29,15 +32,6 @@ public class Humano {
         this.x = x;
         this.y = y;
         this.equipamentosApanhados = equipamentosApanhados;
-    }
-
-    public Humano(int id, int idTipo, String nomeEquipa, String nome, int x, int y) {
-        this.id = id;
-        this.idTipo = idTipo;
-        this.nomeEquipa = nomeEquipa;
-        this.nome = nome;
-        this.x = x;
-        this.y = y;
     }
 
     public int getId(){
@@ -53,6 +47,6 @@ public class Humano {
     }
 
     public String toString(){
-        return this.id +" | "+ this.idTipo +" | "+ this.nomeEquipa +" | "+ this.nome+ " "+ this.equipamentosApanhados.size() +"@ (<x>, <y>)";
+        return id +" | "+ 1 +" | "+ nomeEquipa +" | "+ nome+ " "+ equipamentosApanhados.size() +"@ ("+x+", "+y+")";
     }
 }
