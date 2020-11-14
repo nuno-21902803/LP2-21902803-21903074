@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Humano {
     //humano
     int id;
-    int idTipo =1;
+    int idTipo;
     String nomeEquipa = "Os Vivos";
     String nome = "";
     int x,y;
@@ -41,16 +41,16 @@ public class Humano {
     }
 
     public String getImagePNG(){
-        return null;
+        return "human.png";
     }
 
     public int getEquipamentos(){
         return this.equipamentosApanhados.size();
     }
 
-    public void colocarCoordenada(int x, int y){
-        this.x = x;
-        this.y = y;
+    public void colocarCoordenada(int x1, int y1){
+        this.x = x1;
+        this.y = y1;
 
     }
 

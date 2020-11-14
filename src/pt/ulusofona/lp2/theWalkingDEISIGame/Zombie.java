@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Zombie {
 
     int id;
-    int idTipo = 0;
+    int idTipo;
     String nomeEquipa = "Os Outros";
     String nome ="";
     int x,y;
@@ -41,16 +41,18 @@ public class Zombie {
     }
 
     public String getImagePNG(){
-        return null;
+        return "zombie.png";
     }
 
     public int getEquipamentos(){
         return this.equipamentosDestruidos.size();
     }
 
-    public void colocarCoordenada(int x, int y){
-        this.x = x;
-        this.y = y;
+    public void colocarCoordenada(int x1, int y1){
+       // System.out.println("x = "+x+ "y =" +y);
+        //System.out.println("x = "+x1+ "y =" +y1);
+        this.x = x1;
+        this.y = y1;
 
     }
 
