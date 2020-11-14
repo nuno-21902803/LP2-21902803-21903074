@@ -119,9 +119,9 @@ public class TWDGameManager {
                     int xE = Integer.parseInt(dadosEquipamento[2]);
                     int yE = Integer.parseInt(dadosEquipamento[3]);
 
+                    Equipamento equipamento = new Equipamento(idE, idTipoE, xE, yE);
 
                     if (equipamentoHashMap.get(idE) == null) {
-                        Equipamento equipamento = new Equipamento(idE, idTipoE, xE, yE);
 
                         equipamentoHashMap.put(idE, equipamento);
                         equipamentos.add(equipamento);
@@ -155,7 +155,7 @@ public class TWDGameManager {
     }
 
     public boolean move(int xO, int yO, int xD, int yD) {
-        Moves moves = new Moves(xO, yO,xD,yD);
+        Moves moves = new Moves(xO, yO, xD, yD);
         int idCriatura = 0;
         boolean isHumano = false;
         boolean isZombie = false;
@@ -183,8 +183,8 @@ public class TWDGameManager {
         }
         //---
 
-        //validar o movimento
-        if (!moves.validarMove(xD, yD,xO,yO)) {
+        //validar o movimento (se sai do grid, ou se não é horizontal
+        if (!moves.validarMove(xD, yD, xO, yO)) {
             return false;
         }
 
@@ -228,11 +228,11 @@ public class TWDGameManager {
     }
 
     public int getCurrentTeamId() {
-       if (idEquipaAtual==1){
-           return 0;
-       } else {
-           return 1;
-       }
+        if (idEquipaAtual == 1) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
 
@@ -262,8 +262,8 @@ public class TWDGameManager {
             }
         }
 
-        if (!isHuman){
-            for (Equipamento equipamento : equipamentos){
+        if (!isHuman) {
+            for (Equipamento equipamento : equipamentos) {
                 if (equipamento.cordenadaX() == x && equipamento.cordenadaY() == y) {
 
                     idCriatura = equipamento.getId();
@@ -273,7 +273,7 @@ public class TWDGameManager {
         }
         //---
 
-        return idCriatura; //n ta feita
+        return idCriatura;
     }
 
     public List<String> getSurvivors() {
@@ -295,8 +295,32 @@ public class TWDGameManager {
     }
 
     public boolean hasEquipment(int creatureId, int equipmentTypeId) {
-        return true;
-        //n ta feita
+
+        //verificar os ids das criaturas e dos equipamentos
+        for (Zombie zombie1 : zombies) {
+            if (zombie1.getId() == creatureId) {
+                for (Equipamento equipamento : zombie1.getEquipamentosDestruidos()) {
+                    if (equipamento.getId() == equipmentTypeId) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        //se nao for zombie ele entra aqui para verificar se o humano contém
+        for (Humano humano1 : humanos) {
+            if (humano1.getId() == creatureId) {
+                for (Equipamento equipamento : humano1.getEquipamentosApanhados()) {
+                    if (equipamento.getId() == equipmentTypeId) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+
+        //nao havia criaturas com id do equipamento
+        return false;
     }
 
 }

@@ -62,6 +62,10 @@ public class Humano {
         return this.y;
     }
 
+    public ArrayList<Equipamento> getEquipamentosApanhados(){
+        return this.equipamentosApanhados;
+    }
+
     @Override
     public String toString(){
         return id +" | "+ "Humano" +" | "+ nomeEquipa +" | "+ nome+ " "

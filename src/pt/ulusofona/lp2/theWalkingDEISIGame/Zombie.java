@@ -64,6 +64,10 @@ public class Zombie {
         return this.y;
     }
 
+    public ArrayList<Equipamento> getEquipamentosDestruidos(){
+        return this.equipamentosDestruidos;
+    }
+
 
     @Override
     public String toString(){
