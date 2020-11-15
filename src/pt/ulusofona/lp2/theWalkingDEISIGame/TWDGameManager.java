@@ -202,7 +202,7 @@ public class TWDGameManager {
         //---------------
 
         //ver se é humano ou zombie e atualizar a coordenada
-        if (isHumano && idEquipaAtual == 1) {
+        if (isHumano && idEquipaAtual == 0) {
             humanoHashMap.get(idCriatura).colocarCoordenada(xD, yD);
             nrTurnos++;
             if (nrTurnos % 2 == 0) {
@@ -210,12 +210,12 @@ public class TWDGameManager {
                 day = !day;
             }
             //muda o id da equipa atual
-            idEquipaAtual = 0;
+            idEquipaAtual = 1;
             return true;
         }
 
         //ver se é zombie e atualiza a coordenada
-        if (isZombie && idEquipaAtual == 0) {
+        if (isZombie && idEquipaAtual == 1) {
 
             zombieHashMap.get(idCriatura).colocarCoordenada(xD, yD);
             nrTurnos++;
@@ -223,7 +223,7 @@ public class TWDGameManager {
                 //se forem multiplos de 2 muda o dia
                 day = !day;
             }
-            idEquipaAtual = 1;
+            idEquipaAtual = 0;
             return true;
         }
 
@@ -244,7 +244,6 @@ public class TWDGameManager {
     public int getCurrentTeamId() {
        return idEquipaAtual;
     }
-
 
     public int getElementId(int x, int y) {
         int idCriatura = 0;
