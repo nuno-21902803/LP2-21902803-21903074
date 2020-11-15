@@ -20,12 +20,6 @@ public class Equipamento {
         return "equipment.png";
     }
 
-    public void colocarCoordenada(int x1, int y1){
-        this.x = x1;
-        this.y = y1;
-
-    }
-
     public int cordenadaX(){
         return this.x;
     }

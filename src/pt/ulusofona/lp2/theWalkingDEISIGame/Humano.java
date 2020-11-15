@@ -14,8 +14,6 @@ public class Humano {
     ArrayList<Equipamento> equipamentosApanhados = new ArrayList<>();
 
 
-
-
     public Humano(int id, int idTipo, String nome, int x, int y) {
         this.id = id;
         this.idTipo = idTipo;

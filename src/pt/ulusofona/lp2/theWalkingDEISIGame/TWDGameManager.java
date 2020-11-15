@@ -36,11 +36,6 @@ public class TWDGameManager {
 
     public boolean startGame(File ficheiroInicial) {
 
-        //estas 2linhas pedem o input no main sq
-        // Scanner in = new Scanner(System.in);
-        //String line = in.nextLine();
-
-
         try {
             Scanner leitorFicheiro = new Scanner(new FileInputStream(ficheiroInicial));
             while (leitorFicheiro.hasNextLine()) {
@@ -125,6 +120,7 @@ public class TWDGameManager {
 
                         equipamentoHashMap.put(idE, equipamento);
                         equipamentos.add(equipamento);
+
                     }
 
                 }
@@ -183,10 +179,27 @@ public class TWDGameManager {
         }
         //---
 
-        //validar o movimento (se sai do grid, ou se não é horizontal
+        //validar o movimento (se sai do grid, ou se não é horizontal ou vertical)
         if (!moves.validarMove(xD, yD, xO, yO)) {
             return false;
         }
+
+        //verificar se existem criaturas na posicao pretendida
+        for (Zombie zombie1 : zombies) {
+            if (zombie1.cordenadaX() == xD && zombie1.cordenadaY() == yD) {
+                return false;
+            }
+        }
+
+
+        //se nao for zombie ele entra aqui para verificar se existe la um humano
+        for (Humano humano1 : humanos) {
+            if (humano1.cordenadaX() == xD && humano1.cordenadaY() == yD) {
+                return false;
+            }
+        }
+
+        //---------------
 
         //ver se é humano ou zombie e atualizar a coordenada
         if (isHumano && idEquipaAtual == 1) {
@@ -201,6 +214,7 @@ public class TWDGameManager {
             return true;
         }
 
+        //ver se é zombie e atualiza a coordenada
         if (isZombie && idEquipaAtual == 0) {
 
             zombieHashMap.get(idCriatura).colocarCoordenada(xD, yD);
@@ -278,15 +292,22 @@ public class TWDGameManager {
 
     public List<String> getSurvivors() {
         ArrayList<String> survivors = new ArrayList<>();
-        //fazer
-        //        Nr. de turnos terminados:
-        //        <n>
+        //fazer a string
+        survivors.add("Nr. de turnos terminados:\n");
+        survivors.add(nrTurnos+"\n\n");
+        survivors.add("OS VIVOS\n");
 
-        //        OS VIVOS
-        //      <ID da Criatura> <Nome da criatura>
+        for (Humano humano : humanos){
+        survivors.add(humano.id+" "+ humano.nome+"\n");
+        }
 
-        //       OS OUTROS
-        //    <ID da Criatura> (antigamente conhecido como <Nome da criatura>)
+        survivors.add("\n");
+        survivors.add("OS OUTROS\n");
+
+        for (Zombie zombie : zombies){
+                survivors.add(zombie.id+"  (antigamente conhecido como "+ zombie.nome+")");
+        }
+
         return survivors;
     }
 

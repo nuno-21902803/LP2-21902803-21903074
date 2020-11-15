@@ -12,9 +12,19 @@ public class Moves {
     }
 
     public boolean validarMove(int xPretendido, int yPretendido, int xAnterior, int yAnterior){
-       //falta as condicoes verdadeiras
 
-        return  xPretendido <= TWDGameManager.numeroLinhas-1 &&  xPretendido >= 0 ||
-                 yPretendido <= TWDGameManager.numeroColunas-1 &&  yPretendido >= 0;
+        if(     xPretendido == xAnterior - 1 && yPretendido == yAnterior ||
+                xPretendido == xAnterior +1 && yPretendido == yAnterior ||
+                xPretendido == xAnterior && yPretendido == yAnterior -1 ||
+                xPretendido == xAnterior && yPretendido == yAnterior +1)
+        {
+
+
+            return  xPretendido <= TWDGameManager.numeroLinhas-1 &&  xPretendido >= 0 ||
+                    yPretendido <= TWDGameManager.numeroColunas-1 &&  yPretendido >= 0;
+        }
+
+
+        return  false;
     }
 }
