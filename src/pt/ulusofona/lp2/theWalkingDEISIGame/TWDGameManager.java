@@ -242,11 +242,7 @@ public class TWDGameManager {
     }
 
     public int getCurrentTeamId() {
-        if (idEquipaAtual == 1) {
-            return 0;
-        } else {
-            return 1;
-        }
+       return idEquipaAtual;
     }
 
 
@@ -276,12 +272,12 @@ public class TWDGameManager {
             }
         }
 
+
         if (!isHuman) {
             for (Equipamento equipamento : equipamentos) {
                 if (equipamento.cordenadaX() == x && equipamento.cordenadaY() == y) {
-
                     idCriatura = equipamento.getId();
-                    break;
+                    //break;
                 }
             }
         }

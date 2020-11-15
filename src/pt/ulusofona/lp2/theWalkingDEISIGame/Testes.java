@@ -26,9 +26,9 @@ public class Testes {
         TWDGameManager teste = new TWDGameManager();
 
         int[] resultReal = teste.getWorldSize();
-        int[] resultEsperado = new int[]{0,0};
+        int[] resultEsperado = new int[]{5,5};
 
-        assertEquals("Devia dar true", Arrays.toString(resultEsperado), Arrays.toString(resultReal));
+        assertEquals("Devia dar [5,5]", Arrays.toString(resultEsperado), Arrays.toString(resultReal));
     }
 
     @Test
