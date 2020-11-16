@@ -4,6 +4,8 @@ public class Equipamento {
     int id;
     int idTipo;
     int x,y;
+    boolean apanhado=false;
+    boolean destruido=false;
 
     public Equipamento(int id, int idTipo, int x, int y) {
         this.id = id;

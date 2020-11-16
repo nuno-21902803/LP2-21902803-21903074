@@ -208,8 +208,16 @@ public class TWDGameManager {
             int yH = humanoHashMap.get(idCriatura).cordenadaY();
 
             //se existir equipamento naquelas coordenadas ele adiciona
-            if (existEquipment(xH,yH) != null){
+            if (existEquipment(xH,yH) != null && humanoHashMap.get(idCriatura).equipamentosApanhados.isEmpty()){
                 humanoHashMap.get(idCriatura).equipamentosApanhados.add(existEquipment(xH,yH));
+                existEquipment(xH,yH).apanhado = true;
+                equipamentos.remove(existEquipment(xH,yH));
+
+            } else if (existEquipment(xH,yH) != null && !humanoHashMap.get(idCriatura).equipamentosApanhados.isEmpty()){
+                equipamentos.add(existEquipment(xD,yD));
+                humanoHashMap.get(idCriatura).equipamentosApanhados.remove(existEquipment(xD,yD));
+                humanoHashMap.get(idCriatura).equipamentosApanhados.add(existEquipment(xH,yH));
+                equipamentos.remove(existEquipment(xH,yH));
             }
             nrTurnos++;
             if (nrTurnos % 2 == 0) {
@@ -231,12 +239,17 @@ public class TWDGameManager {
             //se existir equipamento naquelas coordenadas ele adiciona
             if (existEquipment(xZ,yZ) != null){
                 zombieHashMap.get(idCriatura).equipamentosDestruidos.add(existEquipment(xZ,yZ));
+                existEquipment(xZ,yZ).destruido= true;
+                equipamentos.remove(existEquipment(xZ,yZ));
+
             }
+
             nrTurnos++;
             if (nrTurnos % 2 == 0) {
                 //se forem multiplos de 2 muda o dia
                 day = !day;
             }
+            //muda o id da equipa
             idEquipaAtual = 0;
             return true;
         }
@@ -248,7 +261,9 @@ public class TWDGameManager {
 
         for (Equipamento equipamento : equipamentos){
             if (equipamento.cordenadaX() == x0 && equipamento.cordenadaY() == y0){
-                return equipamento;
+                if (!equipamento.apanhado && !equipamento.destruido) {
+                    return equipamento;
+                }
             }
         }
 
@@ -340,7 +355,7 @@ public class TWDGameManager {
         int creatureTypeID = criaturas.get(creatureId);
 
         //vê se o id do HashMap devolve idTipo == 0 (É zombie)
-       // if (creatureTypeID == 0) {
+        if (creatureTypeID == 0) {
             //verificar os ids das criaturas e dos equipamentos
             for (Zombie zombie1 : zombies) {
                 if (zombie1.getId() == creatureId) {
@@ -352,7 +367,7 @@ public class TWDGameManager {
                 }
             }
 
-        //}
+        }
 
         //se nao for zombie ele entra aqui para verificar se o humano contém
         for (Humano humano1 : humanos) {
