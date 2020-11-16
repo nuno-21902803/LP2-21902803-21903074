@@ -133,7 +133,6 @@ public class TWDGameManager {
         }
     }
 
-
     public int[] getWorldSize() {
         return new int[]{numeroLinhas, numeroColunas};
     }
@@ -242,7 +241,7 @@ public class TWDGameManager {
     }
 
     public int getCurrentTeamId() {
-       return idEquipaAtual;
+        return idEquipaAtual;
     }
 
     public int getElementId(int x, int y) {
@@ -289,18 +288,18 @@ public class TWDGameManager {
         ArrayList<String> survivors = new ArrayList<>();
         //fazer a string
         survivors.add("Nr. de turnos terminados:\n");
-        survivors.add(nrTurnos+"\n\n");
+        survivors.add(nrTurnos + "\n\n");
         survivors.add("OS VIVOS\n");
 
-        for (Humano humano : humanos){
-        survivors.add(humano.id+" "+ humano.nome+"\n");
+        for (Humano humano : humanos) {
+            survivors.add(humano.id + " " + humano.nome + "\n");
         }
 
         survivors.add("\n");
         survivors.add("OS OUTROS\n");
 
-        for (Zombie zombie : zombies){
-                survivors.add(zombie.id+"  (antigamente conhecido como "+ zombie.nome+")");
+        for (Zombie zombie : zombies) {
+            survivors.add(zombie.id + "  (antigamente conhecido como " + zombie.nome + ")");
         }
 
         return survivors;
