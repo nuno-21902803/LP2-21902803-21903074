@@ -314,7 +314,7 @@ public class TWDGameManager {
         int creatureTypeID = criaturas.get(creatureId);
 
         //vê se o id do HashMap devolve idTipo == 0 (É zombie)
-        if (creatureTypeID == 0) {
+       // if (creatureTypeID == 0) {
             //verificar os ids das criaturas e dos equipamentos
             for (Zombie zombie1 : zombies) {
                 if (zombie1.getId() == creatureId) {
@@ -326,7 +326,7 @@ public class TWDGameManager {
                 }
             }
 
-        }
+        //}
 
         //se nao for zombie ele entra aqui para verificar se o humano contém
         for (Humano humano1 : humanos) {
@@ -340,7 +340,7 @@ public class TWDGameManager {
         }
 
 
-        //nao havia criaturas com id do equipamento
+        //nao havia criaturas com id do equipamentoTYPE
         return false;
     }
 
