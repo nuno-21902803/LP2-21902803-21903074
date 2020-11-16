@@ -72,7 +72,7 @@ public class TWDGameManager {
 
                         if (criaturas.get(idZ) == null) {
 
-                            criaturas.put(idZ, idZ);
+                            criaturas.put(idZ, idTipoZ);
                             zombieHashMap.put(idZ, zombieAtual);
                             zombies.add(zombieAtual);
 
@@ -93,7 +93,7 @@ public class TWDGameManager {
 
                         if (criaturas.get(idH) == null) {
 
-                            criaturas.put(idH, idH);
+                            criaturas.put(idH, idTipoH);
                             humanoHashMap.put(idH, humanoAtual);
 
                             humanos.add(humanoAtual);
@@ -311,15 +311,21 @@ public class TWDGameManager {
 
     public boolean hasEquipment(int creatureId, int equipmentTypeId) {
 
-        //verificar os ids das criaturas e dos equipamentos
-        for (Zombie zombie1 : zombies) {
-            if (zombie1.getId() == creatureId) {
-                for (Equipamento equipamento : zombie1.getEquipamentosDestruidos()) {
-                    if (equipamento.getTypeID() == equipmentTypeId) {
-                        return true;
+        int creatureTypeID = criaturas.get(creatureId);
+
+        //vê se o id do HashMap devolve idTipo == 0 (É zombie)
+        if (creatureTypeID == 0) {
+            //verificar os ids das criaturas e dos equipamentos
+            for (Zombie zombie1 : zombies) {
+                if (zombie1.getId() == creatureId) {
+                    for (Equipamento equipamento : zombie1.getEquipamentosDestruidos()) {
+                        if (equipamento.getTypeID() == equipmentTypeId) {
+                            return true;
+                        }
                     }
                 }
             }
+
         }
 
         //se nao for zombie ele entra aqui para verificar se o humano contém
