@@ -16,6 +16,10 @@ public class Equipamento {
         return this.id;
     }
 
+    public int getTypeID(){
+        return this.idTipo;
+    }
+
     public String getImagePNG(){
         return "equipment.png";
     }

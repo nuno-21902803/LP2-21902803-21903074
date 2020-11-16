@@ -315,7 +315,7 @@ public class TWDGameManager {
         for (Zombie zombie1 : zombies) {
             if (zombie1.getId() == creatureId) {
                 for (Equipamento equipamento : zombie1.getEquipamentosDestruidos()) {
-                    if (equipamento.getId() == equipmentTypeId) {
+                    if (equipamento.getTypeID() == equipmentTypeId) {
                         return true;
                     }
                 }
@@ -326,7 +326,7 @@ public class TWDGameManager {
         for (Humano humano1 : humanos) {
             if (humano1.getId() == creatureId) {
                 for (Equipamento equipamento : humano1.getEquipamentosApanhados()) {
-                    if (equipamento.getId() == equipmentTypeId) {
+                    if (equipamento.getTypeID() == equipmentTypeId) {
                         return true;
                     }
                 }
