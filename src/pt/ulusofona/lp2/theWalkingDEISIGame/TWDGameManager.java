@@ -203,6 +203,14 @@ public class TWDGameManager {
         //ver se é humano ou zombie e atualizar a coordenada
         if (isHumano && idEquipaAtual == 0) {
             humanoHashMap.get(idCriatura).colocarCoordenada(xD, yD);
+
+            int xH = humanoHashMap.get(idCriatura).cordenadaX();
+            int yH = humanoHashMap.get(idCriatura).cordenadaY();
+
+            //se existir equipamento naquelas coordenadas ele adiciona
+            if (existEquipment(xH,yH) != null){
+                humanoHashMap.get(idCriatura).equipamentosApanhados.add(existEquipment(xH,yH));
+            }
             nrTurnos++;
             if (nrTurnos % 2 == 0) {
                 //se forem multiplos de 2 muda o dia
@@ -215,8 +223,15 @@ public class TWDGameManager {
 
         //ver se é zombie e atualiza a coordenada
         if (isZombie && idEquipaAtual == 1) {
-
             zombieHashMap.get(idCriatura).colocarCoordenada(xD, yD);
+
+            int xZ = zombieHashMap.get(idCriatura).cordenadaX();
+            int yZ = zombieHashMap.get(idCriatura).cordenadaY();
+
+            //se existir equipamento naquelas coordenadas ele adiciona
+            if (existEquipment(xZ,yZ) != null){
+                zombieHashMap.get(idCriatura).equipamentosDestruidos.add(existEquipment(xZ,yZ));
+            }
             nrTurnos++;
             if (nrTurnos % 2 == 0) {
                 //se forem multiplos de 2 muda o dia
@@ -227,6 +242,17 @@ public class TWDGameManager {
         }
 
         return false;
+    }
+
+    public Equipamento existEquipment(int x0, int y0){
+
+        for (Equipamento equipamento : equipamentos){
+            if (equipamento.cordenadaX() == x0 && equipamento.cordenadaY() == y0){
+                return equipamento;
+            }
+        }
+
+        return null;
     }
 
     public boolean gameIsOver() {
