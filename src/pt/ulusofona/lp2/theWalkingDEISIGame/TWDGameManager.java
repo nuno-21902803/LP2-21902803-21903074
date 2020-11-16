@@ -207,18 +207,26 @@ public class TWDGameManager {
             int xH = humanoHashMap.get(idCriatura).cordenadaX();
             int yH = humanoHashMap.get(idCriatura).cordenadaY();
 
-            //se existir equipamento naquelas coordenadas ele adiciona
+            //se existir equipamento naquelas coordenadas ele adiciona e remove da lista
             if (existEquipment(xH,yH) != null && humanoHashMap.get(idCriatura).equipamentosApanhados.isEmpty()){
                 humanoHashMap.get(idCriatura).equipamentosApanhados.add(existEquipment(xH,yH));
                 existEquipment(xH,yH).apanhado = true;
-                equipamentos.remove(existEquipment(xH,yH));
 
+                equipamentos.removeIf(equipamento -> equipamento.apanhado);
+
+                //caso contrario se ele ja tiver um equipamento ele adiciona o da casa seguinte e dropa o antigo
             } else if (existEquipment(xH,yH) != null && !humanoHashMap.get(idCriatura).equipamentosApanhados.isEmpty()){
-                equipamentos.add(existEquipment(xD,yD));
-                humanoHashMap.get(idCriatura).equipamentosApanhados.remove(existEquipment(xD,yD));
+                Equipamento equipamentoAnterior = humanoHashMap.get(idCriatura).equipamentosApanhados.get(0);
+
                 humanoHashMap.get(idCriatura).equipamentosApanhados.add(existEquipment(xH,yH));
-                equipamentos.remove(existEquipment(xH,yH));
+                existEquipment(xH,yH).apanhado = true;
+                equipamentos.removeIf(equipamento -> equipamento.apanhado);
+                equipamentos.add(equipamentoAnterior);
+                equipamentoAnterior.apanhado = false;
+
+
             }
+
             nrTurnos++;
             if (nrTurnos % 2 == 0) {
                 //se forem multiplos de 2 muda o dia
@@ -240,7 +248,9 @@ public class TWDGameManager {
             if (existEquipment(xZ,yZ) != null){
                 zombieHashMap.get(idCriatura).equipamentosDestruidos.add(existEquipment(xZ,yZ));
                 existEquipment(xZ,yZ).destruido= true;
-                equipamentos.remove(existEquipment(xZ,yZ));
+
+                equipamentos.removeIf(equipamento -> equipamento.destruido);
+
 
             }
 
@@ -260,7 +270,7 @@ public class TWDGameManager {
     public Equipamento existEquipment(int x0, int y0){
 
         for (Equipamento equipamento : equipamentos){
-            if (equipamento.cordenadaX() == x0 && equipamento.cordenadaY() == y0){
+            if (equipamento.cordenadaX() == x0 && equipamento.cordenadaY() == y0 ){
                 if (!equipamento.apanhado && !equipamento.destruido) {
                     return equipamento;
                 }
