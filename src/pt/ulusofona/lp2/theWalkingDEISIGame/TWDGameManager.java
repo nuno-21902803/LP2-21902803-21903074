@@ -224,7 +224,7 @@ public class TWDGameManager {
                     }
                 }
 
-                System.out.println(equipamentoAnterior);
+
                 humanoHashMap.get(idCriatura).equipamentosApanhados.add(existEquipment(xH,yH));
                 existEquipment(xH,yH).apanhado = true;
                 equipamentos.removeIf(equipamento -> equipamento.apanhado);
@@ -368,7 +368,7 @@ public class TWDGameManager {
     }
 
     public boolean hasEquipment(int creatureId, int equipmentTypeId) {
-        System.out.println(equipamentos);
+
         //entra aqui para verificar se o humano contém
         for (Humano humano1 : humanos) {
             if (humano1.getId() == creatureId) {
