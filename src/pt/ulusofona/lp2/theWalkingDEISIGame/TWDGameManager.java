@@ -287,7 +287,7 @@ public class TWDGameManager {
     }
 
     public boolean gameIsOver() {
-        return nrTurnos >= 12;
+        return nrTurnos >= 122;
     }
 
     public List<String> getAuthors() {
@@ -368,24 +368,7 @@ public class TWDGameManager {
 
     public boolean hasEquipment(int creatureId, int equipmentTypeId) {
 
-        int creatureTypeID = criaturas.get(creatureId);
-
-        //vê se o id do HashMap devolve idTipo == 0 (É zombie)
-        if (creatureTypeID == 0) {
-            //verificar os ids das criaturas e dos equipamentos
-            for (Zombie zombie1 : zombies) {
-                if (zombie1.getId() == creatureId) {
-                    for (Equipamento equipamento : zombie1.getEquipamentosDestruidos()) {
-                        if (equipamento.getTypeID() == equipmentTypeId) {
-                            return true;
-                        }
-                    }
-                }
-            }
-
-        }
-
-        //se nao for zombie ele entra aqui para verificar se o humano contém
+        //entra aqui para verificar se o humano contém
         for (Humano humano1 : humanos) {
             if (humano1.getId() == creatureId) {
                 for (Equipamento equipamento : humano1.getEquipamentosApanhados()) {
