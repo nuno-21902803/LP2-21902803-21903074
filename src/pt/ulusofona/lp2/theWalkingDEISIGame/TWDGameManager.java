@@ -214,9 +214,15 @@ public class TWDGameManager {
 
                 equipamentos.removeIf(equipamento -> equipamento.apanhado);
 
-                //caso contrario se ele ja tiver um equipamento ele adiciona o da casa seguinte e dropa o antigo
+                //caso contrario se ele ja tiver um equipamento ele adiciona o da casa seguinte e dropa o antigo-
             } else if (existEquipment(xH,yH) != null && !humanoHashMap.get(idCriatura).equipamentosApanhados.isEmpty()){
-                Equipamento equipamentoAnterior = humanoHashMap.get(idCriatura).equipamentosApanhados.get(0);
+                Equipamento equipamentoAnterior = new Equipamento();
+
+                for (Equipamento equipamento : humanoHashMap.get(idCriatura).equipamentosApanhados){
+                    if (equipamento.cordenadaX() == xO && equipamento.cordenadaY() == yO){
+                        equipamentoAnterior = equipamento;
+                    }
+                }
 
                 humanoHashMap.get(idCriatura).equipamentosApanhados.add(existEquipment(xH,yH));
                 existEquipment(xH,yH).apanhado = true;

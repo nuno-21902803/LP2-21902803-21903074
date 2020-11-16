@@ -7,7 +7,8 @@ public class Equipamento {
     boolean apanhado=false;
     boolean destruido=false;
 
-
+    public Equipamento() {
+    }
 
     public Equipamento(int id, int idTipo, int x, int y) {
         this.id = id;
