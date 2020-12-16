@@ -43,15 +43,6 @@ public class Testes {
         assertEquals("Devia dar igual",resultEsperado,resultReal);
     }
 
-    @Test
-    public void testGetHumans(){
-        TWDGameManager teste = new TWDGameManager();
-
-        List<Humano> resultEsperado= new ArrayList<>();
-        List<Humano> resultReal = teste.getHumans();
-
-        assertEquals("Devia dar igual",resultEsperado,resultReal);
-    }
 
 }
 
