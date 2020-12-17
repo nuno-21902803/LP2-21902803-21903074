@@ -10,25 +10,21 @@ import java.util.Scanner;
 
 public class TWDGameManager {
     //game
-    ArrayList<String> authors = new ArrayList<>();
+
+    //--creatures
     ArrayList<Creature> zombies = new ArrayList<>();
     ArrayList<Creature> humanos = new ArrayList<>();
-    ArrayList<Creature> creatures = new ArrayList<>();
     ArrayList<Equipamento> equipamentos = new ArrayList<>();
-
-    //TODO colocar as creatures la
-    ArrayList<Creature> safeHavenCreatures = new ArrayList<>();
+    //--havens
     ArrayList<Integer> safeCreaturesID= new ArrayList<>();
     ArrayList<SafeHaven> safeHavens = new ArrayList<>();
 
+    //--Hashs
     HashMap<Integer, Creature> criaturas = new HashMap<>();
     HashMap<Integer, Creature> zombieHashMap = new HashMap<>();
-    static HashMap<Integer, Creature> humanoHashMap = new HashMap<>();
 
-    //TODO falta colocar nestes Hashs qd ele morrer ou ir p safeHaven
-    static HashMap<Integer,Boolean> humanISsafe = new HashMap<>();
-    static HashMap<Integer,Boolean> humanISdead = new HashMap<>();
-
+    //todo ver as cenas de is alive
+    static HashMap<Integer, Humano> humanoHashMap = new HashMap<>();
 
     HashMap<Integer, Equipamento> equipamentoHashMap = new HashMap<>();
 
@@ -109,12 +105,12 @@ public class TWDGameManager {
                         //System.out.println(idH +"   -   "+ idTipoH+ " ->" +creatureTYPE_ID(idTipoH));
                         Creature humanoAtual =
                                 new Humano(idH, idTipoH, creatureTYPE_ID(idTipoH)
-                                        ,"Os Vivos",nomeH, xH, yH,equipamentos);
+                                        ,"Os Vivos",nomeH, xH, yH,equipamentos,false,false);
 
                         if (criaturas.get(idH) == null) {
 
                             criaturas.put(idH, humanoAtual);
-                            humanoHashMap.put(idH, humanoAtual);
+                            humanoHashMap.put(idH, (Humano) humanoAtual);
 
                             humanos.add(humanoAtual);
 
@@ -178,8 +174,10 @@ public class TWDGameManager {
     }
 
     public List<Creature> getCreatures(){
-        creatures.addAll(zombies);
+
+        ArrayList<Creature> creatures = new ArrayList<>(zombies);
         creatures.addAll(humanos);
+
         return creatures;
     }
 
@@ -197,7 +195,7 @@ public class TWDGameManager {
         return safeCreaturesID;
     }
 
-    //TODO fazer as restricoes NA CLASSE MOVE para cada criatura
+    //TODO fazer as restricoes NA CLASSE MOVE para cada criatura etc...
     public boolean move(int xO, int yO, int xD, int yD) {
 
         int idCriatura = 0;
@@ -218,7 +216,6 @@ public class TWDGameManager {
             //se nao for zombie ele entra aqui para verificar se é humano
             for (Creature humano1 : humanos) {
                 if (humano1.cordenadaX() == xO && humano1.cordenadaY() == yO) {
-
                     idCriatura = humano1.getId();
                     isHumano = true;
                     break;
@@ -226,6 +223,7 @@ public class TWDGameManager {
             }
         }
         //---
+
         Moves moves = new Moves(xO, yO, xD, yD,idCriatura);
         //validar o movimento (se sai do grid, ou se não é horizontal ou vertical)
         if (!moves.validarMove(xD, yD, xO, yO,idCriatura)) {
@@ -248,9 +246,10 @@ public class TWDGameManager {
         }
 
         if(isDoorToSafeHaven(xD,yD)){
-            safeHavenCreatures.add(criaturas.get(idCriatura));
+            humanoHashMap.get(idCriatura).setSafe(true);
+            humanoHashMap.get(idCriatura).colocarCoordenada(xD, yD);
             safeCreaturesID.add(idCriatura);
-            humanISsafe.put(idCriatura,true);
+            idEquipaAtual = 20;
             return true;
         }
 
@@ -331,6 +330,13 @@ public class TWDGameManager {
 
         return false;
     }
+    //----
+
+
+    //TODO funcao de ataques
+    public void attack(Creature humano, Creature zombie){
+
+    }
 
     public Equipamento existEquipment(int x0, int y0) {
 
@@ -345,13 +351,16 @@ public class TWDGameManager {
         return null;
     }
 
+    //TODO alterar as restricoes
     public boolean gameIsOver() {
         return nrTurnos >= 12;
     }
 
     public List<String> getAuthors() {
-        this.authors.add("Nuno Capela");
-        this.authors.add("Francisco Lucas");
+        ArrayList<String> authors = new ArrayList<>();
+
+        authors.add("Nuno Capela");
+        authors.add("Francisco Lucas");
 
         return authors;
     }
@@ -435,7 +444,7 @@ public class TWDGameManager {
     }
 
     public int getEquipmentTypeId(int equipmentId){
-        return equipamentoHashMap.get(equipmentId).getId();
+        return equipamentoHashMap.get(equipmentId).getTypeID();
     }
 
     public int getEquipmentId(int creatureId) {
@@ -454,6 +463,7 @@ public class TWDGameManager {
         return 0;
     }
 
+    //TODO isto
     public String getEquipmentInfo(int equipmentId){
         Equipamento equipamento = equipamentoHashMap.get(equipmentId);
         String info = "";
@@ -472,6 +482,26 @@ public class TWDGameManager {
         }
 
         return info;
+    }
+
+    public String[] popCultureExtravaganza(){
+        String[] answers = new String[13];
+        answers[0] = "0";
+        answers[1] = "1";
+        answers[2] = "2";
+        answers[3] = "3";
+        answers[4] = "4";
+        answers[5] = "5";
+        answers[6] = "6";
+        answers[7] = "7";
+        answers[8] = "8";
+        answers[9] = "9";
+        answers[10] = "10";
+        answers[11] = "11";
+        answers[12] = "12";
+        answers[13] = "13";
+
+        return answers;
     }
 
     public String creatureTYPE_ID(int type){
@@ -501,5 +531,15 @@ public class TWDGameManager {
             default:
                 throw new IllegalArgumentException("CreatureTYPEid Not Found");
         }
+    }
+
+    //TODO
+    public boolean saveGame(File fich){
+        return true;
+    }
+
+    //TODO
+    public boolean loadGame(File fich){
+        return true;
     }
 }

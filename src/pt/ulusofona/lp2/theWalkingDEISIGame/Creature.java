@@ -81,11 +81,12 @@ public class Creature {
 
     @Override
     public String toString(){
-        if (TWDGameManager.humanISsafe.get(id) !=null && TWDGameManager.humanISdead.get(id) != null) {
-            if (TWDGameManager.humanISsafe.get(id)) {
+        Humano human =TWDGameManager.humanoHashMap.get(id);
+        if (human!=null) {
+            if (human.getIsSafe()) {
                 return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
                         getEquipamentos() + " @ A Salvo";
-            } else if (TWDGameManager.humanISdead.get(id)) {
+            } else if (human.getIsDead()) {
                 return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
                         getEquipamentos() + " @ RIP";
             }
