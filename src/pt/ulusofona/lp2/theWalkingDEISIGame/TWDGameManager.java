@@ -485,21 +485,7 @@ public class TWDGameManager {
     }
 
     public String[] popCultureExtravaganza(){
-        String[] answers = new String[13];
-        answers[0] = "0";
-        answers[1] = "1";
-        answers[2] = "2";
-        answers[3] = "3";
-        answers[4] = "4";
-        answers[5] = "5";
-        answers[6] = "6";
-        answers[7] = "7";
-        answers[8] = "8";
-        answers[9] = "9";
-        answers[10] = "10";
-        answers[11] = "11";
-        answers[12] = "12";
-        answers[13] = "13";
+        String[] answers = new String[0];
 
         return answers;
     }
