@@ -24,6 +24,8 @@ public class Testes {
     @Test
     public void testGetWorldSize(){
         TWDGameManager teste = new TWDGameManager();
+        File file = new File("testesFile.txt");
+        teste.startGame(file);
 
         int[] resultReal = teste.getWorldSize();
         int[] resultEsperado = new int[]{7,7};

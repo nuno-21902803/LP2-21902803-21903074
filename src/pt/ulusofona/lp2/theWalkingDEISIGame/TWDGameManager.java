@@ -75,14 +75,15 @@ public class TWDGameManager {
                         ArrayList<Equipamento> equipamentos = new ArrayList<>();
 
 
-                        Creature zombieAtual =
+                        Zombie zombieAtual =
                                 new Zombie(idZ, idTipoZ,creatureTYPE_ID(idTipoZ),"Os Outros",
                                         nomeZ, xZ, yZ,equipamentos);
 
                         if (criaturas.get(idZ) == null) {
 
                             criaturas.put(idZ, zombieAtual);
-                            zombieHashMap.put(idZ, (Zombie) zombieAtual);
+                            zombieHashMap.putIfAbsent(idZ, zombieAtual);
+
                             //zombies.add(zombieAtual);
 
                         }
@@ -99,14 +100,14 @@ public class TWDGameManager {
                         int yH = Integer.parseInt(dadosCriatura[4]);
                         ArrayList<Equipamento> equipamentos = new ArrayList<>();
 
-                        Creature humanoAtual =
+                        Humano humanoAtual =
                                 new Humano(idH, idTipoH, creatureTYPE_ID(idTipoH)
                                         ,"Os Vivos",nomeH, xH, yH,equipamentos,false,false);
 
                         if (criaturas.get(idH) == null) {
 
                             criaturas.put(idH, humanoAtual);
-                            humanoHashMap.put(idH, (Humano) humanoAtual);
+                            humanoHashMap.putIfAbsent(idH, humanoAtual);
 
                            // humanos.add(humanoAtual);
 
@@ -172,9 +173,11 @@ public class TWDGameManager {
     }
 
     public List<Creature> getCreatures(){
-        ArrayList<Creature> creatures = new ArrayList<>(humanoHashMap.values());
+        ArrayList<Creature> creatures = new ArrayList<>();
+        creatures.addAll(humanoHashMap.values());
         creatures.addAll(zombieHashMap.values());
 
+        //System.out.println(creatures);
         return creatures;
     }
 
