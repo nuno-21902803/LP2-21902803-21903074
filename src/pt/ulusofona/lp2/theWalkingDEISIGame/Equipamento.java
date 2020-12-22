@@ -1,20 +1,57 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 public class Equipamento {
-    int id;
-    int idTipo;
-    int x,y;
-    boolean apanhado=false;
-    boolean destruido=false;
+    private int id;
+    private int idTipo;
+    private String nome;
+    private int x,y;
+    private int strikesLEFT;
+    private float litroLEFT;
+
+    private boolean apanhado=false;
+    private boolean destruido=false;
 
     public Equipamento() {
     }
 
-    public Equipamento(int id, int idTipo, int x, int y) {
+    public Equipamento(int id, int idTipo, String nome, int x, int y) {
         this.id = id;
         this.idTipo = idTipo;
+        this.nome = nome;
         this.x = x;
         this.y = y;
+    }
+
+    public void setStrikesLEFT(int strikesLEFT) {
+        this.strikesLEFT = strikesLEFT;
+    }
+
+    public boolean getIsApanhado() {
+        return apanhado;
+    }
+
+    public void setApanhado(boolean apanhado) {
+        this.apanhado = apanhado;
+    }
+
+    public boolean getIsDestruido() {
+        return destruido;
+    }
+
+    public void setDestruido(boolean destruido) {
+        this.destruido = destruido;
+    }
+
+    public int getStrikesLEFT(){
+        return strikesLEFT;
+    }
+
+    public void setLitroLEFT(float litroLEFT) {
+        this.litroLEFT = litroLEFT;
+    }
+
+    public float getLitroLEFT() {
+        return litroLEFT;
     }
 
     public int getId(){
@@ -23,6 +60,10 @@ public class Equipamento {
 
     public int getTypeID(){
         return this.idTipo;
+    }
+
+    public String getNome() {
+        return nome;
     }
 
     public String getImagePNG(){
@@ -64,7 +105,17 @@ public class Equipamento {
 
     @Override
     public String toString() {
-        return "Equipamento{" + "id=" + id + ", idTipo=" + idTipo + ", x=" + x + ", y=" + y + '}';
+        return "Equipamento{" +
+                "id=" + id +
+                ", idTipo=" + idTipo +
+                ", nome='" + nome + '\'' +
+                ", x=" + x +
+                ", y=" + y +
+                ", strikesLEFT=" + strikesLEFT +
+                ", litroLEFT=" + litroLEFT +
+                ", apanhado=" + apanhado +
+                ", destruido=" + destruido +
+                '}';
     }
 }
 

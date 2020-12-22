@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Humano extends Creature{
     boolean isDead;
     boolean isSafe;
-
+    boolean tomouVeneno;
 
     public Humano(int id, int idTipo, String tipoCriatura, String nomeEquipa, String nome, int x, int y,
                   ArrayList<Equipamento> equipamentos, boolean isDead, boolean isSafe) {
@@ -23,6 +23,14 @@ public class Humano extends Creature{
 
     public void setSafe(boolean safe) {
         isSafe = safe;
+    }
+
+    public boolean getTomouVeneno() {
+        return tomouVeneno;
+    }
+
+    public void setTomouVeneno(boolean tomouVeneno) {
+        this.tomouVeneno = tomouVeneno;
     }
 
     public boolean getIsDead() {

@@ -2,6 +2,7 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Creature {
 
@@ -35,6 +36,14 @@ public class Creature {
 
     public int getId() {
         return id;
+    }
+
+    public int getIdTipo() {
+        return idTipo;
+    }
+
+    public void setIdTipo(int idTipo) {
+        this.idTipo = idTipo;
     }
 
     public String getImagePNG() {
@@ -82,11 +91,16 @@ public class Creature {
     @Override
     public String toString(){
         Humano human =TWDGameManager.humanoHashMap.get(id);
+        Zombie zombie =TWDGameManager.zombieHashMap.get(id);
+
         if (human!=null) {
             if (human.getIsSafe()) {
                 return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
                         getEquipamentos() + " @ A Salvo";
-            } else if (human.getIsDead()) {
+            }
+
+        } else if (zombie != null){
+            if (zombie.getIsTranformado()) {
                 return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
                         getEquipamentos() + " @ RIP";
             }
