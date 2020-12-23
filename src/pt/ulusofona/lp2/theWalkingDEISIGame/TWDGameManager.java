@@ -144,6 +144,7 @@ public class TWDGameManager {
 
                 nrSafeHavens = Integer.parseInt(leitorFicheiro.nextLine());
 
+
                 //adicionar as safeHavens
                 for (int k = 0; k < nrSafeHavens; k++){
                     String[] dadosSafeHaven = leitorFicheiro.nextLine().split(" : ");
@@ -173,12 +174,11 @@ public class TWDGameManager {
     }
 
     public List<Creature> getCreatures(){
-        ArrayList<Creature> creatures = new ArrayList<>();
-        creatures.addAll(humanoHashMap.values());
-        creatures.addAll(zombieHashMap.values());
-
-        //System.out.println(creatures);
-        return creatures;
+        //creatures.addAll(humanoHashMap.values());
+        //creatures.addAll(zombieHashMap.values());
+        //System.out.println(criaturas);
+        
+        return new ArrayList<>(criaturas.values());
     }
 
     public boolean isDoorToSafeHaven(int x, int y){
@@ -234,7 +234,7 @@ public class TWDGameManager {
             return false;
         }
 
-        if(isDoorToSafeHaven(xD,yD)){
+        if(isDoorToSafeHaven(xD,yD) && !isZombie){
             humanoHashMap.get(idCriatura).setSafe(true);
             humanoHashMap.get(idCriatura).colocarCoordenada(xD, yD);
             safeCreaturesID.add(idCriatura);

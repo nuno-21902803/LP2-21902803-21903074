@@ -11,11 +11,19 @@ import static org.junit.Assert.assertEquals;
 
 public class Testes {
 
+
+    static TWDGameManager teste = new TWDGameManager();
+
+    public void startGame() {
+        File f = new File("../test-files/testesFile.txt");
+        teste.startGame(f);
+    }
+
+
     @Test
     public void testFileErrado(){
-        TWDGameManager teste = new TWDGameManager();
-        File file = new File("fileErrado.txt");
-        boolean resultReal =teste.startGame(file);
+        File f = new File("../test-files/testesFile.txt");
+        boolean resultReal = teste.startGame(f);
         boolean resultEsperado = false;
 
         assertEquals("Devia dar false",resultEsperado,resultReal);
@@ -23,10 +31,7 @@ public class Testes {
 
     @Test
     public void testGetWorldSize(){
-        TWDGameManager teste = new TWDGameManager();
-        File file = new File("testesFile.txt");
-        teste.startGame(file);
-
+        startGame();
         int[] resultReal = teste.getWorldSize();
         int[] resultEsperado = new int[]{7,7};
 
@@ -46,5 +51,15 @@ public class Testes {
     }
 
 
+    @Test
+    public void testGETcreatures(){
+        File file = new File("../test-files/testesFile.txt");
+        teste.startGame(file);
+
+        int resultEsperado = 6;
+        int resultReal= teste.getCreatures().size();
+
+        assertEquals("Devia dar igual",resultEsperado,resultReal);
+    }
 }
 
