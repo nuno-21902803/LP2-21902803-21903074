@@ -1,5 +1,7 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
+import java.util.ArrayList;
+
 public class Equipamento {
     private int id;
     private int idTipo;
@@ -7,6 +9,7 @@ public class Equipamento {
     private int x,y;
     private int strikesLEFT;
     private float litroLEFT;
+    private ArrayList<Creature> apanhadoPorCreatures;
 
     private boolean apanhado=false;
     private boolean destruido=false;
@@ -20,6 +23,14 @@ public class Equipamento {
         this.nome = nome;
         this.x = x;
         this.y = y;
+    }
+
+    public ArrayList<Creature> getApanhadoPorCreatures() {
+        return apanhadoPorCreatures;
+    }
+
+    public void setApanhadoPorCreatures(ArrayList<Creature> apanhadoPorCreatures) {
+        this.apanhadoPorCreatures = apanhadoPorCreatures;
     }
 
     public void setStrikesLEFT(int strikesLEFT) {

@@ -1,8 +1,6 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -177,7 +175,7 @@ public class TWDGameManager {
         //creatures.addAll(humanoHashMap.values());
         //creatures.addAll(zombieHashMap.values());
         //System.out.println(criaturas);
-        
+
         return new ArrayList<>(criaturas.values());
     }
 
@@ -199,7 +197,7 @@ public class TWDGameManager {
     //TODO fazer restricoes sobre noite dia etc...
     //TODO METER O SETTER QUANDO O VIVO É MILITAR (IDtipo == 7)
     //TODO se esta envenenado durante +3 turnos (morre) criar vars aux com nTurno inicial e final com o getTomouVeneno
-    //e a cena do antidoto se ele apanhar
+    //TODO e a cena do antidoto se ele apanhar
     public boolean move(int xO, int yO, int xD, int yD) {
 
         int idCriatura = 0;
@@ -230,8 +228,14 @@ public class TWDGameManager {
 
         Moves moves = new Moves(xO, yO, xD, yD,idCriatura);
         //validar o movimento (se sai do grid, ou se não é horizontal ou vertical)
-        if (!moves.validarMove(xD, yD, xO, yO,idCriatura)) {
-            return false;
+        if (isHumano) {
+            if (!moves.validarMove(xD, yD, xO, yO, humanoHashMap.get(idCriatura).getIdTipo(),day)) {
+                return false;
+            }
+        } else if (isZombie){
+            if (!moves.validarMove(xD, yD, xO, yO, zombieHashMap.get(idCriatura).getIdTipo(),day)) {
+                return false;
+            }
         }
 
         if(isDoorToSafeHaven(xD,yD) && !isZombie){
@@ -521,7 +525,7 @@ public class TWDGameManager {
     //----
 
 
-    //TODO funcao de ataques
+    //TODO funcao de ataques meter os zombies.setdead true se morrerem
     public boolean attack(Creature humano, Creature zombie){
         Equipamento EquipAttack = humano.getEquipamentosList().get(0);
 
@@ -571,54 +575,41 @@ public class TWDGameManager {
     }
 
     public int getElementId(int x, int y) {
-        int idCriatura = 0;
-        boolean isZombie = false;
-        boolean isHuman = false;
-
         //adquirir o id da criatura naquela posicao
-        for (Creature zombie1 : zombieHashMap.values()) {
-            if (zombie1.cordenadaX() == x && zombie1.cordenadaY() == y) {
-                idCriatura = zombie1.getId();
-                isZombie = true;
-                break;
-            }
-        }
-
-        if (!isZombie) {
-            //se nao for zombie ele entra aqui para verificar se é humano
-            for (Creature humano1 : humanoHashMap.values()) {
-                if (humano1.cordenadaX() == x && humano1.cordenadaY() == y) {
-
-                    idCriatura = humano1.getId();
-                    isHuman = true;
-                    break;
-                }
-            }
-        }
-
-
-        if (!isHuman) {
-
-            for (Equipamento equipamento : equipamentos) {
-                if (equipamento.cordenadaX() == x && equipamento.cordenadaY() == y) {
-                    idCriatura = equipamento.getId();
-                    break;
-                }
-            }
-        }
-
         for (SafeHaven safeHaven : safeHavens){
             if (safeHaven.getX() == x && safeHaven.getY() == y) {
-                idCriatura = 0;
-                break;
+                return 0;
             }
         }
+
+        for (Creature zombie1 : zombieHashMap.values()) {
+            if (zombie1.cordenadaX() == x && zombie1.cordenadaY() == y) {
+                return zombie1.getId();
+            }
+        }
+
+        //se nao for zombie ele entra aqui para verificar se é humano
+        for (Creature humano1 : humanoHashMap.values()) {
+            if (humano1.cordenadaX() == x && humano1.cordenadaY() == y) {
+
+                return humano1.getId();
+            }
+        }
+
+
+        for (Equipamento equipamento : equipamentos) {
+            if (equipamento.cordenadaX() == x && equipamento.cordenadaY() == y) {
+                return equipamento.getId();
+
+            }
+        }
+
         //---
 
-        return idCriatura;
+        return 0;
     }
 
-    //TODO adicionar cenas
+    //TODO adicionar cenas E ORDENAR PELO ID
     public List<String> getGameResults() {
         ArrayList<String> survivors = new ArrayList<>();
         //fazer a string
@@ -635,6 +626,32 @@ public class TWDGameManager {
 
         for (Creature zombie : zombieHashMap.values()) {
             survivors.add(zombie.getId() + "  (antigamente conhecido como " + zombie.getNome()+ ")");
+        }
+
+        survivors.add("Num safe haven:\n");
+        survivors.add("\nOs Vivos\n");
+
+        for (Humano c : humanoHashMap.values()){
+            if (c.getIsSafe()){
+                survivors.add(c.getId() + " " + c.getNome() + "\n");
+            }
+        }
+
+        survivors.add("Envenenados / Destruidos\n");
+        survivors.add("\nOs Vivos\n");
+
+//fazer a cena dos envenenados com for
+        for (Humano c : humanoHashMap.values()){
+            if (c.isDeadVeneno()){
+                survivors.add(c.getId() + " " + c.getNome() + "\n");
+            }
+        }
+
+        survivors.add("\nOS OUTROS\n");
+        for (Zombie c : zombieHashMap.values()){
+            if (c.getIsDead()){
+                survivors.add(c.getId() + " " + c.getNome() + "\n");
+            }
         }
 
         return survivors;
@@ -672,10 +689,10 @@ public class TWDGameManager {
         switch (equipamento.getTypeID()){
             case 0:
             case 2:
-                info= equipamento.getNome() +""+ equipamento.getStrikesLEFT();
+                info= equipamento.getNome() +" | "+ equipamento.getStrikesLEFT();
                 return info;
             case 7:
-                info= equipamento.getNome() +""+ equipamento.getLitroLEFT();
+                info= equipamento.getNome() +" | "+ equipamento.getLitroLEFT();
                 return info;
             default:
                 info= equipamento.getNome()+"";
@@ -748,43 +765,63 @@ public class TWDGameManager {
     }
 
 
-    //TODO meter setter de strikes de BESKAR e ESCUDO TATICO
-    public boolean equipmentSTRIKESsetter(int type, int equipmentID){
+    public void equipmentSTRIKESsetter(int type, int equipmentID){
 
         switch (type){
             case 0:
                 //1 protecao
                 //escudo madeira
                 equipamentoHashMap.get(equipmentID).setStrikesLEFT(1);
-                return true;
+                return;
             case 2:
                 //pistola
                 equipamentoHashMap.get(equipmentID).setStrikesLEFT(3);
-                return true;
-            case 3:
-                //escudo tatico
-                equipamentoHashMap.get(equipmentID).setStrikesLEFT(2);
-                return true;
+                return;
             case 7:
                 //"Garrafa de Lixívia (1litro)"
                 equipamentoHashMap.get(equipmentID).setLitroLEFT((float) 1.0);
-                return true;
-            case 10:
-                //beskar helmet
-                equipamentoHashMap.get(equipmentID).setStrikesLEFT(5);
-                return true;
+                return;
             default:
-                return true;
         }
     }
 
-    //TODO
+    //TODO fazer dps
     public boolean saveGame(File fich){
-        return true;
+        try {
+
+            File file = new File(fich.getAbsolutePath() + ".txt");
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file.getName(), true));
+
+
+
+            writer.close();
+
+            return file.createNewFile();
+        } catch (IOException e) {
+            //erro
+            e.printStackTrace();
+        }
+        return false;
     }
 
-    //TODO
+
     public boolean loadGame(File fich){
-        return true;
+        //clear das estruturas
+
+        //--havens
+        safeCreaturesID.clear();
+        safeHavens.clear();
+
+        //--HashsCreatures
+        criaturas.clear();
+        zombieHashMap.clear();
+        humanoHashMap.clear();
+
+        //--equi
+        equipamentoHashMap.clear();
+        equipamentos.clear();
+
+        return startGame(fich);
     }
 }

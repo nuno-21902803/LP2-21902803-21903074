@@ -8,6 +8,7 @@ public class Humano extends Creature{
     boolean isDead;
     boolean isSafe;
     boolean tomouVeneno;
+    boolean deadVeneno;
 
     public Humano(int id, int idTipo, String tipoCriatura, String nomeEquipa, String nome, int x, int y,
                   ArrayList<Equipamento> equipamentos, boolean isDead, boolean isSafe) {
@@ -16,6 +17,14 @@ public class Humano extends Creature{
         this.isSafe = isSafe;
     }
 
+
+    public boolean isDeadVeneno() {
+        return deadVeneno;
+    }
+
+    public void setDeadVeneno(boolean deadVeneno) {
+        this.deadVeneno = deadVeneno;
+    }
 
     public void setDead(boolean dead) {
         isDead = dead;
