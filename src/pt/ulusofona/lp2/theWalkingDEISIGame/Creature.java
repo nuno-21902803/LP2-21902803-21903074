@@ -12,13 +12,14 @@ public class Creature {
     private String nomeEquipa;
     private String nome;
     private int x, y;
-    private ArrayList<Equipamento> equipamentos = new ArrayList<>();
+    private Equipamento equipamento = new Equipamento();
+    int numEqApanhadosDestruidos = 0;
 
     public Creature() {
     }
 
     public Creature(int id, int idTipo, String tipoCriatura, String nomeEquipa,
-                    String nome, int x, int y, ArrayList<Equipamento> equipamentos) {
+                    String nome, int x, int y, Equipamento equipamento, int numEqApanhadosDestruidos) {
         this.id = id;
         this.idTipo = idTipo;
         this.tipoCriatura = tipoCriatura;
@@ -26,7 +27,8 @@ public class Creature {
         this.nome = nome;
         this.x = x;
         this.y = y;
-        this.equipamentos = equipamentos;
+        this.equipamento = equipamento;
+        this.numEqApanhadosDestruidos = numEqApanhadosDestruidos;
     }
 
     public void colocarCoordenada(int x1, int y1) {
@@ -81,11 +83,19 @@ public class Creature {
     }
 
     public int getEquipamentos(){
-        return this.equipamentos.size();
+        return this.numEqApanhadosDestruidos;
     }
 
-    public ArrayList<Equipamento> getEquipamentosList(){
-        return this.equipamentos;
+    public void setNumEqApanhadosDestruidos(int numEqApanhadosDestruidos) {
+        this.numEqApanhadosDestruidos = numEqApanhadosDestruidos;
+    }
+
+    public Equipamento getEquipamento() {
+        return equipamento;
+    }
+
+    public void setEquipamento(Equipamento equipamento) {
+        this.equipamento = equipamento;
     }
 
     @Override
