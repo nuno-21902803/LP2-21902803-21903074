@@ -459,15 +459,19 @@ public class TWDGameManager {
             //se existir equipamento naquelas coordenadas ele adiciona e remove da lista
             if (existEquipment(xH, yH) != null && humanoHashMap.get(idCriatura).getEquipamentosList().isEmpty()) {
 
-
+//FAZER ESTo DO EQUIPAMENTO NAO BAZAR DA TELA miggzy
                 humanoHashMap.get(idCriatura).getEquipamentosList().add(existEquipment(xH, yH));
                 Equipamento equipamento = humanoHashMap.get(idCriatura).getEquipamentosList().get(0);
-                equipamentoHashMap.remove(equipamento.getId());
                 equipamento.getApanhadoPorCreaturesID().add(humanoHashMap.get(idCriatura).getIdTipo());
                 equipamento.setApanhado(true);
 
 
-
+                for (Equipamento e :humanoHashMap.get(idCriatura).getEquipamentosList()){
+                    if (e.getIsApanhado()){
+                        //equipamentoHashMapTOTAL.remove(e.getId());
+                        equipamentoHashMap.remove(e.getId());
+                    }
+                }
 
                 //caso contrario se ele ja tiver um equipamento ele adiciona o da casa seguinte e dropa o antigo-
             } else if (existEquipment(xH, yH) != null && !humanoHashMap.get(idCriatura).getEquipamentosList().isEmpty()) {
@@ -501,7 +505,7 @@ public class TWDGameManager {
             idEquipaAtual = 20;
             return true;
         }
-        int count = 0;
+
         //ver se é zombie e atualiza a coordenada
         if (isZombie && idEquipaAtual == 20) {
             zombieHashMap.get(idCriatura).colocarCoordenada(xD, yD);
@@ -513,10 +517,14 @@ public class TWDGameManager {
             if (existEquipment(xZ, yZ) != null) {
                 zombieHashMap.get(idCriatura).getEquipamentosList().add(existEquipment(xZ, yZ));
                 existEquipment(xZ, yZ).setDestruido(true);
-                Equipamento equipamento = new Equipamento();
-                equipamento=zombieHashMap.get(idCriatura).getEquipamentosList().get(count);
-                equipamentoHashMapTOTAL.remove(equipamento.getId());
-                count++;
+
+                for (Equipamento e : zombieHashMap.get(idCriatura).getEquipamentosList()){
+                    if (e.getIsDestruido()){
+                        equipamentoHashMapTOTAL.remove(e.getId());
+                        equipamentoHashMap.remove(e.getId());
+                        //fazer com arraylist como tinha sq
+                    }
+                }
 
             }
 
@@ -552,7 +560,7 @@ public class TWDGameManager {
 
     public Equipamento existEquipment(int x0, int y0) {
 
-        for (Equipamento equipamento : equipamentoHashMap.values()) {
+        for (Equipamento equipamento : equipamentoHashMapTOTAL.values()) {
             if (equipamento.cordenadaX() == x0 && equipamento.cordenadaY() == y0) {
                 if (!equipamento.getIsApanhado() && !equipamento.getIsDestruido()) {
                     return equipamento;
@@ -794,15 +802,35 @@ public class TWDGameManager {
         }
     }
 
-    //TODO fazer dps
     public boolean saveGame(File fich){
         try {
 
             File file = new File(fich.getAbsolutePath() + ".txt");
 
+            //funcao de escrever p ficheiro
             BufferedWriter writer = new BufferedWriter(new FileWriter(file.getName(), true));
 
+            writer.write(getWorldSize()[0] + " " + getWorldSize()[1] + "\n");
 
+            writer.write(idEquipaInicial + "\n");
+
+            writer.write(criaturas.size() + "\n");
+
+            for (Creature c : criaturas.values()) {
+                writer.write(c.getId() + " : " + c.getIdTipo() + " : " + c.getNome() + " : " + c.cordenadaX() + " : " + c.cordenadaY() + "\n");
+            }
+
+            writer.write(equipamentoHashMapTOTAL.size() + "\n");
+
+            for (Equipamento e : equipamentoHashMapTOTAL.values()) {
+                writer.write(e.getId() + " : " + e.getTypeID() + " : " + e.cordenadaX() + " : " + e.cordenadaY() + "\n");
+            }
+
+            writer.write(safeHavens.size() + "\n");
+
+            for (SafeHaven sh : safeHavens) {
+                writer.write(sh.getX() + " : " + sh.getY() + "\n");
+            }
 
             writer.close();
 
