@@ -106,7 +106,7 @@ public class Creature {
             }
         }
         return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
-                getEquipamentos() + " @ (" + x + ", " + y + ")";
+                getEquipamentos() +"o"+ getEquipamentosList()+ " @ (" + x + ", " + y + ")";
 
     }
 }

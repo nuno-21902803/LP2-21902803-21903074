@@ -49,4 +49,6 @@ public class Humano extends Creature{
     public boolean getIsSafe() {
         return this.isSafe;
     }
+
+
 }

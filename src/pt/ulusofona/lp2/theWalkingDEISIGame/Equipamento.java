@@ -9,7 +9,7 @@ public class Equipamento {
     private int x,y;
     private int strikesLEFT;
     private float litroLEFT;
-    private ArrayList<Creature> apanhadoPorCreatures;
+    private ArrayList<Integer> apanhadoPorCreaturesID = new ArrayList<>();
 
     private boolean apanhado=false;
     private boolean destruido=false;
@@ -17,20 +17,29 @@ public class Equipamento {
     public Equipamento() {
     }
 
-    public Equipamento(int id, int idTipo, String nome, int x, int y) {
+    public Equipamento(int id, int idTipo, String nome, int x, int y, ArrayList<Integer> apanhadoPorCreatures) {
         this.id = id;
         this.idTipo = idTipo;
         this.nome = nome;
         this.x = x;
         this.y = y;
+        this.apanhadoPorCreaturesID = apanhadoPorCreatures;
     }
 
-    public ArrayList<Creature> getApanhadoPorCreatures() {
-        return apanhadoPorCreatures;
+    public ArrayList<Integer> getApanhadoPorCreaturesID() {
+        return apanhadoPorCreaturesID;
     }
 
-    public void setApanhadoPorCreatures(ArrayList<Creature> apanhadoPorCreatures) {
-        this.apanhadoPorCreatures = apanhadoPorCreatures;
+    public void setApanhadoPorCreaturesID(ArrayList<Integer> apanhadoPorCreaturesID) {
+        this.apanhadoPorCreaturesID = apanhadoPorCreaturesID;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public void setStrikesLEFT(int strikesLEFT) {
@@ -124,6 +133,7 @@ public class Equipamento {
                 ", y=" + y +
                 ", strikesLEFT=" + strikesLEFT +
                 ", litroLEFT=" + litroLEFT +
+                ", apanhadoPorCreatures=" + apanhadoPorCreaturesID +
                 ", apanhado=" + apanhado +
                 ", destruido=" + destruido +
                 '}';

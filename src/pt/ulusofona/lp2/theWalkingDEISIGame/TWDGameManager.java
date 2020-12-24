@@ -21,7 +21,8 @@ public class TWDGameManager {
 
     //--equi
     HashMap<Integer, Equipamento> equipamentoHashMap = new HashMap<>();
-    ArrayList<Equipamento> equipamentos = new ArrayList<>();
+    HashMap<Integer, Equipamento> equipamentoHashMapTOTAL = new HashMap<>();
+
 
     static int numeroLinhas;
     static int numeroColunas;
@@ -57,100 +58,100 @@ public class TWDGameManager {
 
 
                 for (int x = 0; x < nrCriaturas; x++) {
+                    if (leitorFicheiro.hasNextLine()) {
+                        String[] dadosCriatura = leitorFicheiro.nextLine().split(" : ");
+                        //fazer o split da linha com os " : "
+                        //e guardar os dados nos objetos e add na lista respetiva
 
-                    String[] dadosCriatura = leitorFicheiro.nextLine().split(" : ");
-                    //fazer o split da linha com os " : "
-                    //e guardar os dados nos objetos e add na lista respetiva
+                        if (Integer.parseInt(dadosCriatura[1]) >= 0 && Integer.parseInt(dadosCriatura[1]) <= 4) {
+                            //é zombie
 
-                    if (Integer.parseInt(dadosCriatura[1]) >=0 && Integer.parseInt(dadosCriatura[1]) <= 4) {
-                        //é zombie
-
-                        int idZ = Integer.parseInt(dadosCriatura[0]);
-                        int idTipoZ = Integer.parseInt(dadosCriatura[1]);
-                        String nomeZ = dadosCriatura[2];
-                        int xZ = Integer.parseInt(dadosCriatura[3]);
-                        int yZ = Integer.parseInt(dadosCriatura[4]);
-                        ArrayList<Equipamento> equipamentos = new ArrayList<>();
-
-
-                        Zombie zombieAtual =
-                                new Zombie(idZ, idTipoZ,creatureTYPE_ID(idTipoZ),"Os Outros",
-                                        nomeZ, xZ, yZ,equipamentos);
-
-                        if (criaturas.get(idZ) == null) {
-
-                            criaturas.put(idZ, zombieAtual);
-                            zombieHashMap.putIfAbsent(idZ, zombieAtual);
-
-                            //zombies.add(zombieAtual);
-
-                        }
+                            int idZ = Integer.parseInt(dadosCriatura[0]);
+                            int idTipoZ = Integer.parseInt(dadosCriatura[1]);
+                            String nomeZ = dadosCriatura[2];
+                            int xZ = Integer.parseInt(dadosCriatura[3]);
+                            int yZ = Integer.parseInt(dadosCriatura[4]);
+                            ArrayList<Equipamento> equipamentos = new ArrayList<>();
 
 
-                    } else if (Integer.parseInt(dadosCriatura[1]) >=5 && Integer.parseInt(dadosCriatura[1]) <= 10) {
+                            Zombie zombieAtual =
+                                    new Zombie(idZ, idTipoZ, creatureTYPE_ID(idTipoZ), "Os Outros",
+                                            nomeZ, xZ, yZ, equipamentos);
 
-                        //é humano
+                            if (criaturas.get(idZ) == null) {
 
-                        int idH = Integer.parseInt(dadosCriatura[0]);
-                        int idTipoH = Integer.parseInt(dadosCriatura[1]);
-                        String nomeH = dadosCriatura[2];
-                        int xH = Integer.parseInt(dadosCriatura[3]);
-                        int yH = Integer.parseInt(dadosCriatura[4]);
-                        ArrayList<Equipamento> equipamentos = new ArrayList<>();
+                                criaturas.put(idZ, zombieAtual);
+                                zombieHashMap.putIfAbsent(idZ, zombieAtual);
 
-                        Humano humanoAtual =
-                                new Humano(idH, idTipoH, creatureTYPE_ID(idTipoH)
-                                        ,"Os Vivos",nomeH, xH, yH,equipamentos,false,false);
+                                //zombies.add(zombieAtual);
 
-                        if (criaturas.get(idH) == null) {
+                            }
 
-                            criaturas.put(idH, humanoAtual);
-                            humanoHashMap.putIfAbsent(idH, humanoAtual);
 
-                           // humanos.add(humanoAtual);
+                        } else if (Integer.parseInt(dadosCriatura[1]) >= 5 && Integer.parseInt(dadosCriatura[1]) <= 10) {
 
+                            //é humano
+
+                            int idH = Integer.parseInt(dadosCriatura[0]);
+                            int idTipoH = Integer.parseInt(dadosCriatura[1]);
+                            String nomeH = dadosCriatura[2];
+                            int xH = Integer.parseInt(dadosCriatura[3]);
+                            int yH = Integer.parseInt(dadosCriatura[4]);
+                            ArrayList<Equipamento> equipamentos = new ArrayList<>();
+
+                            Humano humanoAtual =
+                                    new Humano(idH, idTipoH, creatureTYPE_ID(idTipoH)
+                                            , "Os Vivos", nomeH, xH, yH, equipamentos, false, false);
+
+                            if (criaturas.get(idH) == null) {
+
+                                criaturas.put(idH, humanoAtual);
+                                humanoHashMap.putIfAbsent(idH, humanoAtual);
+
+                                // humanos.add(humanoAtual);
+
+                            }
                         }
                     }
-
                 }
                 nrEquipamentos = Integer.parseInt(leitorFicheiro.nextLine());
 
                 //adicionar os equipamentos nas estruturas
                 for (int k = 0; k < nrEquipamentos; k++) {
-
-                    String[] dadosEquipamento = leitorFicheiro.nextLine().split(" : ");
-
-
-                    int idE = Integer.parseInt(dadosEquipamento[0]);
-                    int idTipoE = Integer.parseInt(dadosEquipamento[1]);
-                    int xE = Integer.parseInt(dadosEquipamento[2]);
-                    int yE = Integer.parseInt(dadosEquipamento[3]);
-
-                    Equipamento equipamento = new Equipamento(idE, idTipoE,equipmentTYPE_ID(idTipoE), xE, yE);
+                    if (leitorFicheiro.hasNextLine()) {
+                        String[] dadosEquipamento = leitorFicheiro.nextLine().split(" : ");
 
 
-                    if (equipamentoHashMap.get(idE) == null) {
+                        int idE = Integer.parseInt(dadosEquipamento[0]);
+                        int idTipoE = Integer.parseInt(dadosEquipamento[1]);
+                        int xE = Integer.parseInt(dadosEquipamento[2]);
+                        int yE = Integer.parseInt(dadosEquipamento[3]);
+                        ArrayList<Integer> c = new ArrayList<>();
+                        Equipamento equipamento = new Equipamento(idE, idTipoE, equipmentTYPE_ID(idTipoE), xE, yE,c);
 
-                        equipamentoHashMap.put(idE, equipamento);
-                        equipamentos.add(equipamento);
 
+                        equipamentoHashMap.putIfAbsent(idE, equipamento);
+                        equipamentoHashMapTOTAL.putIfAbsent(idE,equipamento);
+                        equipmentSTRIKESsetter(idTipoE, idE);
                     }
-
-                    equipmentSTRIKESsetter(idTipoE,idE);
                 }
 
-                nrSafeHavens = Integer.parseInt(leitorFicheiro.nextLine());
-
+                if (leitorFicheiro.hasNextLine()) {
+                    nrSafeHavens = Integer.parseInt(leitorFicheiro.nextLine());
+                }
 
                 //adicionar as safeHavens
                 for (int k = 0; k < nrSafeHavens; k++){
-                    String[] dadosSafeHaven = leitorFicheiro.nextLine().split(" : ");
+                    if (leitorFicheiro.hasNextLine()) {
+                        String[] dadosSafeHaven = leitorFicheiro.nextLine().split(" : ");
 
-                    int shX = Integer.parseInt(dadosSafeHaven[0]);
-                    int shY = Integer.parseInt(dadosSafeHaven[1]);
+                        int shX = Integer.parseInt(dadosSafeHaven[0]);
+                        int shY = Integer.parseInt(dadosSafeHaven[1]);
 
-                    SafeHaven safeHaven = new SafeHaven(shX,shY);
-                    safeHavens.add(safeHaven);
+                        SafeHaven safeHaven = new SafeHaven(shX, shY);
+                        safeHavens.add(safeHaven);
+                    }
+
                 }
 
             }
@@ -242,6 +243,11 @@ public class TWDGameManager {
                 humanoHashMap.get(idCriatura).setSafe(true);
                 humanoHashMap.get(idCriatura).colocarCoordenada(xD, yD);
                 safeCreaturesID.add(idCriatura);
+                nrTurnos++;
+                if (nrTurnos % 2 == 0) {
+                    //se forem multiplos de 2 muda o dia
+                    day = !day;
+                }
                 idEquipaAtual = 20;
                 return true;
             }
@@ -292,6 +298,12 @@ public class TWDGameManager {
                                                 humanoHashMap.remove(humano1.getId());
                                                 idEquipaAtual = 10;
                                             }
+
+                                            nrTurnos++;
+                                            if (nrTurnos % 2 == 0) {
+                                                //se forem multiplos de 2 muda o dia
+                                                day = !day;
+                                            }
                                             return true;
                                         case 1:
                                         case 2:
@@ -314,7 +326,14 @@ public class TWDGameManager {
                                                 zombieHashMap.get(tmp.getId()).setTranformado(true);
                                                 //remove dos humanos
                                                 humanoHashMap.remove(humano1.getId());
+
                                                 idEquipaAtual = 10;
+                                            }
+
+                                            nrTurnos++;
+                                            if (nrTurnos % 2 == 0) {
+                                                //se forem multiplos de 2 muda o dia
+                                                day = !day;
                                             }
                                             return true;
                                     }
@@ -338,6 +357,13 @@ public class TWDGameManager {
                                 zombieHashMap.get(tmp.getId()).setTranformado(true);
                                 //remove dos humanos
                                 humanoHashMap.remove(humano1.getId());
+
+
+                                nrTurnos++;
+                                if (nrTurnos % 2 == 0) {
+                                    //se forem multiplos de 2 muda o dia
+                                    day = !day;
+                                }
                                 idEquipaAtual = 10;
                                 return true;
                             }
@@ -398,6 +424,12 @@ public class TWDGameManager {
                                                 humanoHashMap.remove(humano1.getId());
                                                 idEquipaAtual = 20;
                                             }
+                                            nrTurnos++;
+                                            if (nrTurnos % 2 == 0) {
+                                                //se forem multiplos de 2 muda o dia
+                                                day = !day;
+                                            }
+
                                             return true;
                                     }
                                 }
@@ -423,30 +455,40 @@ public class TWDGameManager {
             int xH = humanoHashMap.get(idCriatura).cordenadaX();
             int yH = humanoHashMap.get(idCriatura).cordenadaY();
 
+
             //se existir equipamento naquelas coordenadas ele adiciona e remove da lista
             if (existEquipment(xH, yH) != null && humanoHashMap.get(idCriatura).getEquipamentosList().isEmpty()) {
-                humanoHashMap.get(idCriatura).getEquipamentosList().add(existEquipment(xH, yH));
-                existEquipment(xH, yH).setApanhado(true);
 
-                equipamentos.removeIf(Equipamento::getIsApanhado);
+
+                humanoHashMap.get(idCriatura).getEquipamentosList().add(existEquipment(xH, yH));
+                Equipamento equipamento = humanoHashMap.get(idCriatura).getEquipamentosList().get(0);
+                equipamentoHashMap.remove(equipamento.getId());
+                equipamento.getApanhadoPorCreaturesID().add(humanoHashMap.get(idCriatura).getIdTipo());
+                equipamento.setApanhado(true);
+
+
+
 
                 //caso contrario se ele ja tiver um equipamento ele adiciona o da casa seguinte e dropa o antigo-
             } else if (existEquipment(xH, yH) != null && !humanoHashMap.get(idCriatura).getEquipamentosList().isEmpty()) {
-                Equipamento equipamentoAnterior = new Equipamento();
+                Equipamento equipamentoAnterior = humanoHashMap.get(idCriatura).getEquipamentosList().get(0);
+                Equipamento equipamento = new Equipamento();
 
-                for (Equipamento equipamento : humanoHashMap.get(idCriatura).getEquipamentosList()) {
-                    if (equipamento.cordenadaX() == xO && equipamento.cordenadaY() == yO) {
-                        equipamentoAnterior = equipamento;
-                    }
-                }
+                //coloca o eq anterior nas cordenadas anteriores
+                equipamentoAnterior.setX(xO);
+                equipamentoAnterior.setY(yO);
 
-
+                //adiciona o eq pretendido
                 humanoHashMap.get(idCriatura).getEquipamentosList().add(existEquipment(xH, yH));
-                existEquipment(xH, yH).setApanhado(true);
-                equipamentos.removeIf(Equipamento::getIsApanhado);
-                equipamentos.add(equipamentoAnterior);
+                equipamento = humanoHashMap.get(idCriatura).getEquipamentosList().get(1);
+                humanoHashMap.get(idCriatura).getEquipamentosList().removeIf(Equipamento::getIsApanhado);
+                equipamento.setApanhado(true);
+                equipamento.getApanhadoPorCreaturesID().add(humanoHashMap.get(idCriatura).getIdTipo());
+                //remove o que tinha mas adiciona na lista de equipamentos no bairro
+                equipamentoHashMap.remove(equipamento.getId());
+                equipamentoHashMap.put(equipamentoAnterior.getId(),equipamentoAnterior);
+                //adiciona na lista o humano portador
                 equipamentoAnterior.setApanhado(false);
-
 
             }
 
@@ -459,7 +501,7 @@ public class TWDGameManager {
             idEquipaAtual = 20;
             return true;
         }
-
+        int count = 0;
         //ver se é zombie e atualiza a coordenada
         if (isZombie && idEquipaAtual == 20) {
             zombieHashMap.get(idCriatura).colocarCoordenada(xD, yD);
@@ -467,13 +509,14 @@ public class TWDGameManager {
             int xZ = zombieHashMap.get(idCriatura).cordenadaX();
             int yZ = zombieHashMap.get(idCriatura).cordenadaY();
 
-            //se existir equipamento naquelas coordenadas ele adiciona
+            //se existir equipamento naquelas coordenadas ele destroi
             if (existEquipment(xZ, yZ) != null) {
                 zombieHashMap.get(idCriatura).getEquipamentosList().add(existEquipment(xZ, yZ));
                 existEquipment(xZ, yZ).setDestruido(true);
-
-                equipamentos.removeIf(Equipamento::getIsDestruido);
-
+                Equipamento equipamento = new Equipamento();
+                equipamento=zombieHashMap.get(idCriatura).getEquipamentosList().get(count);
+                equipamentoHashMapTOTAL.remove(equipamento.getId());
+                count++;
 
             }
 
@@ -509,7 +552,7 @@ public class TWDGameManager {
 
     public Equipamento existEquipment(int x0, int y0) {
 
-        for (Equipamento equipamento : equipamentos) {
+        for (Equipamento equipamento : equipamentoHashMap.values()) {
             if (equipamento.cordenadaX() == x0 && equipamento.cordenadaY() == y0) {
                 if (!equipamento.getIsApanhado() && !equipamento.getIsDestruido()) {
                     return equipamento;
@@ -564,7 +607,7 @@ public class TWDGameManager {
         }
 
 
-        for (Equipamento equipamento : equipamentos) {
+        for (Equipamento equipamento : equipamentoHashMapTOTAL.values()) {
             if (equipamento.cordenadaX() == x && equipamento.cordenadaY() == y) {
                 return equipamento.getId();
 
@@ -629,7 +672,7 @@ public class TWDGameManager {
     }
 
     public int getEquipmentTypeId(int equipmentId){
-        return equipamentoHashMap.get(equipmentId).getTypeID();
+        return equipamentoHashMapTOTAL.get(equipmentId).getTypeID();
     }
 
     public int getEquipmentId(int creatureId) {
@@ -648,9 +691,8 @@ public class TWDGameManager {
         return 0;
     }
 
-    //TODO isto
     public String getEquipmentInfo(int equipmentId) {
-        Equipamento equipamento = equipamentoHashMap.get(equipmentId);
+        Equipamento equipamento = equipamentoHashMapTOTAL.get(equipmentId);
         String info = "";
 
         switch (equipamento.getTypeID()){
@@ -786,9 +828,12 @@ public class TWDGameManager {
         humanoHashMap.clear();
 
         //--equi
+        equipamentoHashMapTOTAL.clear();
         equipamentoHashMap.clear();
-        equipamentos.clear();
 
+        nrTurnos=0;
+        day = true;
+        idxInfecoes = -1;
         return startGame(fich);
     }
 }
