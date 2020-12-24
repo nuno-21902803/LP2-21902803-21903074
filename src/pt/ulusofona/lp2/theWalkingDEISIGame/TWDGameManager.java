@@ -113,7 +113,6 @@ public class TWDGameManager {
                     }
 
                 }
-
                 nrEquipamentos = Integer.parseInt(leitorFicheiro.nextLine());
 
                 //adicionar os equipamentos nas estruturas
@@ -238,12 +237,15 @@ public class TWDGameManager {
             }
         }
 
-        if(isDoorToSafeHaven(xD,yD) && !isZombie){
-            humanoHashMap.get(idCriatura).setSafe(true);
-            humanoHashMap.get(idCriatura).colocarCoordenada(xD, yD);
-            safeCreaturesID.add(idCriatura);
-            idEquipaAtual = 20;
-            return true;
+        if(isDoorToSafeHaven(xD,yD)){
+            if (!isZombie) {
+                humanoHashMap.get(idCriatura).setSafe(true);
+                humanoHashMap.get(idCriatura).colocarCoordenada(xD, yD);
+                safeCreaturesID.add(idCriatura);
+                idEquipaAtual = 20;
+                return true;
+            }
+            return false;
         }
 
         //se nao for zombie ele entra aqui para verificar se existe la um humano
@@ -318,6 +320,7 @@ public class TWDGameManager {
                                     }
                                 }
                             } else {
+
                                 //nao tinha equipamentos entao vai para zombie
                                 //foi para zombie
                                 humanoHashMap.get(humano1.getId()).setDead(true);
@@ -369,28 +372,9 @@ public class TWDGameManager {
                                         case 7:
                                         case 8:
                                         case 9:
+                                            //nao tinha equipamentos de ataque
+                                            return false;
                                         case 10:
-                                            if (!defense(humanoHashMap.get(idCriatura), zombie1)) {
-                                                //nao sucedeu na defesa
-                                                //foi para zombie
-                                                humanoHashMap.get(humano1.getId()).setDead(true);
-                                                //mudar id para idzombie respetivo
-                                                humano1.setIdTipo(humano1.getIdTipo()-5);
-                                                //zombie tmp para colocar no hash
-                                                Zombie tmp = new Zombie(humano1.getId(),humano1.getIdTipo(),
-                                                        creatureTYPE_ID(humano1.getIdTipo()),
-                                                        "Os Outros",humano1.getNome(),
-                                                        humano1.cordenadaX(),humano1.cordenadaY(),
-                                                        new ArrayList<Equipamento>());
-
-                                                zombieHashMap.put(tmp.getId(),tmp);
-                                                //foi transformado logo vai ter tag de @RIP
-                                                zombieHashMap.get(tmp.getId()).setTranformado(true);
-                                                //remove dos humanos
-                                                humanoHashMap.remove(humano1.getId());
-                                                idEquipaAtual = 20;
-                                            }
-                                            return true;
                                         case 1:
                                         case 2:
                                         case 6:
@@ -418,25 +402,8 @@ public class TWDGameManager {
                                     }
                                 }
                             } else {
-                                //nao tinha equipamentos entao vai para zombie
-                                humanoHashMap.get(humano1.getId()).setDead(true);
-                                //mudar id para idzombie respetivo
-                                humano1.setIdTipo(humano1.getIdTipo()-5);
-                                //zombie tmp para colocar no hash
-                                Zombie tmp = new Zombie(humano1.getId(),humano1.getIdTipo(),
-                                        creatureTYPE_ID(humano1.getIdTipo()),
-                                        "Os Outros",humano1.getNome(),
-                                        humano1.cordenadaX(),humano1.cordenadaY(),
-                                        new ArrayList<Equipamento>());
-
-                                zombieHashMap.put(tmp.getId(),tmp);
-                                //foi transformado logo vai ter tag de @RIP
-                                zombieHashMap.get(tmp.getId()).setTranformado(true);
-                                //remove dos humanos
-                                humanoHashMap.remove(humano1.getId());
-                                idEquipaAtual = 20;
-
-                                return true;
+                                //humano nao tinha defesa
+                                return false;
                             }
                         }
                     }

@@ -14,15 +14,13 @@ public class Testes {
 
     static TWDGameManager teste = new TWDGameManager();
 
-    public void startGame() {
-        File f = new File("../test-files/testesFile.txt");
-        teste.startGame(f);
-    }
+
 
 
     @Test
     public void testFileErrado(){
-        File f = new File("../test-files/testesFile.txt");
+        File f = new File("test-files/testesERRADO.txt");
+
         boolean resultReal = teste.startGame(f);
         boolean resultEsperado = false;
 
@@ -31,7 +29,8 @@ public class Testes {
 
     @Test
     public void testGetWorldSize(){
-        startGame();
+        File f = new File("test-files/testesFile.txt");
+        teste.startGame(f);
         int[] resultReal = teste.getWorldSize();
         int[] resultEsperado = new int[]{7,7};
 
@@ -40,11 +39,10 @@ public class Testes {
 
     @Test
     public void testGetTeamInicial(){
-        TWDGameManager teste = new TWDGameManager();
-        File file = new File("testesFile.txt");
-        teste.startGame(file);
+        File f = new File("test-files/testesFile.txt");
+        teste.startGame(f);
 
-        int resultEsperado = 0;
+        int resultEsperado = 10;
         int resultReal= teste.getInitialTeam();
 
         assertEquals("Devia dar igual",resultEsperado,resultReal);
@@ -53,7 +51,7 @@ public class Testes {
 
     @Test
     public void testGETcreatures(){
-        File file = new File("../test-files/testesFile.txt");
+        File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
         int resultEsperado = 6;

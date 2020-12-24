@@ -15,8 +15,6 @@ public class Moves {
     }
 
 
-    //TODO a ideia é ir buscar a criatura ao hash de criaturas e ver o seu IDtipo e dps consoante isso fazer restricoes
-
     public boolean validarMove(int xPretendido, int yPretendido, int xAnterior, int yAnterior, int tYPEidCriaturaAtual,
                                boolean day) {
 
