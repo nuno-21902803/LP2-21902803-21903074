@@ -604,7 +604,9 @@ public class TWDGameManager {
 
     //TODO funcao de ataques meter os zombies.setdead true se morrerem
     public boolean attack(Humano humano, Zombie zombie){
+        //equipamento atual do humano que ataca o zombie
         Equipamento equipAttack = humano.getEquipamento();
+        
         int strikesLEFT = -1;
 
         if (equipAttack.getTypeID() != 10) {
