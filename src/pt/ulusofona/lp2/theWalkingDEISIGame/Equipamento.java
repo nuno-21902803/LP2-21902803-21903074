@@ -11,7 +11,8 @@ public class Equipamento {
     private float litroLEFT;
     private ArrayList<Integer> apanhadoPorCreaturesID = new ArrayList<>();
 
-    private boolean apanhado=false;
+    private boolean usado=false;
+    private boolean dropado = false;
     private boolean destruido=false;
 
     public Equipamento() {
@@ -46,12 +47,22 @@ public class Equipamento {
         this.strikesLEFT = strikesLEFT;
     }
 
-    public boolean getIsApanhado() {
-        return apanhado;
+
+
+    public boolean getIsUsadoPorMilitar() {
+        return usado;
     }
 
-    public void setApanhado(boolean apanhado) {
-        this.apanhado = apanhado;
+    public void setUsadoPorMilitar(boolean apanhado) {
+        this.usado = apanhado;
+    }
+
+    public boolean isDropadoPorMilitar() {
+        return dropado;
+    }
+
+    public void setDropadoPorMilitar(boolean dropado) {
+        this.dropado = dropado;
     }
 
     public boolean getIsDestruido() {
@@ -134,7 +145,7 @@ public class Equipamento {
                 ", strikesLEFT=" + strikesLEFT +
                 ", litroLEFT=" + litroLEFT +
                 ", apanhadoPorCreatures=" + apanhadoPorCreaturesID +
-                ", apanhado=" + apanhado +
+                ", apanhado=" + usado +
                 ", destruido=" + destruido +
                 '}';
     }

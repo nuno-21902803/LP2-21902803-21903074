@@ -11,8 +11,8 @@ public class Humano extends Creature{
     boolean deadVeneno;
 
     public Humano(int id, int idTipo, String tipoCriatura, String nomeEquipa, String nome, int x, int y,
-                  ArrayList<Equipamento> equipamentos, boolean isDead, boolean isSafe) {
-        super(id, idTipo, tipoCriatura, nomeEquipa, nome, x, y, equipamentos);
+                  Equipamento equipamento,int n, boolean isDead, boolean isSafe) {
+        super(id, idTipo, tipoCriatura, nomeEquipa, nome, x, y, equipamento,n);
         this.isDead = isDead;
         this.isSafe = isSafe;
     }

@@ -9,8 +9,9 @@ public class Zombie extends Creature {
 
     //zombie
     public Zombie(int id, int idTipo, String tipoCriatura, String nomeEquipa, String nome, int x, int y,
-                  ArrayList<Equipamento> equipamentos) {
-        super(id, idTipo, tipoCriatura, nomeEquipa, nome, x, y, equipamentos);
+                  Equipamento equipamento,int n, boolean isDead) {
+        super(id, idTipo, tipoCriatura, nomeEquipa, nome, x, y, equipamento, n);
+        this.isDead = isDead;
     }
 
     public boolean getIsDead() {

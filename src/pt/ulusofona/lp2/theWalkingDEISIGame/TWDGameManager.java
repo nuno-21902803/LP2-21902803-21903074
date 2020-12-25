@@ -1,10 +1,8 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.zip.ZipOutputStream;
 
 public class TWDGameManager {
     //game
@@ -21,7 +19,6 @@ public class TWDGameManager {
 
     //--equi
     HashMap<Integer, Equipamento> equipamentoHashMap = new HashMap<>();
-    HashMap<Integer, Equipamento> equipamentoHashMapTOTAL = new HashMap<>();
 
 
     static int numeroLinhas;
@@ -71,12 +68,12 @@ public class TWDGameManager {
                             String nomeZ = dadosCriatura[2];
                             int xZ = Integer.parseInt(dadosCriatura[3]);
                             int yZ = Integer.parseInt(dadosCriatura[4]);
-                            ArrayList<Equipamento> equipamentos = new ArrayList<>();
+                            Equipamento equipamentos = new Equipamento();
 
 
                             Zombie zombieAtual =
                                     new Zombie(idZ, idTipoZ, creatureTYPE_ID(idTipoZ), "Os Outros",
-                                            nomeZ, xZ, yZ, equipamentos);
+                                            nomeZ, xZ, yZ, equipamentos,0,false);
 
                             if (criaturas.get(idZ) == null) {
 
@@ -97,11 +94,12 @@ public class TWDGameManager {
                             String nomeH = dadosCriatura[2];
                             int xH = Integer.parseInt(dadosCriatura[3]);
                             int yH = Integer.parseInt(dadosCriatura[4]);
-                            ArrayList<Equipamento> equipamentos = new ArrayList<>();
+                            Equipamento equipamentos = new Equipamento();
 
                             Humano humanoAtual =
                                     new Humano(idH, idTipoH, creatureTYPE_ID(idTipoH)
-                                            , "Os Vivos", nomeH, xH, yH, equipamentos, false, false);
+                                            , "Os Vivos", nomeH, xH, yH, equipamentos,
+                                            0,false, false);
 
                             if (criaturas.get(idH) == null) {
 
@@ -129,9 +127,7 @@ public class TWDGameManager {
                         ArrayList<Integer> c = new ArrayList<>();
                         Equipamento equipamento = new Equipamento(idE, idTipoE, equipmentTYPE_ID(idTipoE), xE, yE,c);
 
-
-                        equipamentoHashMap.putIfAbsent(idE, equipamento);
-                        equipamentoHashMapTOTAL.putIfAbsent(idE,equipamento);
+                        equipamentoHashMap.putIfAbsent(idE,equipamento);
                         equipmentSTRIKESsetter(idTipoE, idE);
                     }
                 }
@@ -172,6 +168,7 @@ public class TWDGameManager {
     }
 
     public List<Creature> getCreatures(){
+        //ArrayList<Creature> creatures = new ArrayList<>();
         //creatures.addAll(humanoHashMap.values());
         //creatures.addAll(zombieHashMap.values());
         //System.out.println(criaturas);
@@ -198,6 +195,7 @@ public class TWDGameManager {
     //TODO METER O SETTER QUANDO O VIVO É MILITAR (IDtipo == 7)
     //TODO se esta envenenado durante +3 turnos (morre) criar vars aux com nTurno inicial e final com o getTomouVeneno
     //TODO e a cena do antidoto se ele apanhar
+    //TODO ver se ele tem strikes, se nao tiver move return false
     public boolean move(int xO, int yO, int xD, int yD) {
 
         int idCriatura = 0;
@@ -227,7 +225,7 @@ public class TWDGameManager {
         //---
 
         Moves moves = new Moves(xO, yO, xD, yD,idCriatura);
-        //validar o movimento (se sai do grid, ou se não é horizontal ou vertical)
+        //validar o movimento
         if (isHumano) {
             if (!moves.validarMove(xD, yD, xO, yO, humanoHashMap.get(idCriatura).getIdTipo(),day)) {
                 return false;
@@ -265,9 +263,9 @@ public class TWDGameManager {
                     for (Creature zombie1 : zombieHashMap.values()) {
                         if (zombie1.cordenadaX() == xO && zombie1.cordenadaY() == yO) {
                             //FUNCAO ATTACK/DEFENSE
-                            if (!humano1.getEquipamentosList().isEmpty()){
+                            if (humano1.getEquipamento() != null){
                                 int type = -1;
-                                type = humanoHashMap.get(idCriatura).getEquipamentosList().get(0).getTypeID();
+                                type = humanoHashMap.get(idCriatura).getEquipamento().getTypeID();
                                 if (type != -1) {
                                     switch (type) {
                                         case 0:
@@ -277,8 +275,7 @@ public class TWDGameManager {
                                         case 7:
                                         case 8:
                                         case 9:
-                                        case 10:
-                                            if (!defense(humanoHashMap.get(idCriatura), zombie1)) {
+                                            if (!defense(humanoHashMap.get(idCriatura), (Zombie) zombie1)) {
                                                 //nao sucedeu na defesa
                                                 //foi para zombie
                                                 humanoHashMap.get(humano1.getId()).setDead(true);
@@ -289,7 +286,7 @@ public class TWDGameManager {
                                                         creatureTYPE_ID(humano1.getIdTipo()),
                                                         "Os Outros",humano1.getNome(),
                                                         humano1.cordenadaX(),humano1.cordenadaY(),
-                                                        new ArrayList<Equipamento>());
+                                                        new Equipamento(),0,false);
 
                                                 zombieHashMap.put(tmp.getId(),tmp);
                                                 //foi transformado logo vai ter tag de @RIP
@@ -305,10 +302,11 @@ public class TWDGameManager {
                                                 day = !day;
                                             }
                                             return true;
+                                        case 10:
                                         case 1:
                                         case 2:
                                         case 6:
-                                            if (!attack(humanoHashMap.get(idCriatura), zombie1)) {
+                                            if (!attack(humanoHashMap.get(idCriatura), (Zombie) zombie1)) {
                                                 //nao sucedeu no ataque
                                                 //foi para zombie
                                                 humanoHashMap.get(humano1.getId()).setDead(true);
@@ -319,7 +317,7 @@ public class TWDGameManager {
                                                         creatureTYPE_ID(humano1.getIdTipo()),
                                                         "Os Outros",humano1.getNome(),
                                                         humano1.cordenadaX(),humano1.cordenadaY(),
-                                                        new ArrayList<Equipamento>());
+                                                        new Equipamento(),0,false);
 
                                                 zombieHashMap.put(tmp.getId(),tmp);
                                                 //foi transformado logo vai ter tag de @RIP
@@ -350,7 +348,7 @@ public class TWDGameManager {
                                         creatureTYPE_ID(humano1.getIdTipo()),
                                         "Os Outros",humano1.getNome(),
                                         humano1.cordenadaX(),humano1.cordenadaY(),
-                                        new ArrayList<Equipamento>());
+                                        new Equipamento(),0,false);
 
                                 zombieHashMap.put(tmp.getId(),tmp);
                                 //foi transformado logo vai ter tag de @RIP
@@ -386,9 +384,9 @@ public class TWDGameManager {
                     for (Creature humano1 : humanoHashMap.values()) {
                         if (humano1.cordenadaX() == xO && humano1.cordenadaY() == yO) {
                             //FUNCAO ATTACK/DEFENSE
-                            if (!humano1.getEquipamentosList().isEmpty()) {
+                            if (humano1.getEquipamento() != null) {
                                 int type = -1;
-                                type = humano1.getEquipamentosList().get(0).getTypeID();
+                                type = humano1.getEquipamento().getTypeID();
                                 if (type != -1) {
                                     switch (type) {
                                         case 0:
@@ -404,7 +402,7 @@ public class TWDGameManager {
                                         case 1:
                                         case 2:
                                         case 6:
-                                            if (!attack(humanoHashMap.get(idCriatura), zombie1)) {
+                                            if (!attack(humanoHashMap.get(idCriatura), (Zombie) zombie1)) {
                                                 //nao sucedeu no ataque
                                                 //foi para zombie
                                                 humanoHashMap.get(humano1.getId()).setDead(true);
@@ -415,7 +413,7 @@ public class TWDGameManager {
                                                         creatureTYPE_ID(humano1.getIdTipo()),
                                                         "Os Outros",humano1.getNome(),
                                                         humano1.cordenadaX(),humano1.cordenadaY(),
-                                                        new ArrayList<Equipamento>());
+                                                        new Equipamento(),0,false);
 
                                                 zombieHashMap.put(tmp.getId(),tmp);
                                                 //foi transformado logo vai ter tag de @RIP
@@ -450,49 +448,109 @@ public class TWDGameManager {
 
         //ver se é humano ou zombie e atualizar a coordenada
         if (isHumano && idEquipaAtual == 10) {
-            humanoHashMap.get(idCriatura).colocarCoordenada(xD, yD);
+            Humano humano = humanoHashMap.get(idCriatura);
 
-            int xH = humanoHashMap.get(idCriatura).cordenadaX();
-            int yH = humanoHashMap.get(idCriatura).cordenadaY();
+            humano.colocarCoordenada(xD, yD);
 
+            int xH = humano.cordenadaX();
+            int yH = humano.cordenadaY();
 
             //se existir equipamento naquelas coordenadas ele adiciona e remove da lista
-            if (existEquipment(xH, yH) != null && humanoHashMap.get(idCriatura).getEquipamentosList().isEmpty()) {
+            if (existEquipment(xH, yH) != null && humano.getEquipamento()== null) {
+                Equipamento equipamento = existEquipment(xH,yH);
 
-//FAZER ESTo DO EQUIPAMENTO NAO BAZAR DA TELA miggzy
-                humanoHashMap.get(idCriatura).getEquipamentosList().add(existEquipment(xH, yH));
-                Equipamento equipamento = humanoHashMap.get(idCriatura).getEquipamentosList().get(0);
-                equipamento.getApanhadoPorCreaturesID().add(humanoHashMap.get(idCriatura).getIdTipo());
-                equipamento.setApanhado(true);
+                //adiciona o equipamento no humano
+                humano.setEquipamento(equipamento);
+                //remove o equipamento da lista global
+                equipamentoHashMap.remove(equipamento.getId());
 
+                int num = humano.getEquipamentos();
+                humano.setNumEqApanhadosDestruidos(num+1);
 
-                for (Equipamento e :humanoHashMap.get(idCriatura).getEquipamentosList()){
-                    if (e.getIsApanhado()){
-                        //equipamentoHashMapTOTAL.remove(e.getId());
-                        equipamentoHashMap.remove(e.getId());
+                //verificar se foi apanhado por mais que um militar
+                //se for escudo de madeira
+                if (humano.getEquipamento().getTypeID() == 0 && humano.getIdTipo() == 7){
+                    for (int k : humano.getEquipamento().getApanhadoPorCreaturesID()){
+                        //se for militar
+                        if (humanoHashMap.get(k).getIdTipo() == 7) {
+                            //mas se nao for o mesmo militar e se foi usado por outro
+                            if (k != humano.getId() && humano.getEquipamento().getIsUsadoPorMilitar()) {
+                                //tem 1 strike left
+                                humano.getEquipamento().setStrikesLEFT(1);
+                            } else if (!humano.getEquipamento().getIsUsadoPorMilitar()){
+                                //se nao foi usado pelo outro
+                                humano.getEquipamento().setStrikesLEFT(2);
+                            }
+
+                            //se for o mesmo militar tem 1 strike left
+                            if (k == humano.getId()){
+                                humano.getEquipamento().setStrikesLEFT(1);
+                            }
+                        }
                     }
                 }
 
+                //vai buscar o equipamento e coloca o idTIPO do humano na lista de usados do eq
+                humano.getEquipamento().getApanhadoPorCreaturesID().add(humano.getId());
+
+
                 //caso contrario se ele ja tiver um equipamento ele adiciona o da casa seguinte e dropa o antigo-
-            } else if (existEquipment(xH, yH) != null && !humanoHashMap.get(idCriatura).getEquipamentosList().isEmpty()) {
-                Equipamento equipamentoAnterior = humanoHashMap.get(idCriatura).getEquipamentosList().get(0);
+            } else if (existEquipment(xH, yH) != null && humano.getEquipamento()!=null) {
+
+                //vai buscar o eq do humano anterior
+                Equipamento equipamentoAnterior = humano.getEquipamento();
                 Equipamento equipamento = new Equipamento();
+                //guarda-o na lista global
+                equipamentoHashMap.put(equipamentoAnterior.getId(),equipamentoAnterior);
 
                 //coloca o eq anterior nas cordenadas anteriores
                 equipamentoAnterior.setX(xO);
                 equipamentoAnterior.setY(yO);
 
                 //adiciona o eq pretendido
-                humanoHashMap.get(idCriatura).getEquipamentosList().add(existEquipment(xH, yH));
-                equipamento = humanoHashMap.get(idCriatura).getEquipamentosList().get(1);
-                humanoHashMap.get(idCriatura).getEquipamentosList().removeIf(Equipamento::getIsApanhado);
-                equipamento.setApanhado(true);
-                equipamento.getApanhadoPorCreaturesID().add(humanoHashMap.get(idCriatura).getIdTipo());
+                humano.setEquipamento(existEquipment(xH, yH));
+
+                //aumenta na lista de equipamentos usados
+                int num = humano.getEquipamentos();
+                humano.setNumEqApanhadosDestruidos(num+1);
+
+                //vai buscar o eq atual e remove da lista global
+                equipamento = humano.getEquipamento();
+
                 //remove o que tinha mas adiciona na lista de equipamentos no bairro
                 equipamentoHashMap.remove(equipamento.getId());
-                equipamentoHashMap.put(equipamentoAnterior.getId(),equipamentoAnterior);
+
+                //verificar se foi apanhado por mais que um militar
+                //se for escudo de madeira
+                if (humano.getEquipamento().getTypeID() == 0 && humano.getIdTipo() == 7){
+                    for (int k : humano.getEquipamento().getApanhadoPorCreaturesID()){
+                        //se for militar
+                        if (humanoHashMap.get(k).getIdTipo() == 7) {
+                            //mas se nao for o mesmo militar e se foi usado por outro
+                            if (k != humano.getId() && humano.getEquipamento().getIsUsadoPorMilitar()) {
+                                //tem 1 strike left
+                                humano.getEquipamento().setStrikesLEFT(1);
+                            } else if (!humano.getEquipamento().getIsUsadoPorMilitar()){
+                                //se nao foi usado pelo outro
+                                humano.getEquipamento().setStrikesLEFT(2);
+                            }
+
+                            //se for o mesmo militar tem 1 strike left
+                            if (k == humano.getId()){
+                                humano.getEquipamento().setStrikesLEFT(1);
+                            }
+                        }
+                    }
+                }
+
+                //se o escudo foi dropado por um militar e se for um escudo
+                if (humano.getEquipamento().isDropadoPorMilitar() && humano.getEquipamento().getTypeID() == 0){
+                    //fica com capacidade de receber 1 hit
+                    humano.getEquipamento().setStrikesLEFT(1);
+                }
+
                 //adiciona na lista o humano portador
-                equipamentoAnterior.setApanhado(false);
+                equipamento.getApanhadoPorCreaturesID().add(humano.getId());
 
             }
 
@@ -515,17 +573,16 @@ public class TWDGameManager {
 
             //se existir equipamento naquelas coordenadas ele destroi
             if (existEquipment(xZ, yZ) != null) {
-                zombieHashMap.get(idCriatura).getEquipamentosList().add(existEquipment(xZ, yZ));
+                //destroi o equipamento que o zombie pegou
+                zombieHashMap.get(idCriatura).setEquipamento(existEquipment(xZ, yZ));
                 existEquipment(xZ, yZ).setDestruido(true);
+                //aumenta o nrDestruidos
+                int num = zombieHashMap.get(idCriatura).getEquipamentos();
+                zombieHashMap.get(idCriatura).setNumEqApanhadosDestruidos(num+1);
+                //remove da lista global
+                Equipamento equipamento = zombieHashMap.get(idCriatura).getEquipamento();
 
-                for (Equipamento e : zombieHashMap.get(idCriatura).getEquipamentosList()){
-                    if (e.getIsDestruido()){
-                        equipamentoHashMapTOTAL.remove(e.getId());
-                        equipamentoHashMap.remove(e.getId());
-                        //fazer com arraylist como tinha sq
-                    }
-                }
-
+                equipamentoHashMap.remove(equipamento.getId(),equipamento);
             }
 
             nrTurnos++;
@@ -543,16 +600,32 @@ public class TWDGameManager {
     //----
 
 
+
+
     //TODO funcao de ataques meter os zombies.setdead true se morrerem
-    public boolean attack(Creature humano, Creature zombie){
-        Equipamento EquipAttack = humano.getEquipamentosList().get(0);
+    public boolean attack(Humano humano, Zombie zombie){
+        Equipamento equipAttack = humano.getEquipamento();
+        int strikesLEFT = -1;
+
+        if (equipAttack.getTypeID() != 10) {
+            if (equipAttack.getStrikesLEFT() > 0) {
+                strikesLEFT = equipAttack.getStrikesLEFT();
+                equipAttack.setStrikesLEFT(strikesLEFT - 1);
+                zombie.setDead(true);
+            } else {
+                //esgotou os strikes logo nao pode se mover p cima do zombie
+                return false;
+            }
+        } else if (equipAttack.getTypeID() ==10){
+            zombie.setDead(true);
+        }
 
         //sucedeu no ataque
         return true;
     }
 
-    public boolean defense(Creature humano, Creature zombie){
-        Equipamento EquipDefense = humano.getEquipamentosList().get(0);
+    public boolean defense(Humano humano, Zombie zombie){
+        Equipamento equipDefense = humano.getEquipamento();
 
         //sucedeu na defesa
         return true;
@@ -560,11 +633,9 @@ public class TWDGameManager {
 
     public Equipamento existEquipment(int x0, int y0) {
 
-        for (Equipamento equipamento : equipamentoHashMapTOTAL.values()) {
+        for (Equipamento equipamento : equipamentoHashMap.values()) {
             if (equipamento.cordenadaX() == x0 && equipamento.cordenadaY() == y0) {
-                if (!equipamento.getIsApanhado() && !equipamento.getIsDestruido()) {
                     return equipamento;
-                }
             }
         }
 
@@ -615,7 +686,7 @@ public class TWDGameManager {
         }
 
 
-        for (Equipamento equipamento : equipamentoHashMapTOTAL.values()) {
+        for (Equipamento equipamento : equipamentoHashMap.values()) {
             if (equipamento.cordenadaX() == x && equipamento.cordenadaY() == y) {
                 return equipamento.getId();
 
@@ -645,7 +716,7 @@ public class TWDGameManager {
         for (Creature zombie : zombieHashMap.values()) {
             survivors.add(zombie.getId() + "  (antigamente conhecido como " + zombie.getNome()+ ")");
         }
-
+        survivors.add("\n");
         survivors.add("Num safe haven:\n");
         survivors.add("\nOs Vivos\n");
 
@@ -655,6 +726,7 @@ public class TWDGameManager {
             }
         }
 
+        survivors.add("\n");
         survivors.add("Envenenados / Destruidos\n");
         survivors.add("\nOs Vivos\n");
 
@@ -665,6 +737,7 @@ public class TWDGameManager {
             }
         }
 
+        survivors.add("\n");
         survivors.add("\nOS OUTROS\n");
         for (Zombie c : zombieHashMap.values()){
             if (c.getIsDead()){
@@ -680,7 +753,23 @@ public class TWDGameManager {
     }
 
     public int getEquipmentTypeId(int equipmentId){
-        return equipamentoHashMapTOTAL.get(equipmentId).getTypeID();
+
+        Equipamento equipamento = equipamentoHashMap.get(equipmentId);
+
+        //se for null percorre a lista de humanos para verificar se existe la um
+        if (equipamento == null){
+            for (Creature humano1 : humanoHashMap.values()) {
+                if (humano1.getEquipamento().getId() == equipmentId) {
+                    //encontrou
+                    return humano1.getEquipamento().getTypeID();
+                }
+            }
+        } else {
+            //se nao for null da return diretamente da lista global
+            return equipamento.getTypeID();
+        }
+
+        return 0;
     }
 
     public int getEquipmentId(int creatureId) {
@@ -688,22 +777,28 @@ public class TWDGameManager {
         //entra aqui para verificar se o humano contém eq
         for (Creature humano1 : humanoHashMap.values()) {
             if (humano1.getId() == creatureId) {
-                for (Equipamento equipamento : humano1.getEquipamentosList()) {
-                   return equipamento.getId();
-                }
+                return humano1.getEquipamento().getId();
             }
         }
-
 
         //a creature nao tinha equipamentos
         return 0;
     }
 
     public String getEquipmentInfo(int equipmentId) {
-        Equipamento equipamento = equipamentoHashMapTOTAL.get(equipmentId);
+        Equipamento equipamento = equipamentoHashMap.get(equipmentId);
         String info = "";
 
-        switch (equipamento.getTypeID()){
+        if (equipamento == null){
+            for (Creature humano1 : humanoHashMap.values()) {
+                if (humano1.getEquipamento().getId() == equipmentId) {
+                    //encontrou
+                    equipamento= humano1.getEquipamento();
+                }
+            }
+        }
+
+        switch (Objects.requireNonNull(equipamento).getTypeID()){
             case 0:
             case 2:
                 info= equipamento.getNome() +" | "+ equipamento.getStrikesLEFT();
@@ -718,7 +813,22 @@ public class TWDGameManager {
     }
 
     public String[] popCultureExtravaganza(){
-        String[] answers = new String[0];
+        String[] answers = new String[14];
+
+        answers[0] = "Resident Evil";
+        answers[1] = "Evil Dead";
+        answers[2] = "Pride and Prejudice and Zombies";
+        answers[3] = "Bleach";
+        answers[4] = "The Code";
+        answers[5] = "iZombie";
+        answers[6] = "Mandalorian";
+        answers[7] = "1972";
+        answers[8] = "Kage no Gundan";
+        answers[9] = "1978";
+        answers[10] = "James Bond";
+        answers[11] = "The Others";
+        answers[12] = "Cabeça de alho chocho";
+        answers[13] = "Freddie M. Garcia";
 
         return answers;
     }
@@ -746,6 +856,7 @@ public class TWDGameManager {
             case 9:
                 return "Cão";
             case 10:
+                //personagem the walking dead
                 return "Beta";
             default:
                 throw new IllegalArgumentException("CreatureTYPEid Not Found");
@@ -817,19 +928,24 @@ public class TWDGameManager {
             writer.write(criaturas.size() + "\n");
 
             for (Creature c : criaturas.values()) {
-                writer.write(c.getId() + " : " + c.getIdTipo() + " : " + c.getNome() + " : " + c.cordenadaX() + " : " + c.cordenadaY() + "\n");
+                writer.write(c.getId() + " : "
+                        + c.getIdTipo() + " : " + c.getNome() + " : "
+                        + c.cordenadaX() + " : " + c.cordenadaY() + "\n");
             }
 
-            writer.write(equipamentoHashMapTOTAL.size() + "\n");
+            writer.write(equipamentoHashMap.size() + "\n");
 
-            for (Equipamento e : equipamentoHashMapTOTAL.values()) {
-                writer.write(e.getId() + " : " + e.getTypeID() + " : " + e.cordenadaX() + " : " + e.cordenadaY() + "\n");
+            for (Equipamento e : equipamentoHashMap.values()) {
+                writer.write(e.getId() + " : " + e.getTypeID()
+                        + " : " + e.cordenadaX() + " : "
+                        + e.cordenadaY() + "\n");
             }
 
             writer.write(safeHavens.size() + "\n");
 
             for (SafeHaven sh : safeHavens) {
-                writer.write(sh.getX() + " : " + sh.getY() + "\n");
+                writer.write(sh.getX() + " : "
+                        + sh.getY() + "\n");
             }
 
             writer.close();
@@ -856,7 +972,6 @@ public class TWDGameManager {
         humanoHashMap.clear();
 
         //--equi
-        equipamentoHashMapTOTAL.clear();
         equipamentoHashMap.clear();
 
         nrTurnos=0;
