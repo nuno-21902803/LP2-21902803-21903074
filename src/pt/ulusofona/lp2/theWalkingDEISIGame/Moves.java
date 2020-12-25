@@ -58,7 +58,7 @@ public class Moves {
             case 0:
             case 5:
                 if (checkCreatures){
-                    return false;
+                //    return false;
                 }
 
                 return xPretendido == xAnterior - 1 && yPretendido == yAnterior ||
@@ -69,7 +69,7 @@ public class Moves {
             case 1:
             case 6:
                 if (checkCreatures){
-                    return false;
+                   // return false;
                 }
                 return (xAnterior - xPretendido> -3 && yAnterior - yPretendido < 3) &&
                         (yAnterior - yPretendido > -3 && xAnterior - xPretendido < 3);
@@ -79,7 +79,7 @@ public class Moves {
             case 7:
 
                 if (checkCreatures) {
-                    return false;
+                    //return false;
                 }
 
                 return (xAnterior - xPretendido> -4 && yAnterior - yPretendido < 4) &&
@@ -87,7 +87,7 @@ public class Moves {
                 //idoso zombie
             case 3:
                 if (checkCreatures){
-                    return false;
+                  //  return false;
                 }
                 return check;
 
@@ -96,7 +96,7 @@ public class Moves {
 
                 if (day){
                     if (checkCreatures){
-                        return false;
+                    //    return false;
                     }
 
                     return check;
@@ -109,7 +109,7 @@ public class Moves {
                 if (!day){
 
                     if (checkCreatures){
-                        return false;
+                      //  return false;
                     }
 
                     return !(xAnterior -xPretendido > -2 && xAnterior-xPretendido <2) ||
@@ -120,14 +120,14 @@ public class Moves {
                 //cao
             case 9:
                 if (checkCreatures){
-                    return false;
+                   // return false;
                 }
 
                return !check || xAnterior >1 || xPretendido >1 || xAnterior<-1 || xPretendido < -1;
                 //zombieFILME
             case 10:
                 if (checkCreatures){
-                    return false;
+                  //  return false;
                 }
                 //TODO zombie filme
             default:

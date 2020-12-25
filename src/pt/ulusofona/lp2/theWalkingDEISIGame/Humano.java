@@ -2,10 +2,10 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 
 public class Humano extends Creature{
-    boolean isDead;
-    boolean isSafe;
-    boolean tomouVeneno;
-    boolean deadVeneno;
+    private boolean isDead;
+    private boolean isSafe;
+    private boolean tomouVeneno;
+    private boolean deadVeneno;
 
 
     public Humano(int id, int idTipo, String tipoCriatura, String nomeEquipa, String nome, int x, int y,

@@ -12,11 +12,10 @@ public class SafeHaven {
         return x;
     }
 
-
-
     public int getY() {
         return y;
     }
+
 
     @Override
     public String toString() {

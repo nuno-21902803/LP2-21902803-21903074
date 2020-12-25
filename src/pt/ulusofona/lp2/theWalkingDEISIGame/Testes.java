@@ -53,8 +53,6 @@ public class Testes {
     public void testGETcreatures(){
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
-        teste.move(1,1,2,1);
-        teste.move(3,4,3,3);
 
         int resultEsperado = 6;
         int resultReal= teste.getCreatures().size();

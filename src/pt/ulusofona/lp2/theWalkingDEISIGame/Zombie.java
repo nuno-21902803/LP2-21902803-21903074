@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Zombie extends Creature {
 
-    boolean isDead;
-    boolean tranformado;
+    private boolean isDead;
+    private boolean tranformado;
 
     //zombie
     public Zombie(int id, int idTipo, String tipoCriatura, String nomeEquipa, String nome, int x, int y,
