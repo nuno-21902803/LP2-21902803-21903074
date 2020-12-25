@@ -1,14 +1,12 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 
-import java.util.ArrayList;
-
-
 public class Humano extends Creature{
     boolean isDead;
     boolean isSafe;
     boolean tomouVeneno;
     boolean deadVeneno;
+
 
     public Humano(int id, int idTipo, String tipoCriatura, String nomeEquipa, String nome, int x, int y,
                   Equipamento equipamento,int n, boolean isDead, boolean isSafe) {
