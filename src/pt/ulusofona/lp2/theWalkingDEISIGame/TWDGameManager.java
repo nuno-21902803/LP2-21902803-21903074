@@ -989,7 +989,7 @@ public class TWDGameManager {
             case 6:
                 return "Estaca de Madeira";
             case 7:
-                return "Garrafa de Lixívia (1litro)";
+                return "Garrafa de lixívia (1 litro)";
             case 8:
                 return "Veneno";
             case 9:
