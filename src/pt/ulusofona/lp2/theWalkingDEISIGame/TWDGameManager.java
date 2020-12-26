@@ -769,12 +769,6 @@ public class TWDGameManager {
 
     public int getElementId(int x, int y) {
         //adquirir o id da criatura naquela posicao
-        for (SafeHaven safeHaven : safeHavens){
-            if (safeHaven.getX() == x && safeHaven.getY() == y) {
-                return 0;
-            }
-        }
-
 
         for (Creature creature : criaturas.values()){
             if (creature.cordenadaX() == x && creature.cordenadaY() == y){
@@ -795,11 +789,16 @@ public class TWDGameManager {
             }
         }*/
 
-
         for (Equipamento equipamento : equipamentoHashMap.values()) {
             if (equipamento.cordenadaX() == x && equipamento.cordenadaY() == y) {
                 return equipamento.getId();
 
+            }
+        }
+
+        for (SafeHaven safeHaven : safeHavens){
+            if (safeHaven.getX() == x && safeHaven.getY() == y) {
+                return 0;
             }
         }
 

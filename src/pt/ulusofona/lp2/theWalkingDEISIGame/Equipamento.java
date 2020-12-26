@@ -81,8 +81,18 @@ public class Equipamento {
         this.litroLEFT = litroLEFT;
     }
 
-    public float getLitroLEFT() {
-        return litroLEFT;
+    public int getLitroLEFT() {
+
+        if (litroLEFT == 1.0){
+            return 3;
+        }else if (litroLEFT == 0.7){
+            return 2;
+        }else if (litroLEFT == 0.4){
+            return 1;
+        }else if (litroLEFT == 0.1){
+            return 0;
+        }
+        return 0;
     }
 
     public int getId(){
