@@ -102,26 +102,25 @@ public class Creature {
 
     @Override
     public String toString(){
-        Creature creature = TWDGameManager.criaturas.get(id);
+        Humano human =TWDGameManager.humanoHashMap.get(id);
+        Zombie zombie =TWDGameManager.zombieHashMap.get(id);
 
-        if (creature!=null) {
-            if (creature instanceof Humano) {
-                if (((Humano) creature).getIsSafe()) {
-                    return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
-                            getEquipamentos() + " @ A Salvo";
-                }
-
-                if (((Humano) creature).getIsDead()) {
-                    return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
-                            getEquipamentos() + " @ RIP";
-                }
-            } else if (creature instanceof  Zombie){
-                if (((Zombie) creature).getIsDead()) {
-                    return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
-                            getEquipamentos() + " @ RIP";
-                }
+        if (human!=null) {
+            if (human.getIsSafe()) {
+                return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
+                        getEquipamentos() + " @ A Salvo";
             }
 
+            if (human.getIsDead()) {
+                return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
+                        getEquipamentos() + " @ RIP";
+            }
+
+        } else if (zombie != null ){
+            if (zombie.getIsDead()) {
+                return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
+                        getEquipamentos() + " @ RIP";
+            }
         }
         return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
                 getEquipamentos() + " @ (" + x + ", " + y + ")";
