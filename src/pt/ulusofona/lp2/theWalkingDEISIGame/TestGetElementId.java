@@ -80,9 +80,6 @@ public class TestGetElementId {
     public void testGetElementID_7(){
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
-        teste.move(2,6,5,6);
-        teste.move(3,4,2,4);
-        teste.move(5,6,6,6);
 
         int resultEsperado = 0;
         int resultReal= teste.getElementId(6,6);

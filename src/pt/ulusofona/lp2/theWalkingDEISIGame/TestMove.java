@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 public class TestMove {
 
-
+/*
     static TWDGameManager teste = new TWDGameManager();
 
     @Test
@@ -77,4 +77,6 @@ public class TestMove {
 
         assertEquals("Devia dar igual",resultEsperado,resultReal);
     }
+
+ */
 }
