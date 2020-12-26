@@ -775,7 +775,13 @@ public class TWDGameManager {
             }
         }
 
-        for (Creature zombie1 : zombieHashMap.values()) {
+
+        for (Creature creature : criaturas.values()){
+            if (creature.cordenadaX() == x && creature.cordenadaY() == y){
+                return creature.getId();
+            }
+        }
+        /*for (Creature zombie1 : zombieHashMap.values()) {
             if (zombie1.cordenadaX() == x && zombie1.cordenadaY() == y) {
                 return zombie1.getId();
             }
@@ -787,7 +793,7 @@ public class TWDGameManager {
 
                 return humano1.getId();
             }
-        }
+        }*/
 
 
         for (Equipamento equipamento : equipamentoHashMap.values()) {
