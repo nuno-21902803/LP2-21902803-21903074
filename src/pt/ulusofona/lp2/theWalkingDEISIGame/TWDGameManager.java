@@ -44,7 +44,7 @@ public class TWDGameManager {
         humanoHashMap.clear();
         //--equi
         equipamentoHashMap.clear();
-        
+
         try {
             Scanner leitorFicheiro = new Scanner(new FileInputStream(ficheiroInicial));
             while (leitorFicheiro.hasNextLine()) {
@@ -87,8 +87,6 @@ public class TWDGameManager {
 
                                 criaturas.put(idZ, zombieAtual);
                                 zombieHashMap.putIfAbsent(idZ, zombieAtual);
-                                System.out.println("Ol");
-                                //zombies.add(zombieAtual);
 
                             }
 
@@ -108,13 +106,11 @@ public class TWDGameManager {
                                     new Vivo(idH, idTipoH, creatureTYPE_ID(idTipoH)
                                             , "Os Vivos", nomeH, xH, yH, equipamentos,
                                             0,false, false);
-                            System.out.println("olol");
+                            
                             if (criaturas.get(idH) == null) {
 
                                 criaturas.put(idH, vivoAtual);
                                 humanoHashMap.putIfAbsent(idH, vivoAtual);
-
-                                // humanos.add(humanoAtual);
 
                             }
                         }
@@ -951,7 +947,7 @@ public class TWDGameManager {
     public int getEquipmentId(int creatureId) {
 
         //entra aqui para verificar se o humano contém eq
-        for (Creature humano1 : humanoHashMap.values()) {
+        for (Creature humano1 : criaturas.values()) {
             if (humano1.getId() == creatureId) {
                 return humano1.getEquipamento().getId();
             }

@@ -116,7 +116,7 @@ public class Creature {
         if (human!=null) {
             if (human.getIsSafe()) {
                 return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
-                        getEquipamentos() + " @ A Salvo";
+                        getEquipamentos() + " @ A salvo";
             }
 
             if (human.getIsDead()) {
