@@ -36,7 +36,15 @@ public class TWDGameManager {
     }
 
     public boolean startGame(File ficheiroInicial) {
-
+        safeCreaturesID.clear();
+        safeHavens.clear();
+        //--HashsCreatures
+        criaturas.clear();
+        zombieHashMap.clear();
+        humanoHashMap.clear();
+        //--equi
+        equipamentoHashMap.clear();
+        
         try {
             Scanner leitorFicheiro = new Scanner(new FileInputStream(ficheiroInicial));
             while (leitorFicheiro.hasNextLine()) {
@@ -79,7 +87,7 @@ public class TWDGameManager {
 
                                 criaturas.put(idZ, zombieAtual);
                                 zombieHashMap.putIfAbsent(idZ, zombieAtual);
-
+                                System.out.println("Ol");
                                 //zombies.add(zombieAtual);
 
                             }
@@ -100,7 +108,7 @@ public class TWDGameManager {
                                     new Vivo(idH, idTipoH, creatureTYPE_ID(idTipoH)
                                             , "Os Vivos", nomeH, xH, yH, equipamentos,
                                             0,false, false);
-
+                            System.out.println("olol");
                             if (criaturas.get(idH) == null) {
 
                                 criaturas.put(idH, vivoAtual);
