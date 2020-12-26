@@ -168,7 +168,7 @@ public class TWDGameManager {
     }
 
     public List<Creature> getCreatures(){
-        return new ArrayList<>(criaturas.values());
+       return (List<Creature>) criaturas.values();
     }
 
     public boolean isDoorToSafeHaven(int x, int y){
