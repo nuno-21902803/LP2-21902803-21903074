@@ -1,17 +1,15 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 
-public class Humano extends Creature{
-    private boolean isDead;
+public class Vivo extends Creature{
     private boolean isSafe;
     private boolean tomouVeneno;
     private boolean deadVeneno;
 
 
-    public Humano(int id, int idTipo, String tipoCriatura, String nomeEquipa, String nome, int x, int y,
-                  Equipamento equipamento,int n, boolean isDead, boolean isSafe) {
-        super(id, idTipo, tipoCriatura, nomeEquipa, nome, x, y, equipamento,n);
-        this.isDead = isDead;
+    public Vivo(int id, int idTipo, String tipoCriatura, String nomeEquipa, String nome, int x, int y,
+                Equipamento equipamento, int n, boolean isDead, boolean isSafe) {
+        super(id, idTipo, tipoCriatura, nomeEquipa, nome, x, y, equipamento,n, isDead);
         this.isSafe = isSafe;
     }
 
@@ -24,9 +22,6 @@ public class Humano extends Creature{
         this.deadVeneno = deadVeneno;
     }
 
-    public void setDead(boolean dead) {
-        isDead = dead;
-    }
 
     public void setSafe(boolean safe) {
         isSafe = safe;
@@ -38,10 +33,6 @@ public class Humano extends Creature{
 
     public void setTomouVeneno(boolean tomouVeneno) {
         this.tomouVeneno = tomouVeneno;
-    }
-
-    public boolean getIsDead() {
-        return this.isDead;
     }
 
     public boolean getIsSafe() {

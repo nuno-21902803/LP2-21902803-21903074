@@ -2,7 +2,7 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.io.*;
 import java.util.*;
-import java.util.zip.ZipOutputStream;
+
 
 public class TWDGameManager {
     //game
@@ -13,9 +13,9 @@ public class TWDGameManager {
     ArrayList<SafeHaven> safeHavens = new ArrayList<>();
 
     //--HashsCreatures
-    HashMap<Integer, Creature> criaturas = new HashMap<>();
-    static HashMap<Integer, Zombie > zombieHashMap = new HashMap<>();
-    static HashMap<Integer, Humano> humanoHashMap = new HashMap<>();
+    static HashMap<Integer, Creature> criaturas = new HashMap<>();
+    HashMap<Integer, Zombie > zombieHashMap = new HashMap<>();
+    static HashMap<Integer, Vivo> humanoHashMap = new HashMap<>();
 
     //--equi
     HashMap<Integer, Equipamento> equipamentoHashMap = new HashMap<>();
@@ -96,15 +96,15 @@ public class TWDGameManager {
                             int yH = Integer.parseInt(dadosCriatura[4]);
                             Equipamento equipamentos = new Equipamento();
 
-                            Humano humanoAtual =
-                                    new Humano(idH, idTipoH, creatureTYPE_ID(idTipoH)
+                            Vivo vivoAtual =
+                                    new Vivo(idH, idTipoH, creatureTYPE_ID(idTipoH)
                                             , "Os Vivos", nomeH, xH, yH, equipamentos,
                                             0,false, false);
 
                             if (criaturas.get(idH) == null) {
 
-                                criaturas.put(idH, humanoAtual);
-                                humanoHashMap.putIfAbsent(idH, humanoAtual);
+                                criaturas.put(idH, vivoAtual);
+                                humanoHashMap.putIfAbsent(idH, vivoAtual);
 
                                 // humanos.add(humanoAtual);
 
@@ -188,11 +188,11 @@ public class TWDGameManager {
     //TODO fazer as restricoes NA CLASSE MOVE para cada criatura etc...
     //TODO fazer restricoes sobre noite dia etc...
     //TODO METER O SETTER QUANDO O VIVO É MILITAR (IDtipo == 7)
-    //TODO se esta envenenado durante +3 turnos (morre) criar vars aux com nTurno inicial e final com o getTomouVeneno
+    //TODO se esta envenenado durante +2 turnos (morre) criar vars aux com nTurno inicial e final com o getTomouVeneno
     //TODO e a cena do antidoto se ele apanhar
     //TODO ver se ele tem strikes, se nao tiver move return false
     public boolean move(int xO, int yO, int xD, int yD) {
-
+        //System.out.println(criaturas);
         int idCriatura = 0;
         boolean isHumano = false;
         boolean isZombie = false;
@@ -224,7 +224,7 @@ public class TWDGameManager {
 
         //validar o movimento
         if (isHumano) {
-            if (!moves.validarMove(xD, yD, xO, yO, humanoHashMap.get(idCriatura).getIdTipo(),day)) {
+            if (!moves.validarMove(xD, yD, xO, yO, humanoHashMap.get(idCriatura).getIdTipo(),day) || humanoHashMap.get(idCriatura).getIsSafe()) {
                 return false;
             }
         } else if (isZombie){
@@ -250,10 +250,12 @@ public class TWDGameManager {
             return false;
         }
 
-        //entra aqui para verificar se existe la um humano
-        for (Humano humano1 : humanoHashMap.values()) {
 
-            if (humano1.cordenadaX() == xD && humano1.cordenadaY() == yD) {
+        //entra aqui para verificar se existe la um humano
+        //ya pt sou o zombie a atacar
+        for (Vivo vivo1 : humanoHashMap.values()) {
+
+            if (vivo1.cordenadaX() == xD && vivo1.cordenadaY() == yD) {
 
                 if (isHumano) {
                     return false;
@@ -263,12 +265,17 @@ public class TWDGameManager {
                         if (zombie1.cordenadaX() == xO && zombie1.cordenadaY() == yO) {
                             zombieAttack =true;
                             //FUNCAO ATTACK/DEFENSE
-                            if (humano1.getEquipamento() != null){
+                            if (vivo1.getIdTipo() == 9){
+                                //Nenhum zombie pode-se mover para cima de um cao
+                                return false;
+                            }
+                            if (vivo1.getEquipamento().getTypeID() != -23){
                                 int type = -1;
 
-                                type = humano1.getEquipamento().getTypeID();
+                                type = vivo1.getEquipamento().getTypeID();
 
                                 if (type != -1) {
+                                    // System.out.println(vivo1.getEquipamento());
                                     switch (type) {
                                         case 0:
                                         case 3:
@@ -280,22 +287,29 @@ public class TWDGameManager {
                                             if (!defense(humanoHashMap.get(idCriatura), (Zombie) zombie1,zombieAttack)) {
                                                 //nao sucedeu na defesa
                                                 //foi para zombie
-                                                humanoHashMap.get(humano1.getId()).setDead(true);
+                                                humanoHashMap.get(vivo1.getId()).setDead(true);
                                                 //mudar id para idzombie respetivo
-                                                humano1.setIdTipo(humano1.getIdTipo()-5);
+                                                vivo1.setIdTipo(vivo1.getIdTipo()-5);
                                                 //zombie tmp para colocar no hash
-                                                Zombie tmp = new Zombie(humano1.getId(),humano1.getIdTipo(),
-                                                        creatureTYPE_ID(humano1.getIdTipo()),
-                                                        "Os Outros",humano1.getNome(),
-                                                        humano1.cordenadaX(),humano1.cordenadaY(),
+                                                Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
+                                                        creatureTYPE_ID(vivo1.getIdTipo()),
+                                                        "Os Outros", vivo1.getNome(),
+                                                        vivo1.cordenadaX(), vivo1.cordenadaY(),
                                                         new Equipamento(),0,false);
 
                                                 zombieHashMap.put(tmp.getId(),tmp);
                                                 //foi transformado logo vai ter tag de @RIP
                                                 zombieHashMap.get(tmp.getId()).setTranformado(true);
                                                 //remove dos humanos
-                                                humanoHashMap.remove(humano1.getId());
+                                                humanoHashMap.remove(vivo1.getId());
                                                 idEquipaAtual = 10;
+
+                                                //houve uma infeção logo nrTurnos volta para 0.
+                                                if (nrTurnos % 2 == 0){
+                                                    day = !day;
+                                                }
+                                                nrTurnos = 0;
+                                                return true;
                                             }
 
                                             nrTurnos++;
@@ -308,27 +322,39 @@ public class TWDGameManager {
                                         case 10:
                                         case 1:
                                         case 2:
+                                            if (zombie1.getIdTipo() == 4){
+                                                //pistolas nao podem ser usadas contra zombies vampiros
+                                                return false;
+                                            }
+
                                         case 6:
-                                            if (!attack(humano1, (Zombie) zombie1,zombieAttack)) {
+                                            if (!attack(vivo1, (Zombie) zombie1, true)) {
                                                 //nao sucedeu no ataque
                                                 //foi para zombie
-                                                humanoHashMap.get(humano1.getId()).setDead(true);
+                                                humanoHashMap.get(vivo1.getId()).setDead(true);
                                                 //mudar id para idzombie respetivo
-                                                humano1.setIdTipo(humano1.getIdTipo()-5);
+                                                vivo1.setIdTipo(vivo1.getIdTipo()-5);
                                                 //zombie tmp para colocar no hash
-                                                Zombie tmp = new Zombie(humano1.getId(),humano1.getIdTipo(),
-                                                        creatureTYPE_ID(humano1.getIdTipo()),
-                                                        "Os Outros",humano1.getNome(),
-                                                        humano1.cordenadaX(),humano1.cordenadaY(),
+                                                Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
+                                                        creatureTYPE_ID(vivo1.getIdTipo()),
+                                                        "Os Outros", vivo1.getNome(),
+                                                        vivo1.cordenadaX(), vivo1.cordenadaY(),
                                                         new Equipamento(),0,false);
 
                                                 zombieHashMap.put(tmp.getId(),tmp);
                                                 //foi transformado logo vai ter tag de transformado
                                                 zombieHashMap.get(tmp.getId()).setTranformado(true);
                                                 //remove dos humanos
-                                                humanoHashMap.remove(humano1.getId());
+                                                humanoHashMap.remove(vivo1.getId());
 
                                                 idEquipaAtual = 10;
+
+                                                //houve uma infeção logo nrTurnos volta para 0.
+                                                if (nrTurnos % 2 == 0){
+                                                    day = !day;
+                                                }
+                                                nrTurnos = 0;
+                                                return true;
                                             }
 
                                             nrTurnos++;
@@ -344,21 +370,21 @@ public class TWDGameManager {
 
                                 //nao tinha equipamentos entao vai para zombie
                                 //foi para zombie
-                                humano1.setDead(true);
+                                vivo1.setDead(true);
                                 //mudar id para idzombie respetivo
-                                humano1.setIdTipo(humano1.getIdTipo()-5);
+                                vivo1.setIdTipo(vivo1.getIdTipo()-5);
                                 //zombie tmp para colocar no hash
-                                Zombie tmp = new Zombie(humano1.getId(),humano1.getIdTipo(),
-                                        creatureTYPE_ID(humano1.getIdTipo()),
-                                        "Os Outros",humano1.getNome(),
-                                        humano1.cordenadaX(),humano1.cordenadaY(),
+                                Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
+                                        creatureTYPE_ID(vivo1.getIdTipo()),
+                                        "Os Outros", vivo1.getNome(),
+                                        vivo1.cordenadaX(), vivo1.cordenadaY(),
                                         new Equipamento(),0,false);
 
                                 zombieHashMap.put(tmp.getId(),tmp);
                                 //foi transformado logo vai ter tag de transformado
                                 zombieHashMap.get(tmp.getId()).setTranformado(true);
                                 //remove dos humanos
-                                humanoHashMap.remove(humano1.getId());
+                                humanoHashMap.remove(vivo1.getId());
 
                                 nrTurnos++;
                                 if (nrTurnos % 2 == 0) {
@@ -374,8 +400,8 @@ public class TWDGameManager {
             }
         }
 
-
         //verificar se existem criaturas na posicao pretendida
+        //ya pt sou o humano a atacar
         for (Zombie zombie1 : zombieHashMap.values()) {
             if (zombie1.cordenadaX() == xD && zombie1.cordenadaY() == yD) {
 
@@ -387,7 +413,7 @@ public class TWDGameManager {
                     for (Creature humano1 : humanoHashMap.values()) {
                         if (humano1.cordenadaX() == xO && humano1.cordenadaY() == yO) {
                             //se nao tiver equipamentos nenhuns nao entra
-                            if (humano1.getEquipamento() != null) {
+                            if (humano1.getEquipamento().getTypeID() != -23) {
                                 int type = -1;
                                 type = humano1.getEquipamento().getTypeID();
                                 if (type != -1) {
@@ -403,9 +429,17 @@ public class TWDGameManager {
                                             return false;
                                         case 10:
                                         case 1:
+                                            if (humano1.getIdTipo() == 5 && zombie1.getIdTipo() !=0){
+                                                //criança humana nao pode lutar com nao criancas zombies
+                                                return false;
+                                            }
                                         case 2:
+                                            if (zombie1.getIdTipo() == 4){
+                                                //pistolas nao podem ser usadas contra zombies vampiros
+                                                return false;
+                                            }
                                         case 6:
-                                            if (!attack(humanoHashMap.get(idCriatura), (Zombie) zombie1,zombieAttack)){
+                                            if (!attack(humanoHashMap.get(idCriatura),zombie1,zombieAttack)){
                                                 //nao sucedeu no ataque
                                                 //foi para zombie
                                                 humanoHashMap.get(humano1.getId()).setDead(true);
@@ -419,11 +453,19 @@ public class TWDGameManager {
                                                         new Equipamento(),0,false);
 
                                                 zombieHashMap.put(tmp.getId(),tmp);
-                                                //foi transformado logo vai ter tag de @RIP
+                                                //foi transformado logo vai ter tag transormado
                                                 zombieHashMap.get(tmp.getId()).setTranformado(true);
                                                 //remove dos humanos
                                                 humanoHashMap.remove(humano1.getId());
                                                 idEquipaAtual = 20;
+
+                                                //houve uma infeção logo nrTurnos volta para 0.
+                                                if (nrTurnos % 2 == 0){
+                                                    day = !day;
+                                                }
+                                                nrTurnos = 0;
+                                                return true;
+
                                             }
                                             nrTurnos++;
                                             if (nrTurnos % 2 == 0) {
@@ -444,39 +486,36 @@ public class TWDGameManager {
             }
         }
 
-
-
         //ver se é humano ou zombie e atualizar a coordenada
         if (isHumano && idEquipaAtual == 10) {
-            Humano humano = humanoHashMap.get(idCriatura);
+            Vivo vivo = humanoHashMap.get(idCriatura);
 
-            humano.colocarCoordenada(xD, yD);
+            vivo.colocarCoordenada(xD, yD);
 
-            int xH = humano.cordenadaX();
-            int yH = humano.cordenadaY();
+            int xH = vivo.cordenadaX();
+            int yH = vivo.cordenadaY();
 
             //Caso especifico para o idosoVIVO
             //se o idoso for para uma casa com equipamento
-            if (humano.getIdTipo() == 8 && existEquipment(xH,yH) != null){
+            if (vivo.getIdTipo() == 8 && existEquipment(xH,yH) != null){
                 Equipamento equipamento = existEquipment(xH,yH);
 
-                humano.setEquipamento(equipamento);
+                vivo.setEquipamento(equipamento);
                 equipamentoHashMap.remove(equipamento.getId());
 
-                int num = humano.getEquipamentos();
-                humano.setNumEqApanhadosDestruidos(num+1);
+                int num = vivo.getEquipamentos();
+                vivo.setNumEqApanhadosDestruidos(num+1);
 
-                humano.getEquipamento().getApanhadoPorCreaturesID().add(humano.getId());
-            } else if (humano.getIdTipo() == 8 && existEquipment(xH,yH) == null){
+                vivo.getEquipamento().getApanhadoPorCreaturesID().add(vivo.getId());
+            } else if (vivo.getIdTipo() == 8 && existEquipment(xH,yH) == null){
                 //se o idoso tiver um equipamento nele e a pos para onde vai nao tiver nenhum
-                if (humano.getEquipamento() != null){
-
-                    Equipamento equipamento = humano.getEquipamento();
+                if (vivo.getEquipamento() != null){
+                    Equipamento equipamento = vivo.getEquipamento();
                     //add na lista global
                     equipamentoHashMap.put(equipamento.getId(),equipamento);
 
                     //se ele tiver um equipamento tirar o mesmo
-                    humano.setEquipamento(new Equipamento());
+                    vivo.setEquipamento(new Equipamento());
                     equipamento =equipamentoHashMap.get(equipamento.getId());
 
                     //colocar as coordenadas da pos anterior do idoso
@@ -489,49 +528,48 @@ public class TWDGameManager {
 
 
             //se existir equipamento naquelas coordenadas ele adiciona e remove da lista
-            if (existEquipment(xH, yH) != null && humano.getEquipamento()== null) {
+            if (existEquipment(xH, yH) != null && vivo.getEquipamento().getTypeID() == -23) {
                 Equipamento equipamento = existEquipment(xH,yH);
-
                 //adiciona o equipamento no humano
-                humano.setEquipamento(equipamento);
+                vivo.setEquipamento(equipamento);
                 //remove o equipamento da lista global
                 equipamentoHashMap.remove(equipamento.getId());
 
-                int num = humano.getEquipamentos();
-                humano.setNumEqApanhadosDestruidos(num+1);
+                int num = vivo.getEquipamentos();
+                vivo.setNumEqApanhadosDestruidos(num+1);
 
                 //verificar se foi apanhado por mais que um militar
                 //se for escudo de madeira
-                if (humano.getEquipamento().getTypeID() == 0 && humano.getIdTipo() == 7){
-                    for (int k : humano.getEquipamento().getApanhadoPorCreaturesID()){
+                if (vivo.getEquipamento().getTypeID() == 0 && vivo.getIdTipo() == 7){
+                    for (int k : vivo.getEquipamento().getApanhadoPorCreaturesID()){
                         //se for militar
                         if (humanoHashMap.get(k).getIdTipo() == 7) {
                             //mas se nao for o mesmo militar e se foi usado por outro
-                            if (k != humano.getId() && humano.getEquipamento().getIsUsadoPorMilitar()) {
+                            if (k != vivo.getId() && vivo.getEquipamento().getIsUsadoPorMilitar()) {
                                 //tem 1 strike left
-                                humano.getEquipamento().setStrikesLEFT(1);
-                            } else if (!humano.getEquipamento().getIsUsadoPorMilitar()){
+                                vivo.getEquipamento().setStrikesLEFT(1);
+                            } else if (!vivo.getEquipamento().getIsUsadoPorMilitar()){
                                 //se nao foi usado pelo outro
-                                humano.getEquipamento().setStrikesLEFT(2);
+                                vivo.getEquipamento().setStrikesLEFT(2);
                             }
 
                             //se for o mesmo militar tem 1 strike left
-                            if (k == humano.getId()){
-                                humano.getEquipamento().setStrikesLEFT(1);
+                            if (k == vivo.getId()){
+                                vivo.getEquipamento().setStrikesLEFT(1);
                             }
                         }
                     }
                 }
 
                 //vai buscar o equipamento e coloca o idTIPO do humano na lista de usados do eq
-                humano.getEquipamento().getApanhadoPorCreaturesID().add(humano.getId());
+                vivo.getEquipamento().getApanhadoPorCreaturesID().add(vivo.getId());
 
 
                 //caso contrario se ele ja tiver um equipamento ele adiciona o da casa seguinte e dropa o antigo-
-            } else if (existEquipment(xH, yH) != null && humano.getEquipamento()!=null) {
+            } else if (existEquipment(xH, yH) != null && vivo.getEquipamento().getTypeID() != -23) {
 
                 //vai buscar o eq do humano anterior
-                Equipamento equipamentoAnterior = humano.getEquipamento();
+                Equipamento equipamentoAnterior = vivo.getEquipamento();
                 Equipamento equipamento = new Equipamento();
                 //guarda-o na lista global
                 equipamentoHashMap.put(equipamentoAnterior.getId(),equipamentoAnterior);
@@ -541,49 +579,49 @@ public class TWDGameManager {
                 equipamentoAnterior.setY(yO);
 
                 //adiciona o eq pretendido
-                humano.setEquipamento(existEquipment(xH, yH));
+                vivo.setEquipamento(existEquipment(xH, yH));
 
                 //aumenta na lista de equipamentos usados
-                int num = humano.getEquipamentos();
-                humano.setNumEqApanhadosDestruidos(num+1);
+                int num = vivo.getEquipamentos();
+                vivo.setNumEqApanhadosDestruidos(num+1);
 
                 //vai buscar o eq atual e remove da lista global
-                equipamento = humano.getEquipamento();
+                equipamento = vivo.getEquipamento();
 
                 //remove o que tinha mas adiciona na lista de equipamentos no bairro
                 equipamentoHashMap.remove(equipamento.getId());
 
                 //verificar se foi apanhado por mais que um militar
                 //se for escudo de madeira
-                if (humano.getEquipamento().getTypeID() == 0 && humano.getIdTipo() == 7){
-                    for (int k : humano.getEquipamento().getApanhadoPorCreaturesID()){
+                if (vivo.getEquipamento().getTypeID() == 0 && vivo.getIdTipo() == 7){
+                    for (int k : vivo.getEquipamento().getApanhadoPorCreaturesID()){
                         //se for militar
                         if (humanoHashMap.get(k).getIdTipo() == 7) {
                             //mas se nao for o mesmo militar e se foi usado por outro
-                            if (k != humano.getId() && humano.getEquipamento().getIsUsadoPorMilitar()) {
+                            if (k != vivo.getId() && vivo.getEquipamento().getIsUsadoPorMilitar()) {
                                 //tem 1 strike left
-                                humano.getEquipamento().setStrikesLEFT(1);
-                            } else if (!humano.getEquipamento().getIsUsadoPorMilitar()){
+                                vivo.getEquipamento().setStrikesLEFT(1);
+                            } else if (!vivo.getEquipamento().getIsUsadoPorMilitar()){
                                 //se nao foi usado pelo outro
-                                humano.getEquipamento().setStrikesLEFT(2);
+                                vivo.getEquipamento().setStrikesLEFT(2);
                             }
 
                             //se for o mesmo militar tem 1 strike left
-                            if (k == humano.getId()){
-                                humano.getEquipamento().setStrikesLEFT(1);
+                            if (k == vivo.getId()){
+                                vivo.getEquipamento().setStrikesLEFT(1);
                             }
                         }
                     }
                 }
 
                 //se o escudo foi dropado por um militar e se for um escudo
-                if (humano.getEquipamento().isDropadoPorMilitar() && humano.getEquipamento().getTypeID() == 0){
+                if (vivo.getEquipamento().isDropadoPorMilitar() && vivo.getEquipamento().getTypeID() == 0){
                     //fica com capacidade de receber 1 hit
-                    humano.getEquipamento().setStrikesLEFT(1);
+                    vivo.getEquipamento().setStrikesLEFT(1);
                 }
 
                 //adiciona na lista o humano portador
-                equipamento.getApanhadoPorCreaturesID().add(humano.getId());
+                equipamento.getApanhadoPorCreaturesID().add(vivo.getId());
 
             }
 
@@ -599,7 +637,7 @@ public class TWDGameManager {
 
         //ver se é zombie e atualiza a coordenada
         if (isZombie && idEquipaAtual == 20) {
-            Zombie zombie = zombieHashMap.get(idCriatura);
+            Zombie zombie = (Zombie) criaturas.get(idCriatura);
             zombie.colocarCoordenada(xD, yD);
 
 
@@ -610,24 +648,21 @@ public class TWDGameManager {
             if (existEquipment(xZ, yZ) != null) {
 
                 Equipamento equipamento = existEquipment(xZ,yZ);
-                //se o zombie for vampiro e o eqq for uma cabeça de alho
 
-                if (zombie.getIdTipo() != 4 && equipamento.getTypeID() != 5) {
-                    //destroi o equipamento que o zombie pegou
-                    zombie.setEquipamento(equipamento);
-                    equipamento.setDestruido(true);
+                //se o zombie for vampiro e o eqq for uma cabeça de alho
+                if (zombie.getIdTipo() == 4 && equipamento.getTypeID() == 5) {
+                    //vampiro nao se pode mexer p cabeça de alho
+                    //fica onde estava
+                    zombie.colocarCoordenada(xO,yO);
+                    return false;
+                } else {
+                    //remove da lista
+                    equipamentoHashMap.remove(equipamento.getId());
 
                     //aumenta o nrDestruidos
                     int num = zombie.getEquipamentos();
                     zombie.setNumEqApanhadosDestruidos(num + 1);
-                    //remove da lista global
-                    equipamento = zombie.getEquipamento();
 
-                    equipamentoHashMap.remove(equipamento.getId(), equipamento);
-
-                } else {
-                    //vampiro nao se pode mexer p cabeça de alho
-                    return false;
                 }
             }
 
@@ -646,64 +681,70 @@ public class TWDGameManager {
     //----
 
 
-
-
     //TODO funcao de ataques meter os zombies.setdead true se morrerem
-    public boolean attack(Humano humano, Zombie zombie,boolean zombieAttack){
+    public boolean attack(Vivo vivo, Zombie zombie, boolean zombieAttack){
         //equipamento atual do humano que ataca o zombie
-        Equipamento equipAttack = humano.getEquipamento();
-        Zombie zombie1 = (Zombie) criaturas.get(zombie.getId());
+        Equipamento equipAttack = vivo.getEquipamento();
 
         switch (equipAttack.getTypeID()){
-            //qd e uma espada
+                //qd e uma espada
             case 1:
-                if (humano.getIdTipo() == 5 && zombie.getIdTipo() ==0){
+                if (vivo.getIdTipo() == 5 && zombie.getIdTipo() ==0){
                     //qd e uma crianca vivo vs crianca zombie
                     //crianca mata o zombie
-                    zombie1 = (Zombie) criaturas.get(zombie.getId());
-                    zombie1.setDead(true);
                     zombieHashMap.remove(zombie.getId());
+
+                    criaturas.get(zombie.getId()).setDead(true);
+
+
                     if (!zombieAttack) {
-                        humano.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
+                        vivo.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
                     }
                     return true;
 
-                } else if (humano.getIdTipo()==5 && zombie.getIdTipo() != 0){
-                    //qd e uma crianca vivo vs !crianca zombie
+                }else if (vivo.getIdTipo() == 5 && zombieAttack && zombie.getIdTipo() != 0){
+                    //zombie criança nao consegue atacar outros zombies nao crianças
                     return false;
+                }else{
 
-                } else {
-                    zombie1 = (Zombie) criaturas.get(zombie.getId());
-                    zombie1.setDead(true);
+                    zombieHashMap.remove(zombie.getId());
+                    criaturas.get(zombie.getId()).setDead(true);
 
                     if (!zombieAttack) {
-                        humano.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
+                        vivo.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
                     }
-                    zombieHashMap.remove(zombie.getId());
+
                     return true;
                 }
 
                 //qd é uma pistola
             case 2:
+                if (equipAttack.getStrikesLEFT()>0){
+                    zombieHashMap.remove(zombie.getId());
+                    criaturas.get(zombie.getId()).setDead(true);
 
-                return true;
+                    //dar update nos strikes
+                    int numStrikes = equipAttack.getStrikesLEFT();
+                    equipAttack.setStrikesLEFT(numStrikes-1);
 
-            //qd e uma estaca de madeira
-            case 6:
-                zombie1.setDead(true);
-                zombieHashMap.remove(zombie.getId());
-                if (!zombieAttack) {
-                    humano.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
+                    if (!zombieAttack) {
+                        vivo.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
+                    }
+                } else {
+                    //nao tem balas
+                    return false;
                 }
                 return true;
 
-            //qd e um beskar
+                //qd e uma estaca de madeira
+            case 6:
+                //qd e um beskar
             case 10:
-                zombie1 = (Zombie) criaturas.get(zombie.getId());
-                zombie1.setDead(true);
+
                 zombieHashMap.remove(zombie.getId());
+                criaturas.get(zombie.getId()).setDead(true);
                 if (!zombieAttack) {
-                    humano.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
+                    vivo.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
                 }
                 return true;
 
@@ -712,8 +753,8 @@ public class TWDGameManager {
         return true;
     }
 
-    public boolean defense(Humano humano, Zombie zombie,boolean zombieAttack){
-        Equipamento equipDefense = humano.getEquipamento();
+    public boolean defense(Vivo vivo, Zombie zombie, boolean zombieAttack){
+        Equipamento equipDefense = vivo.getEquipamento();
 
         switch (equipDefense.getTypeID()){
             //qd e um escudo madeira
@@ -749,10 +790,21 @@ public class TWDGameManager {
 
     //TODO alterar as restricoes para o fim do jogo
     public boolean gameIsOver() {
+        //se nao houve infecoes
         if (nrTurnos >=12){
             return true;
         }
-        return false;
+
+        //se para cada vivo ele nao estiver morto nem a salvo
+        for (Creature vivo : criaturas.values()){
+            if (vivo instanceof Vivo){
+                if (!((Vivo) vivo).getIsSafe() && !vivo.getIsDead()){
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public List<String> getAuthors() {
@@ -828,7 +880,7 @@ public class TWDGameManager {
         survivors.add("Num safe haven:\n");
         survivors.add("\nOs Vivos\n");
 
-        for (Humano c : humanoHashMap.values()){
+        for (Vivo c : humanoHashMap.values()){
             if (c.getIsSafe()){
                 survivors.add(c.getId() + " " + c.getNome() + "\n");
             }
@@ -839,7 +891,7 @@ public class TWDGameManager {
         survivors.add("\nOs Vivos\n");
 
 //fazer a cena dos envenenados com for
-        for (Humano c : humanoHashMap.values()){
+        for (Vivo c : humanoHashMap.values()){
             if (c.isDeadVeneno()){
                 survivors.add(c.getId() + " " + c.getNome() + "\n");
             }
@@ -896,19 +948,29 @@ public class TWDGameManager {
     public String getEquipmentInfo(int equipmentId) {
         Equipamento equipamento = equipamentoHashMap.get(equipmentId);
         String info = "";
+        Creature vivo = new Creature();
 
         if (equipamento == null){
             for (Creature humano1 : humanoHashMap.values()) {
                 if (humano1.getEquipamento().getId() == equipmentId) {
                     //encontrou
                     equipamento= humano1.getEquipamento();
+                    vivo = humano1;
                 }
             }
         }
 
         switch (Objects.requireNonNull(equipamento).getTypeID()){
             case 0:
+                if (vivo.getIdTipo() != 7) {
+                    info = equipamento.getNome() + " | " + equipamento.getStrikesLEFT();
+                    return info;
+                } else {
+                    return "";
+                }
             case 2:
+            case 8:
+            case 9:
                 info= equipamento.getNome() +" | "+ equipamento.getStrikesLEFT();
                 return info;
             case 7:
@@ -1000,7 +1062,6 @@ public class TWDGameManager {
         }
     }
 
-
     public void equipmentSTRIKESsetter(int type, int equipmentID){
 
         switch (type){
@@ -1017,6 +1078,13 @@ public class TWDGameManager {
                 //"Garrafa de Lixívia (1litro)"
                 equipamentoHashMap.get(equipmentID).setLitroLEFT((float) 1.0);
                 return;
+
+            case 8:
+                //da 2 turnos para o veneno
+                equipamentoHashMap.get(equipmentID).setStrikesLEFT(2);
+            case 9:
+                //da 1uso por frasco ao antidoto
+                equipamentoHashMap.get(equipmentID).setStrikesLEFT(1);
             default:
         }
     }

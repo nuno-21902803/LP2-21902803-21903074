@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class Equipamento {
     private int id;
-    private int idTipo;
+    //um idTipo nao existente
+    private int idTipo = -23;
     private String nome;
     private int x,y;
     private int strikesLEFT;

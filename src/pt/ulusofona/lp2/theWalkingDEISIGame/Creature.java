@@ -1,9 +1,6 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 
-import java.util.ArrayList;
-import java.util.Objects;
-
 public class Creature {
 
     private int id;
@@ -13,14 +10,15 @@ public class Creature {
     private String nome;
     private int x, y;
     private Equipamento equipamento = new Equipamento();
-    int numEqApanhadosDestruidos = 0;
+    private int numEqApanhadosDestruidos = 0;
+    private boolean isDead;
 
 
     public Creature() {
     }
 
     public Creature(int id, int idTipo, String tipoCriatura, String nomeEquipa,
-                    String nome, int x, int y, Equipamento equipamento, int numEqApanhadosDestruidos) {
+                    String nome, int x, int y, Equipamento equipamento, int numEqApanhadosDestruidos, boolean isDead) {
         this.id = id;
         this.idTipo = idTipo;
         this.tipoCriatura = tipoCriatura;
@@ -30,7 +28,9 @@ public class Creature {
         this.y = y;
         this.equipamento = equipamento;
         this.numEqApanhadosDestruidos = numEqApanhadosDestruidos;
+        this.isDead = isDead;
     }
+
 
 
     public void colocarCoordenada(int x1, int y1) {
@@ -100,10 +100,18 @@ public class Creature {
         this.equipamento = equipamento;
     }
 
+    public boolean getIsDead() {
+        return isDead;
+    }
+
+    public void setDead(boolean dead) {
+        isDead = dead;
+    }
+
     @Override
     public String toString(){
-        Humano human =TWDGameManager.humanoHashMap.get(id);
-        Zombie zombie =TWDGameManager.zombieHashMap.get(id);
+        Vivo human =TWDGameManager.humanoHashMap.get(id);
+        Creature zombie =TWDGameManager.criaturas.get(id);
 
         if (human!=null) {
             if (human.getIsSafe()) {
