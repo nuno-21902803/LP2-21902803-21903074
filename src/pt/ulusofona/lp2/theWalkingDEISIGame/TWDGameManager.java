@@ -990,15 +990,15 @@ public class TWDGameManager {
         answers[2] = "I Am Legend"; //certo ate aqui
         answers[3] = "Bleach";
         answers[4] = "The Code";
-        answers[5] = "iZombie";
-        answers[6] = "Mandalorian";
+        answers[5] = "World War Z";
+        answers[6] = "The Mandalorian's";
         answers[7] = "1972";
-        answers[8] = "Kage no Gundan";
+        answers[8] = "Kill Bill";
         answers[9] = "1978";
         answers[10] = "James Bond";
-        answers[11] = "The Others";
+        answers[11] = "Friends";
         answers[12] = "Cabeça de alho chocho";
-        answers[13] = "Freddie M. Garcia";
+        answers[13] = "Farrock Bulsara";
 
         return answers;
     }
