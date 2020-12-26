@@ -261,7 +261,7 @@ public class TWDGameManager {
 
         //entra aqui para verificar se existe la um humano
         //ya pt sou o zombie a atacar
-        for (Creature vivo1 : criaturas.values()) {
+        for (Creature vivo1 : humanoHashMap.values()) {
 
             if (vivo1.cordenadaX() == xD && vivo1.cordenadaY() == yD) {
 
@@ -410,7 +410,7 @@ public class TWDGameManager {
 
         //verificar se existem criaturas na posicao pretendida
         //ya pt sou o humano a atacar
-        for (Creature zombie1 : criaturas.values()) {
+        for (Creature zombie1 : zombieHashMap.values()) {
             if (zombie1.cordenadaX() == xD && zombie1.cordenadaY() == yD) {
 
                 if (isZombie) {
