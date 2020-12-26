@@ -253,7 +253,7 @@ public class TWDGameManager {
 
         //entra aqui para verificar se existe la um humano
         //ya pt sou o zombie a atacar
-        for (Vivo vivo1 : humanoHashMap.values()) {
+        for (Creature vivo1 : criaturas.values()) {
 
             if (vivo1.cordenadaX() == xD && vivo1.cordenadaY() == yD) {
 
@@ -284,7 +284,7 @@ public class TWDGameManager {
                                         case 7:
                                         case 8:
                                         case 9:
-                                            if (!defense(humanoHashMap.get(idCriatura), (Zombie) zombie1,zombieAttack)) {
+                                            if (!defense(humanoHashMap.get(idCriatura), (Zombie) zombie1, true)) {
                                                 //nao sucedeu na defesa
                                                 //foi para zombie
                                                 humanoHashMap.get(vivo1.getId()).setDead(true);
@@ -328,7 +328,7 @@ public class TWDGameManager {
                                             }
 
                                         case 6:
-                                            if (!attack(vivo1, (Zombie) zombie1, true)) {
+                                            if (!attack((Vivo) vivo1, (Zombie) zombie1, true)) {
                                                 //nao sucedeu no ataque
                                                 //foi para zombie
                                                 humanoHashMap.get(vivo1.getId()).setDead(true);
@@ -402,7 +402,7 @@ public class TWDGameManager {
 
         //verificar se existem criaturas na posicao pretendida
         //ya pt sou o humano a atacar
-        for (Zombie zombie1 : zombieHashMap.values()) {
+        for (Creature zombie1 : criaturas.values()) {
             if (zombie1.cordenadaX() == xD && zombie1.cordenadaY() == yD) {
 
                 if (isZombie) {
@@ -439,7 +439,7 @@ public class TWDGameManager {
                                                 return false;
                                             }
                                         case 6:
-                                            if (!attack(humanoHashMap.get(idCriatura),zombie1,zombieAttack)){
+                                            if (!attack(humanoHashMap.get(idCriatura), (Zombie) zombie1,zombieAttack)){
                                                 //nao sucedeu no ataque
                                                 //foi para zombie
                                                 humanoHashMap.get(humano1.getId()).setDead(true);

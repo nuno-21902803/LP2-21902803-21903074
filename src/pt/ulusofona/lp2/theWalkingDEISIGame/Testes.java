@@ -51,7 +51,7 @@ public class Testes {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
-        int resultEsperado = 6;
+        int resultEsperado = 8;
         int resultReal= teste.getCreatures().size();
 
         assertEquals("Devia dar igual",resultEsperado,resultReal);
