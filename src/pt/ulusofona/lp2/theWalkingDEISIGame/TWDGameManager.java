@@ -168,7 +168,15 @@ public class TWDGameManager {
     }
 
     public List<Creature> getCreatures(){
-       return (List<Creature>) criaturas.values();
+        ArrayList<Creature> creatures = new ArrayList<>();
+
+        creatures.clear();
+
+        for (Creature c : criaturas.values()){
+            creatures.add(c);
+        }
+
+        return creatures;
     }
 
     public boolean isDoorToSafeHaven(int x, int y){
