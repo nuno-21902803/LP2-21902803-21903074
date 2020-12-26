@@ -2,7 +2,7 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.io.*;
 import java.util.*;
-import java.util.zip.ZipOutputStream;
+
 
 public class TWDGameManager {
     //game
@@ -178,7 +178,7 @@ public class TWDGameManager {
     //TODO e a cena do antidoto se ele apanhar
     //TODO ver se ele tem strikes, se nao tiver move return false
     public boolean move(int xO, int yO, int xD, int yD) {
-
+        //System.out.println(criaturas);
         int idCriatura = 0;
         boolean isHumano = false;
         boolean isZombie = false;
@@ -664,7 +664,7 @@ public class TWDGameManager {
                     //crianca mata o zombie
                     zombie1 = (Zombie) criaturas.get(zombie.getId());
                     zombie1.setDead(true);
-                    criaturas.remove(zombie.getId());
+                    //criaturas.remove(zombie.getId());
                     if (!zombieAttack) {
                         humano.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
                     }
@@ -677,7 +677,7 @@ public class TWDGameManager {
                 } else {
                     zombie1 = (Zombie) criaturas.get(zombie.getId());
                     zombie1.setDead(true);
-                    criaturas.remove(zombie.getId());
+                    //criaturas.remove(zombie.getId());
                     if (!zombieAttack) {
                         humano.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
                     }
@@ -692,7 +692,7 @@ public class TWDGameManager {
                 //qd e uma estaca de madeira
             case 6:
                 zombie1.setDead(true);
-                criaturas.remove(zombie.getId());
+                //criaturas.remove(zombie.getId());
                 if (!zombieAttack) {
                     humano.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
                 }
@@ -702,7 +702,7 @@ public class TWDGameManager {
             case 10:
                 zombie1 = (Zombie) criaturas.get(zombie.getId());
                 zombie1.setDead(true);
-                criaturas.remove(zombie.getId());
+                //criaturas.remove(zombie.getId());
                 if (!zombieAttack) {
                     humano.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
                 }
