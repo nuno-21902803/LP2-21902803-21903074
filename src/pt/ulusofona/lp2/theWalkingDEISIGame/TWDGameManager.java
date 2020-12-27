@@ -869,6 +869,8 @@ public class TWDGameManager {
 
                 //qd e veneno
             case 8:
+                //TODO
+
                 //qd e antidoto
             case 9:
 
@@ -976,9 +978,9 @@ public class TWDGameManager {
         for (Creature zombie : zombieHashMap.values()) {
             survivors.add(zombie.getId() + "  (antigamente conhecido como " + zombie.getNome()+ ")");
         }
-        survivors.add("\n");
+        survivors.add("");
         survivors.add("Num safe haven:");
-        survivors.add("\nOs Vivos\n");
+        survivors.add("Os Vivos");
 
         for (Vivo c : humanoHashMap.values()){
             if (c.getIsSafe()){
