@@ -266,6 +266,7 @@ public class TWDGameManager {
             return false;
         }
 
+        //aumentar o nrTuros envenenado
 
         //entra aqui para verificar se existe la um humano
         //ya pt sou o zombie a atacar
@@ -511,6 +512,17 @@ public class TWDGameManager {
             int xH = vivo.cordenadaX();
             int yH = vivo.cordenadaY();
 
+            for (Vivo vivo1 : humanoHashMap.values()){
+                if (vivo1.getTomouVeneno()){
+                    if (vivo1.getNrTurnosEnvenenados()>2){
+                        vivo1.setDead(true);
+                        humanoHashMap.remove(vivo1.getId());
+                    }
+                    int nr = vivo1.getNrTurnosEnvenenados();
+                    vivo1.setNrTurnosEnvenenados(nr+1);
+                }
+            }
+
             //Caso especifico para o idosoVIVO
             //se o idoso for para uma casa com equipamento
             if (vivo.getIdTipo() == 8 && existEquipment(xH,yH) != null){
@@ -521,6 +533,14 @@ public class TWDGameManager {
 
                 int num = vivo.getEquipamentos();
                 vivo.setNumEqApanhadosDestruidos(num+1);
+
+                //ver se foi veneno e começar a contar
+                if (equipamento.getTypeID() == 8){
+                    if (!vivo.getTomouVeneno()){
+                        vivo.setTomouVeneno(true);
+                        vivo.setNrTurnosEnvenenados(1);
+                    }
+                }
 
                 vivo.getEquipamento().getApanhadoPorCreaturesID().add(vivo.getId());
             } else if (vivo.getIdTipo() == 8 && existEquipment(xH,yH) == null){
@@ -538,10 +558,16 @@ public class TWDGameManager {
                     equipamento.setX(xO);
                     equipamento.setY(yO);
 
-
+                    //ver se foi veneno e começar a contar
+                    if (equipamento.getTypeID() == 8){
+                        if (!vivo.getTomouVeneno()){
+                            vivo.setTomouVeneno(true);
+                            vivo.setNrTurnosEnvenenados(1);
+                        }
+                    }
                 }
             }
-
+            //-------------
 
             //se existir equipamento naquelas coordenadas ele adiciona e remove da lista
             if (existEquipment(xH, yH) != null && vivo.getEquipamento().getTypeID() == -23) {
@@ -574,6 +600,14 @@ public class TWDGameManager {
                                 vivo.getEquipamento().setStrikesLEFT(1);
                             }
                         }
+                    }
+                }
+
+                //ver se foi veneno e começar a contar
+                if (equipamento.getTypeID() == 8){
+                    if (!vivo.getTomouVeneno()){
+                        vivo.setTomouVeneno(true);
+                        vivo.setNrTurnosEnvenenados(1);
                     }
                 }
 
@@ -630,6 +664,14 @@ public class TWDGameManager {
                     }
                 }
 
+                //ver se foi veneno e começar a contar
+                if (equipamento.getTypeID() == 8){
+                    if (!vivo.getTomouVeneno()){
+                        vivo.setTomouVeneno(true);
+                        vivo.setNrTurnosEnvenenados(1);
+                    }
+                }
+
                 //se o escudo foi dropado por um militar e se for um escudo
                 if (vivo.getEquipamento().isDropadoPorMilitar() && vivo.getEquipamento().getTypeID() == 0){
                     //fica com capacidade de receber 1 hit
@@ -640,6 +682,7 @@ public class TWDGameManager {
                 equipamento.getApanhadoPorCreaturesID().add(vivo.getId());
 
             }
+
 
             nrTurnos++;
             if (nrTurnos % 2 == 0) {
@@ -660,11 +703,26 @@ public class TWDGameManager {
             int xZ = zombieHashMap.get(idCriatura).cordenadaX();
             int yZ = zombieHashMap.get(idCriatura).cordenadaY();
 
+            for (Vivo vivo1 : humanoHashMap.values()){
+                if (vivo1.getTomouVeneno()){
+                    if (vivo1.getNrTurnosEnvenenados()>2){
+                        vivo1.setDead(true);
+                        humanoHashMap.remove(vivo1.getId());
+                    }
+                    int nr = vivo1.getNrTurnosEnvenenados();
+                    vivo1.setNrTurnosEnvenenados(nr+1);
+                }
+            }
+
             //se existir equipamento naquelas coordenadas ele destroi
             if (existEquipment(xZ, yZ) != null) {
 
                 Equipamento equipamento = existEquipment(xZ,yZ);
 
+                //se for veneno da logo false
+                if (equipamento.getTypeID() == 8){
+                    return false;
+                }
                 //se o zombie for vampiro e o eqq for uma cabeça de alho
                 if (zombie.getIdTipo() == 4 && equipamento.getTypeID() == 5) {
                     //vampiro nao se pode mexer p cabeça de alho
@@ -775,14 +833,40 @@ public class TWDGameManager {
         switch (equipDefense.getTypeID()){
             //qd e um escudo madeira
             case 0:
-                //qd é um escudo tatico
+                if (equipDefense.getStrikesLEFT()>0){
+
+                    //dar update nos strikes
+                    int numStrikes = equipDefense.getStrikesLEFT();
+                    equipDefense.setStrikesLEFT(numStrikes-1);
+
+                } else {
+                    //nao tem strickes
+                    return false;
+                }
+                return true;
+            //qd é um escudo tatico
             case 3:
+                return true;
                 //qd e uma revista maria
             case 4:
+                return zombie.getIdTipo() == 3;
                 //qd e cabeca de alho
             case 5:
+                return zombie.getIdTipo() == 4;
                 //qd e garrafa de lixivia
             case 7:
+                if (equipDefense.getLitroLEFT()>=0.3){
+
+                    //dar update nos strikes
+                    int numStrikes = equipDefense.getLitroLEFT();
+                    equipDefense.setLitroLEFT(numStrikes-1);
+
+                } else {
+                    //nao tem strickes
+                    return false;
+                }
+                return true;
+
                 //qd e veneno
             case 8:
                 //qd e antidoto
@@ -1147,7 +1231,6 @@ public class TWDGameManager {
         }
         return false;
     }
-
 
     public boolean loadGame(File fich){
         //clear das estruturas

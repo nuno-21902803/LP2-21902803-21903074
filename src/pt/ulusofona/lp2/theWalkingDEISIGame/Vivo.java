@@ -5,6 +5,7 @@ public class Vivo extends Creature{
     private boolean isSafe;
     private boolean tomouVeneno;
     private boolean deadVeneno;
+    private int nrTurnosEnvenenados;
 
 
     public Vivo(int id, int idTipo, String tipoCriatura, String nomeEquipa, String nome, int x, int y,
@@ -13,6 +14,13 @@ public class Vivo extends Creature{
         this.isSafe = isSafe;
     }
 
+    public int getNrTurnosEnvenenados() {
+        return nrTurnosEnvenenados;
+    }
+
+    public void setNrTurnosEnvenenados(int nrTurnosEnvenenados) {
+        this.nrTurnosEnvenenados = nrTurnosEnvenenados;
+    }
 
     public boolean isDeadVeneno() {
         return deadVeneno;
