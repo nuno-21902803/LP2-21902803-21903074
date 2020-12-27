@@ -106,7 +106,7 @@ public class TWDGameManager {
                                     new Vivo(idH, idTipoH, creatureTYPE_ID(idTipoH)
                                             , "Os Vivos", nomeH, xH, yH, equipamentos,
                                             0,false, false);
-                            
+
                             if (criaturas.get(idH) == null) {
 
                                 criaturas.put(idH, vivoAtual);
@@ -874,22 +874,22 @@ public class TWDGameManager {
     public List<String> getGameResults() {
         ArrayList<String> survivors = new ArrayList<>();
         //fazer a string
-        survivors.add("Nr. de turnos terminados:\n");
-        survivors.add(nrTurnos + "\n\n");
-        survivors.add("OS VIVOS\n");
+        survivors.add("Nr. de turnos terminados:");
+        survivors.add(nrTurnos +"" );
+        survivors.add("OS VIVOS");
 
         for (Creature humano : humanoHashMap.values()) {
-            survivors.add(humano.getId() + " " + humano.getNome() + "\n");
+            survivors.add(humano.getId() + " " + humano.getNome() + "");
         }
 
-        survivors.add("\n");
-        survivors.add("OS OUTROS\n");
+        survivors.add("");
+        survivors.add("OS OUTROS");
 
         for (Creature zombie : zombieHashMap.values()) {
             survivors.add(zombie.getId() + "  (antigamente conhecido como " + zombie.getNome()+ ")");
         }
         survivors.add("\n");
-        survivors.add("Num safe haven:\n");
+        survivors.add("Num safe haven:");
         survivors.add("\nOs Vivos\n");
 
         for (Vivo c : humanoHashMap.values()){
@@ -1107,13 +1107,11 @@ public class TWDGameManager {
             File file = new File(fich.getAbsolutePath() + ".txt");
 
             //funcao de escrever p ficheiro
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file.getName(), true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fich.getName(), true));
 
-            writer.write(getWorldSize()[0] + " " + getWorldSize()[1] + "\n");
+            writer.write(getWorldSize()[0] + " " + getWorldSize()[1] + "\n"+idEquipaInicial + "\n"
+                    +criaturas.size() + "\n");
 
-            writer.write(idEquipaInicial + "\n");
-
-            writer.write(criaturas.size() + "\n");
 
             for (Creature c : criaturas.values()) {
                 writer.write(c.getId() + " : "
