@@ -325,7 +325,6 @@ public class TWDGameManager {
 
                                                         criaturas.put(tmp.getId(), tmp);
                                                         //remove dos humanos
-                                                        criaturas.remove(vivo1.getId());
                                                         idEquipaAtual = 10;
 
                                                         //houve uma infeção logo nrTurnos volta para 0.
