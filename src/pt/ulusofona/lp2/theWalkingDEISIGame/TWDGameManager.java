@@ -894,26 +894,26 @@ public class TWDGameManager {
 
         for (Vivo c : humanoHashMap.values()){
             if (c.getIsSafe()){
-                survivors.add(c.getId() + " " + c.getNome() + "\n");
+                survivors.add(c.getId() + " " + c.getNome() + "");
             }
         }
 
-        survivors.add("\n");
-        survivors.add("Envenenados / Destruidos\n");
-        survivors.add("\nOs Vivos\n");
+        survivors.add("");
+        survivors.add("Envenenados / Destruidos");
+        survivors.add("Os Vivos");
 
 //fazer a cena dos envenenados com for
         for (Vivo c : humanoHashMap.values()){
             if (c.isDeadVeneno()){
-                survivors.add(c.getId() + " " + c.getNome() + "\n");
+                survivors.add(c.getId() + " " + c.getNome() + "");
             }
         }
 
-        survivors.add("\n");
-        survivors.add("\nOS OUTROS\n");
+        survivors.add("");
+        survivors.add("OS OUTROS");
         for (Zombie c : zombieHashMap.values()){
             if (c.getIsDead()){
-                survivors.add(c.getId() + " " + c.getNome() + "\n");
+                survivors.add(c.getId() + " " + c.getNome() + "");
             }
         }
 
@@ -1104,8 +1104,6 @@ public class TWDGameManager {
     public boolean saveGame(File fich){
         try {
 
-            File file = new File(fich.getAbsolutePath() + ".txt");
-
             //funcao de escrever p ficheiro
             BufferedWriter writer = new BufferedWriter(new FileWriter(fich.getName(), true));
 
@@ -1136,14 +1134,13 @@ public class TWDGameManager {
 
             writer.close();
 
-            return file.createNewFile();
+            return fich.createNewFile();
         } catch (IOException e) {
             //erro
             e.printStackTrace();
         }
         return false;
     }
-
 
     public boolean loadGame(File fich){
         //clear das estruturas
@@ -1160,9 +1157,17 @@ public class TWDGameManager {
         //--equi
         equipamentoHashMap.clear();
 
-        nrTurnos=0;
+
+        numeroLinhas = 0;
+        numeroColunas = 0;
+        idxInfecoes = -1; // TODO ver se detetou alguma infecao no jogo
+        idEquipaInicial = 0;
+        idEquipaAtual = 0;
+        nrTurnos = 0;
+        nrCriaturas = 0;
+        nrEquipamentos = 0;
+        nrSafeHavens = 0;
         day = true;
-        idxInfecoes = -1;
         return startGame(fich);
     }
 }
