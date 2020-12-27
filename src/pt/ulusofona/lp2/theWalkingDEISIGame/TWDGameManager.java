@@ -240,7 +240,8 @@ public class TWDGameManager {
 
         //validar o movimento
         if (isHumano) {
-            if (!moves.validarMove(xD, yD, xO, yO, humanoHashMap.get(idCriatura).getIdTipo(),day) || humanoHashMap.get(idCriatura).getIsSafe()) {
+            if (!moves.validarMove(xD, yD, xO, yO, humanoHashMap.get(idCriatura).getIdTipo(),day) ||
+                    humanoHashMap.get(idCriatura).getIsSafe()) {
                 return false;
             }
         } else if (isZombie){
@@ -869,11 +870,22 @@ public class TWDGameManager {
 
                 //qd e veneno
             case 8:
-                //TODO
-
-                //qd e antidoto
+                //ou seja nao esta vazio
+                //nao tem strickes
+                if (equipDefense.getStrikesLEFT()>0){
+                    equipDefense.setStrikesLEFT(0);
+                    return true;
+                } else {
+                    return false;
+                }
+            //qd e antidoto
             case 9:
-
+                //ou seja tem um uso
+                if (vivo.getTomouVeneno() && equipDefense.getStrikesLEFT() > 0){
+                    //atualiza os usos left e mete o vivo curado
+                    equipDefense.setStrikesLEFT(0);
+                    vivo.setTomouVeneno(false);
+                }
         }
         //sucedeu na defesa
         return true;
@@ -1182,8 +1194,8 @@ public class TWDGameManager {
                 return;
 
             case 8:
-                //da 2 turnos para o veneno
-                equipamentoHashMap.get(equipmentID).setStrikesLEFT(2);
+                //da 1 para o veneno (ou seja tem veneno la)
+                equipamentoHashMap.get(equipmentID).setStrikesLEFT(1);
             case 9:
                 //da 1uso por frasco ao antidoto
                 equipamentoHashMap.get(equipmentID).setStrikesLEFT(1);
