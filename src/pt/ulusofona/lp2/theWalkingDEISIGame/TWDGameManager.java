@@ -57,6 +57,7 @@ public class TWDGameManager {
 
 
                 idEquipaInicial = Integer.parseInt(leitorFicheiro.nextLine());
+
                 idEquipaAtual = idEquipaInicial;
 
                 int nrCriaturas = 0;
@@ -322,7 +323,7 @@ public class TWDGameManager {
                                                         if (nrTurnos % 2 == 0) {
                                                             day = !day;
                                                         }
-                                                        nrTurnos = 0;
+                                                        // TODO nrTurnos = 0;
                                                         return true;
                                                     }
 
@@ -362,7 +363,7 @@ public class TWDGameManager {
                                                         if (nrTurnos % 2 == 0) {
                                                             day = !day;
                                                         }
-                                                        nrTurnos = 0;
+                                                        //TODO nrTurnos = 0;
                                                         return true;
                                                     }
 
@@ -474,7 +475,7 @@ public class TWDGameManager {
                                                         if (nrTurnos % 2 == 0) {
                                                             day = !day;
                                                         }
-                                                        nrTurnos = 0;
+                                                        //TODO nrTurnos = 0;
                                                         return true;
 
                                                     }
@@ -526,12 +527,13 @@ public class TWDGameManager {
 
             int xH = vivo.cordenadaX();
             int yH = vivo.cordenadaY();
-
+            boolean idoso = false;
 
 
             //Caso especifico para o idosoVIVO
             //se o idoso for para uma casa com equipamento
             if (vivo.getIdTipo() == 8 && existEquipment(xH,yH) != null){
+                idoso = true;
                 Equipamento equipamento = existEquipment(xH,yH);
 
                 vivo.setEquipamento(equipamento);
@@ -550,6 +552,7 @@ public class TWDGameManager {
 
                 vivo.getEquipamento().getApanhadoPorCreaturesID().add(vivo.getId());
             } else if (vivo.getIdTipo() == 8 && existEquipment(xH,yH) == null){
+                idoso = true;
                 //se o idoso tiver um equipamento nele e a pos para onde vai nao tiver nenhum
                 if (vivo.getEquipamento() != null){
                     Equipamento equipamento = vivo.getEquipamento();
@@ -576,7 +579,7 @@ public class TWDGameManager {
             //-------------
 
             //se existir equipamento naquelas coordenadas ele adiciona e remove da lista
-            if (existEquipment(xH, yH) != null && vivo.getEquipamento().getTypeID() == -23) {
+            if (existEquipment(xH, yH) != null && vivo.getEquipamento().getTypeID() == -23 && !idoso) {
                 Equipamento equipamento = existEquipment(xH,yH);
                 //adiciona o equipamento no humano
                 vivo.setEquipamento(equipamento);
@@ -622,7 +625,7 @@ public class TWDGameManager {
 
 
                 //caso contrario se ele ja tiver um equipamento ele adiciona o da casa seguinte e dropa o antigo-
-            } else if (existEquipment(xH, yH) != null && vivo.getEquipamento().getTypeID() != -23) {
+            } else if (existEquipment(xH, yH) != null && vivo.getEquipamento().getTypeID() != -23 && !idoso) {
 
                 //vai buscar o eq do humano anterior
                 Equipamento equipamentoAnterior = vivo.getEquipamento();
@@ -1010,56 +1013,76 @@ public class TWDGameManager {
         ArrayList<Creature> creatures = (ArrayList<Creature>) getCreatures();
 
         //fazer a string
-        survivors.add("Nr. de turnos terminados:\n");
-        survivors.add(nrTurnos +"\n\n" );
-        survivors.add("Ainda pelo bairo:\n\n");
-        survivors.add("OS VIVOS\n");
+        survivors.add("Nr. de turnos terminados:");
+        survivors.add("\n");
+        survivors.add(nrTurnos +"");
+        survivors.add("\n");
+        survivors.add("\n");
+        survivors.add("Ainda pelo bairo:");
+        survivors.add("\n");
+        survivors.add("\n");
+        survivors.add("OS VIVOS");
+        survivors.add("\n");
 
         for (Creature humano : criaturas.values()) {
             if (humano instanceof Vivo) {
-                survivors.add(humano.getId() + " " + humano.getNome() + "\n");
+                survivors.add(humano.getId() + " " + humano.getNome());
+                survivors.add("\n");
             }
         }
 
         survivors.add("\n");
-        survivors.add("OS OUTROS\n");
+        survivors.add("OS OUTROS");
+        survivors.add("\n");
 
         for (Creature zombie : criaturas.values()) {
             if (zombie instanceof Zombie) {
-                survivors.add(zombie.getId() + "  (antigamente conhecido como " + zombie.getNome() + ")\n");
+                survivors.add(zombie.getId() + "  (antigamente conhecido como " + zombie.getNome() + ")");
+                survivors.add("\n");
             }
         }
         survivors.add("\n");
-        survivors.add("Num safe haven:\n\n");
-        survivors.add("Os Vivos\n");
+        survivors.add("Num safe haven:");
+        survivors.add("\n");
+        survivors.add("\n");
+        survivors.add("Os Vivos");
+        survivors.add("\n");
 
         for (Creature c : criaturas.values()){
             if (c instanceof Vivo) {
                 if (((Vivo) c).getIsSafe()) {
-                    survivors.add(c.getId() + " " + c.getNome() + "\n");
+                    survivors.add(c.getId() + " " + c.getNome());
+                    survivors.add("\n");
                 }
             }
         }
 
         survivors.add("\n");
-        survivors.add("Envenenados / Destruidos\n\n");
-        survivors.add("Os Vivos\n");
+        survivors.add("Envenenados / Destruidos");
+        survivors.add("\n");
+        survivors.add("\n");
+        survivors.add("Os Vivos");
+        survivors.add("\n");
 
 //fazer a cena dos envenenados com for
         for (Creature c : criaturas.values()){
             if (c instanceof Vivo) {
                 if (((Vivo) c).isDeadVeneno()) {
-                    survivors.add(c.getId() + " " + c.getNome() + "\n");
+                    survivors.add(c.getId() + " " + c.getNome());
+                    survivors.add("\n");
                 }
             }
         }
 
         survivors.add("\n");
-        survivors.add("OS OUTROS\n");
+        survivors.add("OS OUTROS");
+        survivors.add("\n");
+
         for (Creature c : criaturas.values()){
             if (c instanceof Zombie) {
                 if (c.getIsDead()) {
-                    survivors.add(c.getId() + " " + c.getNome() + "\n");
+                    survivors.add(c.getId() + " " + c.getNome());
+                    survivors.add("\n");
                 }
             }
         }
@@ -1213,7 +1236,7 @@ public class TWDGameManager {
             case 6:
                 return "Estaca de Madeira";
             case 7:
-                return "Garrafa de lixívia (1 litro)";
+                return "Garrafa de Lixívia (1 litro)";
             case 8:
                 return "Veneno";
             case 9:

@@ -46,9 +46,10 @@ public class Moves {
     public boolean validarMove(int xPretendido, int yPretendido, int xAnterior, int yAnterior, int tYPEidCriaturaAtual,
                                boolean day) {
 
-        boolean check = ((xAnterior - xPretendido == 0 || yAnterior - yPretendido == 0) &&
-                xAnterior - xPretendido + yAnterior - yPretendido <= 1 &&
-                xAnterior - xPretendido + yAnterior - yPretendido >= -1);
+        boolean check = xPretendido == xAnterior - 1 && yPretendido == yAnterior ||
+                xPretendido == xAnterior + 1 && yPretendido == yAnterior ||
+                xPretendido == xAnterior && yPretendido == yAnterior - 1 ||
+                xPretendido == xAnterior && yPretendido == yAnterior + 1;
 
         boolean checkCreatures = checkCriaturasNoCaminho(xPretendido,yPretendido,xAnterior,yAnterior);
 
@@ -57,14 +58,13 @@ public class Moves {
             //crianca
             case 0:
             case 5:
+                //idoso zombie
+            case 3:
                 if (checkCreatures){
                 //    return false;
                 }
 
-                return xPretendido == xAnterior - 1 && yPretendido == yAnterior ||
-                        xPretendido == xAnterior + 1 && yPretendido == yAnterior ||
-                        xPretendido == xAnterior && yPretendido == yAnterior - 1 ||
-                        xPretendido == xAnterior && yPretendido == yAnterior + 1;
+                return check;
             //adulto
             case 1:
             case 6:
@@ -84,14 +84,8 @@ public class Moves {
 
                 return (xAnterior - xPretendido> -4 && yAnterior - yPretendido < 4) &&
                         (yAnterior - yPretendido > -4 && xAnterior - xPretendido < 4);
-                //idoso zombie
-            case 3:
-                if (checkCreatures){
-                  //  return false;
-                }
-                return check;
 
-                //idoso humano
+            //idoso humano
             case 8:
 
                 if (day){
@@ -108,6 +102,7 @@ public class Moves {
 
                 if (!day){
 
+                    //saltar por cima ou n
                     if (checkCreatures){
                       //  return false;
                     }
@@ -122,8 +117,17 @@ public class Moves {
                 if (checkCreatures){
                    // return false;
                 }
+                if (xPretendido + 1 >TWDGameManager.numeroColunas || yPretendido +1 > TWDGameManager.numeroLinhas){
+                    return false;
+                }
 
-               return !check || xAnterior >1 || xPretendido >1 || xAnterior<-1 || xPretendido < -1;
+                if (xPretendido == xAnterior-1 ){
+                    return yPretendido == yAnterior + 1 || yPretendido == yAnterior - 1;
+                } else if (xPretendido == xAnterior +1){
+                    return yPretendido == yAnterior + 1 || yPretendido == yAnterior - 1;
+                }
+
+                return false;
                 //zombieFILME
             case 10:
                 if (checkCreatures){

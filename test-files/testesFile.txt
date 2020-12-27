@@ -5,7 +5,7 @@
 2 : 0 : Jackie Chan : 3 : 4
 3 : 3 : Alice : 5 : 5
 4 : 7 : Ash : 2 : 6
-5 : 9 : Sam : 1 : 1
+5 : 9 : Sam : 5 : 1
 6 : 2 : Paciente Zero : 4 : 4
 7 : 8 : Velhote : 5 : 6
 8 : 2 : MataCao : 1 : 2
