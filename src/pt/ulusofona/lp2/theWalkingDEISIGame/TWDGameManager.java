@@ -256,9 +256,8 @@ public class TWDGameManager {
             if (!isZombie) {
                 Vivo vivo = (Vivo) criaturas.get(idCriatura);
                 vivo.setSafe(true);
-                vivo.colocarCoordenada(xMorto, yMorto);
+                vivo.colocarCoordenada(xD, yD);
                 safeCreaturesID.add(idCriatura);
-
                 nrTurnos++;
                 if (nrTurnos % 2 == 0) {
                     //se forem multiplos de 2 muda o dia
@@ -1018,38 +1017,40 @@ public class TWDGameManager {
 
         //fazer a string
         survivors.add("Nr. de turnos terminados:");
-        survivors.add("");
         survivors.add(nrTurnos +"");
         survivors.add("");
         survivors.add("Ainda pelo bairo:");
-        survivors.add("");
         survivors.add("OS VIVOS");
         survivors.add("");
 
         for (Creature humano : criaturas.values()) {
-            if (humano instanceof Vivo) {
+            if (humano instanceof Vivo && !((Vivo) humano).getIsSafe() && !humano.getIsDead()) {
                 survivors.add(humano.getId() + " " + humano.getNome());
+                survivors.add("");
             }
         }
 
-        survivors.add("");
         survivors.add("OS OUTROS");
         survivors.add("");
 
         for (Creature zombie : criaturas.values()) {
-            if (zombie instanceof Zombie) {
+            if (zombie instanceof Zombie && !zombie.getIsDead()) {
                 survivors.add(zombie.getId() + "  (antigamente conhecido como " + zombie.getNome() + ")");
+                survivors.add("");
             }
         }
         survivors.add("");
         survivors.add("Num safe haven:");
         survivors.add("");
+        survivors.add("");
         survivors.add("Os Vivos");
+        survivors.add("");
 
         for (Creature c : criaturas.values()){
             if (c instanceof Vivo) {
                 if (((Vivo) c).getIsSafe()) {
                     survivors.add(c.getId() + " " + c.getNome());
+                    survivors.add("");
                 }
             }
         }
@@ -1065,18 +1066,18 @@ public class TWDGameManager {
             if (c instanceof Vivo) {
                 if (((Vivo) c).isDeadVeneno()) {
                     survivors.add(c.getId() + " " + c.getNome());
+                    survivors.add("");
                 }
             }
         }
 
-        survivors.add("");
         survivors.add("OS OUTROS");
-        survivors.add("");
 
         for (Creature c : criaturas.values()){
             if (c instanceof Zombie) {
                 if (c.getIsDead()) {
                     survivors.add(c.getId() + " " + c.getNome());
+                    survivors.add("\n");
                 }
             }
         }
