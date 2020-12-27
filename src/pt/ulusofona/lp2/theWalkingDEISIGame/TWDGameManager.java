@@ -14,22 +14,19 @@ public class TWDGameManager {
 
     //--HashsCreatures
     static HashMap<Integer, Creature> criaturas = new HashMap<>();
-    //    HashMap<Integer, Zombie > zombieHashMap = new HashMap<>();
-  //  static HashMap<Integer, Vivo> humanoHashMap = new HashMap<>();
 
     //--equi
     HashMap<Integer, Equipamento> equipamentoHashMap = new HashMap<>();
 
 
+    //vars static para aceder as classes de teste
     static int numeroLinhas;
     static int numeroColunas;
     int idxInfecoes = -1; // TODO ver se detetou alguma infecao no jogo
-    int idEquipaInicial;
-    int idEquipaAtual;
+    int idEquipaAtual = 0;
+    int idEquipaInicial = 0;
     int nrTurnos = 0;
-    int nrCriaturas = 0;
-    int nrEquipamentos = 0;
-    int nrSafeHavens = 0;
+
     boolean day = true;
 
     int xMorto = -1;
@@ -39,12 +36,11 @@ public class TWDGameManager {
     }
 
     public boolean startGame(File ficheiroInicial) {
+
         safeCreaturesID.clear();
         safeHavens.clear();
         //--HashsCreatures
         criaturas.clear();
-        //zombieHashMap.clear();
-        //humanoHashMap.clear();
         //--equi
         equipamentoHashMap.clear();
 
@@ -60,8 +56,11 @@ public class TWDGameManager {
                     numeroColunas = Integer.parseInt(dados[1].trim());
                 }
 
+
                 idEquipaInicial = Integer.parseInt(leitorFicheiro.nextLine());
                 idEquipaAtual = idEquipaInicial;
+
+                int nrCriaturas = 0;
                 nrCriaturas = Integer.parseInt(leitorFicheiro.nextLine());
 
 
@@ -88,12 +87,7 @@ public class TWDGameManager {
                                     new Zombie(idZ, idTipoZ, creatureTYPE_ID(idTipoZ), "Os Outros",
                                             nomeZ, xZ, yZ, equipamentos,0,false);
 
-                            if (criaturas.get(idZ) == null) {
-
-                                criaturas.put(idZ, zombieAtual);
-                                //zombieHashMap.putIfAbsent(idZ, zombieAtual);
-
-                            }
+                            criaturas.putIfAbsent(idZ, zombieAtual);
 
 
                         } else if (Integer.parseInt(dadosCriatura[1]) >= 5 &&
@@ -114,15 +108,12 @@ public class TWDGameManager {
                                             , "Os Vivos", nomeH, xH, yH, equipamentos,
                                             0,false, false);
 
-                            if (criaturas.get(idH) == null) {
-
-                                criaturas.put(idH, vivoAtual);
-                               // humanoHashMap.putIfAbsent(idH, vivoAtual);
-
-                            }
+                            criaturas.putIfAbsent(idH, vivoAtual);
                         }
                     }
                 }
+
+                int nrEquipamentos = 0;
                 nrEquipamentos = Integer.parseInt(leitorFicheiro.nextLine());
 
                 //adicionar os equipamentos nas estruturas
@@ -143,6 +134,8 @@ public class TWDGameManager {
                     }
                 }
 
+
+                int nrSafeHavens = 0;
                 if (leitorFicheiro.hasNextLine()) {
                     nrSafeHavens = Integer.parseInt(leitorFicheiro.nextLine());
                 }
@@ -211,7 +204,7 @@ public class TWDGameManager {
     //TODO e a cena do antidoto se ele apanhar
     //TODO ver se ele tem strikes, se nao tiver move return false
     public boolean move(int xO, int yO, int xD, int yD) {
-        //System.out.println(criaturas);
+
         int idCriatura = 0;
         boolean isHumano = false;
         boolean isZombie = false;
@@ -302,7 +295,6 @@ public class TWDGameManager {
                                         type = vivo1.getEquipamento().getTypeID();
 
                                         if (type != -1) {
-                                            // System.out.println(vivo1.getEquipamento());
                                             switch (type) {
                                                 case 0:
                                                 case 3:
@@ -1321,10 +1313,10 @@ public class TWDGameManager {
         idEquipaInicial = 0;
         idEquipaAtual = 0;
         nrTurnos = 0;
-        nrCriaturas = 0;
-        nrEquipamentos = 0;
-        nrSafeHavens = 0;
         day = true;
+        xMorto = -1;
+        yMorto = -1;
+
         return startGame(fich);
     }
 }

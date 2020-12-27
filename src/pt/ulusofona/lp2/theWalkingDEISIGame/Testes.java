@@ -57,6 +57,17 @@ public class Testes {
         assertEquals("Devia dar igual",resultEsperado,resultReal);
     }
 
+    @Test
+    public void testGETinicialTeam(){
+        File file = new File("test-files/testesFile.txt");
+        teste.startGame(file);
+        teste.startGame(new File("test-files/teste1.txt"));
+
+        int resultEsperado = 20;
+        int resultReal= teste.getCurrentTeamId();
+
+        assertEquals("Devia dar igual",resultEsperado,resultReal);
+    }
 
 }
 
