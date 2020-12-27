@@ -293,7 +293,6 @@ public class TWDGameManager {
                                         int type = -1;
 
                                         type = vivo1.getEquipamento().getTypeID();
-
                                         if (type != -1) {
                                             switch (type) {
                                                 case 0:
@@ -303,12 +302,13 @@ public class TWDGameManager {
                                                 case 7:
                                                 case 8:
                                                 case 9:
-                                                    if (!defense((Vivo) criaturas.get(idCriatura), (Zombie) zombie1, true)) {
+                                                    if (!defense((Vivo) vivo1, (Zombie) zombie1, true)) {
                                                         //nao sucedeu na defesa
                                                         //foi para zombie
                                                         //mudar id para idzombie respetivo
                                                         vivo1.setIdTipo(vivo1.getIdTipo() - 5);
                                                         //zombie tmp para colocar no hash
+
                                                         Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
                                                                 creatureTYPE_ID(vivo1.getIdTipo()),
                                                                 "Os Outros", vivo1.getNome(),
@@ -383,6 +383,7 @@ public class TWDGameManager {
                                         //mudar id para idzombie respetivo
                                         vivo1.setIdTipo(vivo1.getIdTipo() - 5);
                                         //zombie tmp para colocar no hash
+                                        
                                         Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
                                                 creatureTYPE_ID(vivo1.getIdTipo()),
                                                 "Os Outros", vivo1.getNome(),
@@ -504,6 +505,7 @@ public class TWDGameManager {
                     if (vivo1.getTomouVeneno()) {
                         if (vivo1.getNrTurnosEnvenenados() > 2) {
                             vivo1.setDead(true);
+                            vivo1.setDeadVeneno(true);
                             //faz a criatura desaparecer do jogo
                             criaturas.get(vivo1.getId()).colocarCoordenada(xMorto,yMorto);
                             xMorto--;
@@ -704,6 +706,7 @@ public class TWDGameManager {
                     if (vivo1.getTomouVeneno()) {
                         if (vivo1.getNrTurnosEnvenenados() > 2) {
                             vivo1.setDead(true);
+                            vivo1.setDeadVeneno(true);
                             criaturas.get(vivo1.getId()).colocarCoordenada(xMorto,yMorto);
                             xMorto--;
                             yMorto--;
