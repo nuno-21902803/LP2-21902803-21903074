@@ -14,7 +14,7 @@ public class TWDGameManager {
 
     //--HashsCreatures
     static HashMap<Integer, Creature> criaturas = new HashMap<>();
-//    HashMap<Integer, Zombie > zombieHashMap = new HashMap<>();
+    //    HashMap<Integer, Zombie > zombieHashMap = new HashMap<>();
   //  static HashMap<Integer, Vivo> humanoHashMap = new HashMap<>();
 
     //--equi
@@ -314,7 +314,6 @@ public class TWDGameManager {
                                                     if (!defense((Vivo) criaturas.get(idCriatura), (Zombie) zombie1, true)) {
                                                         //nao sucedeu na defesa
                                                         //foi para zombie
-                                                        criaturas.get(vivo1.getId()).setDead(true);
                                                         //mudar id para idzombie respetivo
                                                         vivo1.setIdTipo(vivo1.getIdTipo() - 5);
                                                         //zombie tmp para colocar no hash
@@ -356,7 +355,6 @@ public class TWDGameManager {
                                                     if (!attack((Vivo) vivo1, (Zombie) zombie1, true)) {
                                                         //nao sucedeu no ataque
                                                         //foi para zombie
-                                                        criaturas.get(vivo1.getId()).setDead(true);
                                                         //mudar id para idzombie respetivo
                                                         vivo1.setIdTipo(vivo1.getIdTipo() - 5);
                                                         //zombie tmp para colocar no hash
@@ -391,7 +389,6 @@ public class TWDGameManager {
 
                                         //nao tinha equipamentos entao vai para zombie
                                         //foi para zombie
-                                        vivo1.setDead(true);
                                         //mudar id para idzombie respetivo
                                         vivo1.setIdTipo(vivo1.getIdTipo() - 5);
                                         //zombie tmp para colocar no hash
@@ -464,7 +461,6 @@ public class TWDGameManager {
                                                             zombieAttack)) {
                                                         //nao sucedeu no ataque
                                                         //foi para zombie
-                                                        criaturas.get(humano1.getId()).setDead(true);
                                                         //mudar id para idzombie respetivo
                                                         humano1.setIdTipo(humano1.getIdTipo() - 5);
                                                         //zombie tmp para colocar no hash
@@ -517,6 +513,10 @@ public class TWDGameManager {
                     if (vivo1.getTomouVeneno()) {
                         if (vivo1.getNrTurnosEnvenenados() > 2) {
                             vivo1.setDead(true);
+                            //faz a criatura desaparecer do jogo
+                            criaturas.get(vivo1.getId()).colocarCoordenada(xMorto,yMorto);
+                            xMorto--;
+                            yMorto--;
                         }
                         int nr = vivo1.getNrTurnosEnvenenados();
                         vivo1.setNrTurnosEnvenenados(nr + 1);
@@ -713,7 +713,9 @@ public class TWDGameManager {
                     if (vivo1.getTomouVeneno()) {
                         if (vivo1.getNrTurnosEnvenenados() > 2) {
                             vivo1.setDead(true);
-
+                            criaturas.get(vivo1.getId()).colocarCoordenada(xMorto,yMorto);
+                            xMorto--;
+                            yMorto--;
                         }
                         int nr = vivo1.getNrTurnosEnvenenados();
                         vivo1.setNrTurnosEnvenenados(nr + 1);
@@ -787,10 +789,13 @@ public class TWDGameManager {
 
                     criaturas.get(zombie.getId()).setDead(true);
 
-
                     if (!zombieAttack) {
                         vivo.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
                     }
+                    //faz a criatura desaparecer do jogo
+                    criaturas.get(zombie.getId()).colocarCoordenada(xMorto,yMorto);
+                    xMorto--;
+                    yMorto--;
                     return true;
 
                 }else if (vivo.getIdTipo() == 5 && zombieAttack && zombie.getIdTipo() != 0){
@@ -805,6 +810,11 @@ public class TWDGameManager {
                         vivo.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
                     }
 
+                    //faz a criatura desaparecer do jogo
+                    criaturas.get(zombie.getId()).colocarCoordenada(xMorto,yMorto);
+                    xMorto--;
+                    yMorto--;
+
                     return true;
                 }
 
@@ -812,6 +822,7 @@ public class TWDGameManager {
             case 2:
                 if (equipAttack.getStrikesLEFT()>0){
                     //zombieHashMap.remove(zombie.getId());
+
                     criaturas.get(zombie.getId()).setDead(true);
 
                     //dar update nos strikes
@@ -821,6 +832,12 @@ public class TWDGameManager {
                     if (!zombieAttack) {
                         vivo.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
                     }
+
+                    //faz a criatura desaparecer do jogo
+                    criaturas.get(zombie.getId()).colocarCoordenada(xMorto,yMorto);
+                    xMorto--;
+                    yMorto--;
+
                 } else {
                     //nao tem balas
                     return false;
@@ -837,6 +854,11 @@ public class TWDGameManager {
                 if (!zombieAttack) {
                     vivo.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
                 }
+
+                //faz a criatura desaparecer do jogo
+                criaturas.get(zombie.getId()).colocarCoordenada(xMorto,yMorto);
+                xMorto--;
+                yMorto--;
                 return true;
 
         }

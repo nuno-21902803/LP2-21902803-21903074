@@ -110,26 +110,23 @@ public class Creature {
 
     @Override
     public String toString(){
-        Vivo human = (Vivo) TWDGameManager.criaturas.get(id);
-        Creature zombie =TWDGameManager.criaturas.get(id);
+        Creature creature = TWDGameManager.criaturas.get(id);
 
-        if (human!=null) {
-            if (human.getIsSafe()) {
-                return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
-                        getEquipamentos() + " @ A salvo";
+        if (creature!=null) {
+            if (creature instanceof Vivo) {
+                if (((Vivo) creature).getIsSafe()) {
+                    return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
+                            getEquipamentos() + " @ A salvo";
+                }
             }
 
-            if (human.getIsDead()) {
-                return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
-                        getEquipamentos() + " @ RIP";
-            }
-
-        } else if (zombie != null ){
-            if (zombie.getIsDead()) {
+            if (creature.getIsDead()) {
                 return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
                         getEquipamentos() + " @ RIP";
             }
+
         }
+
         return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
                 getEquipamentos() + " @ (" + x + ", " + y + ")";
 
