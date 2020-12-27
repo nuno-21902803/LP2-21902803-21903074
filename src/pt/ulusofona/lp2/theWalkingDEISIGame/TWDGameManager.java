@@ -256,8 +256,9 @@ public class TWDGameManager {
             if (!isZombie) {
                 Vivo vivo = (Vivo) criaturas.get(idCriatura);
                 vivo.setSafe(true);
-                vivo.colocarCoordenada(xD, yD);
+                vivo.colocarCoordenada(xMorto, yMorto);
                 safeCreaturesID.add(idCriatura);
+
                 nrTurnos++;
                 if (nrTurnos % 2 == 0) {
                     //se forem multiplos de 2 muda o dia
