@@ -61,8 +61,10 @@ public class Testes {
     public void testGETinicialTeam(){
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
-        teste.startGame(new File("test-files/teste1.txt"));
-
+        teste.startGame(file);
+        teste.startGame(file);
+        teste.loadGame(new File("test-files/teste1.txt"));
+        
         int resultEsperado = 20;
         int resultReal= teste.getCurrentTeamId();
 

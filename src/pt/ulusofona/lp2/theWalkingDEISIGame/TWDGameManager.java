@@ -383,7 +383,7 @@ public class TWDGameManager {
                                         //mudar id para idzombie respetivo
                                         vivo1.setIdTipo(vivo1.getIdTipo() - 5);
                                         //zombie tmp para colocar no hash
-                                        
+
                                         Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
                                                 creatureTYPE_ID(vivo1.getIdTipo()),
                                                 "Os Outros", vivo1.getNome(),
