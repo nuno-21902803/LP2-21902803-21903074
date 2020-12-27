@@ -68,7 +68,9 @@ public class TWDGameManager {
                         //fazer o split da linha com os " : "
                         //e guardar os dados nos objetos e add na lista respetiva
 
-                        if (Integer.parseInt(dadosCriatura[1]) >= 0 && Integer.parseInt(dadosCriatura[1]) <= 4) {
+                        if (    Integer.parseInt(dadosCriatura[1]) >= 0 &&
+                                Integer.parseInt(dadosCriatura[1]) <= 4 &&
+                                dadosCriatura.length == 5) {
                             //é zombie
 
                             int idZ = Integer.parseInt(dadosCriatura[0]);
@@ -91,7 +93,9 @@ public class TWDGameManager {
                             }
 
 
-                        } else if (Integer.parseInt(dadosCriatura[1]) >= 5 && Integer.parseInt(dadosCriatura[1]) <= 10) {
+                        } else if (Integer.parseInt(dadosCriatura[1]) >= 5 &&
+                                   Integer.parseInt(dadosCriatura[1]) <= 10 &&
+                                   dadosCriatura.length == 5 ) {
 
                             //é humano
 
@@ -1104,6 +1108,8 @@ public class TWDGameManager {
     public boolean saveGame(File fich){
         try {
 
+            File file = new File(fich.getAbsolutePath() + ".txt");
+
             //funcao de escrever p ficheiro
             BufferedWriter writer = new BufferedWriter(new FileWriter(fich.getName(), true));
 
@@ -1134,13 +1140,14 @@ public class TWDGameManager {
 
             writer.close();
 
-            return fich.createNewFile();
+            return file.createNewFile();
         } catch (IOException e) {
             //erro
             e.printStackTrace();
         }
         return false;
     }
+
 
     public boolean loadGame(File fich){
         //clear das estruturas
@@ -1157,10 +1164,10 @@ public class TWDGameManager {
         //--equi
         equipamentoHashMap.clear();
 
-
+        //--vars
         numeroLinhas = 0;
         numeroColunas = 0;
-        idxInfecoes = -1; // TODO ver se detetou alguma infecao no jogo
+        idxInfecoes = -1;
         idEquipaInicial = 0;
         idEquipaAtual = 0;
         nrTurnos = 0;
