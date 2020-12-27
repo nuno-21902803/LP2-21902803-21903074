@@ -14,8 +14,8 @@ public class TWDGameManager {
 
     //--HashsCreatures
     static HashMap<Integer, Creature> criaturas = new HashMap<>();
-    HashMap<Integer, Zombie > zombieHashMap = new HashMap<>();
-    static HashMap<Integer, Vivo> humanoHashMap = new HashMap<>();
+//    HashMap<Integer, Zombie > zombieHashMap = new HashMap<>();
+  //  static HashMap<Integer, Vivo> humanoHashMap = new HashMap<>();
 
     //--equi
     HashMap<Integer, Equipamento> equipamentoHashMap = new HashMap<>();
@@ -32,6 +32,9 @@ public class TWDGameManager {
     int nrSafeHavens = 0;
     boolean day = true;
 
+    int xMorto = -1;
+    int yMorto = -1;
+
     public TWDGameManager() {
     }
 
@@ -40,8 +43,8 @@ public class TWDGameManager {
         safeHavens.clear();
         //--HashsCreatures
         criaturas.clear();
-        zombieHashMap.clear();
-        humanoHashMap.clear();
+        //zombieHashMap.clear();
+        //humanoHashMap.clear();
         //--equi
         equipamentoHashMap.clear();
 
@@ -88,7 +91,7 @@ public class TWDGameManager {
                             if (criaturas.get(idZ) == null) {
 
                                 criaturas.put(idZ, zombieAtual);
-                                zombieHashMap.putIfAbsent(idZ, zombieAtual);
+                                //zombieHashMap.putIfAbsent(idZ, zombieAtual);
 
                             }
 
@@ -114,7 +117,7 @@ public class TWDGameManager {
                             if (criaturas.get(idH) == null) {
 
                                 criaturas.put(idH, vivoAtual);
-                                humanoHashMap.putIfAbsent(idH, vivoAtual);
+                               // humanoHashMap.putIfAbsent(idH, vivoAtual);
 
                             }
                         }
@@ -216,21 +219,25 @@ public class TWDGameManager {
         boolean zombieAttack = false;
 
         //adquirir o id da criatura naquela posicao
-        for (Creature zombie1 : zombieHashMap.values()) {
-            if (zombie1.cordenadaX() == xO && zombie1.cordenadaY() == yO) {
-                idCriatura = zombie1.getId();
-                isZombie = true;
-                break;
+        for (Creature zombie1 : criaturas.values()) {
+            if (zombie1 instanceof Zombie) {
+                if (zombie1.cordenadaX() == xO && zombie1.cordenadaY() == yO) {
+                    idCriatura = zombie1.getId();
+                    isZombie = true;
+                    break;
+                }
             }
         }
 
         if (!isZombie) {
             //se nao for zombie ele entra aqui para verificar se é humano
-            for (Creature humano1 : humanoHashMap.values()) {
-                if (humano1.cordenadaX() == xO && humano1.cordenadaY() == yO) {
-                    idCriatura = humano1.getId();
-                    isHumano = true;
-                    break;
+            for (Creature humano1 : criaturas.values()) {
+                if (humano1 instanceof Vivo) {
+                    if (humano1.cordenadaX() == xO && humano1.cordenadaY() == yO) {
+                        idCriatura = humano1.getId();
+                        isHumano = true;
+                        break;
+                    }
                 }
             }
         }
@@ -240,12 +247,13 @@ public class TWDGameManager {
 
         //validar o movimento
         if (isHumano) {
-            if (!moves.validarMove(xD, yD, xO, yO, humanoHashMap.get(idCriatura).getIdTipo(),day) ||
-                    humanoHashMap.get(idCriatura).getIsSafe()) {
+            Vivo vivo = (Vivo) criaturas.get(idCriatura);
+            if (!moves.validarMove(xD, yD, xO, yO, criaturas.get(idCriatura).getIdTipo(),day) ||
+                    vivo.getIsSafe()) {
                 return false;
             }
         } else if (isZombie){
-            if (!moves.validarMove(xD, yD, xO, yO, zombieHashMap.get(idCriatura).getIdTipo(),day)) {
+            if (!moves.validarMove(xD, yD, xO, yO, criaturas.get(idCriatura).getIdTipo(),day)) {
                 return false;
             }
         }
@@ -253,8 +261,9 @@ public class TWDGameManager {
 
         if(isDoorToSafeHaven(xD,yD)){
             if (!isZombie) {
-                humanoHashMap.get(idCriatura).setSafe(true);
-                humanoHashMap.get(idCriatura).colocarCoordenada(xD, yD);
+                Vivo vivo = (Vivo) criaturas.get(idCriatura);
+                vivo.setSafe(true);
+                vivo.colocarCoordenada(xD, yD);
                 safeCreaturesID.add(idCriatura);
                 nrTurnos++;
                 if (nrTurnos % 2 == 0) {
@@ -271,146 +280,138 @@ public class TWDGameManager {
 
         //entra aqui para verificar se existe la um humano
         //ya pt sou o zombie a atacar
-        for (Creature vivo1 : humanoHashMap.values()) {
+        for (Creature vivo1 : criaturas.values()) {
+            if (vivo1 instanceof Vivo) {
+                if (vivo1.cordenadaX() == xD && vivo1.cordenadaY() == yD) {
+                    if (isHumano) {
+                        return false;
+                    } else {
+                        //Se a creatura nao for humana ele entra aqui
+                        for (Creature zombie1 : criaturas.values()) {
+                            if (zombie1 instanceof Zombie) {
+                                if (zombie1.cordenadaX() == xO && zombie1.cordenadaY() == yO) {
+                                    zombieAttack = true;
+                                    //FUNCAO ATTACK/DEFENSE
+                                    if (vivo1.getIdTipo() == 9) {
+                                        //Nenhum zombie pode-se mover para cima de um cao
+                                        return false;
+                                    }
+                                    if (vivo1.getEquipamento().getTypeID() != -23) {
+                                        int type = -1;
 
-            if (vivo1.cordenadaX() == xD && vivo1.cordenadaY() == yD) {
+                                        type = vivo1.getEquipamento().getTypeID();
 
-                if (isHumano) {
-                    return false;
-                } else {
-                    //Se a creatura nao for humana ele entra aqui
-                    for (Creature zombie1 : zombieHashMap.values()) {
-                        if (zombie1.cordenadaX() == xO && zombie1.cordenadaY() == yO) {
-                            zombieAttack =true;
-                            //FUNCAO ATTACK/DEFENSE
-                            if (vivo1.getIdTipo() == 9){
-                                //Nenhum zombie pode-se mover para cima de um cao
-                                return false;
-                            }
-                            if (vivo1.getEquipamento().getTypeID() != -23){
-                                int type = -1;
+                                        if (type != -1) {
+                                            // System.out.println(vivo1.getEquipamento());
+                                            switch (type) {
+                                                case 0:
+                                                case 3:
+                                                case 4:
+                                                case 5:
+                                                case 7:
+                                                case 8:
+                                                case 9:
+                                                    if (!defense((Vivo) criaturas.get(idCriatura), (Zombie) zombie1, true)) {
+                                                        //nao sucedeu na defesa
+                                                        //foi para zombie
+                                                        criaturas.get(vivo1.getId()).setDead(true);
+                                                        //mudar id para idzombie respetivo
+                                                        vivo1.setIdTipo(vivo1.getIdTipo() - 5);
+                                                        //zombie tmp para colocar no hash
+                                                        Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
+                                                                creatureTYPE_ID(vivo1.getIdTipo()),
+                                                                "Os Outros", vivo1.getNome(),
+                                                                vivo1.cordenadaX(), vivo1.cordenadaY(),
+                                                                new Equipamento(), 0, false);
 
-                                type = vivo1.getEquipamento().getTypeID();
+                                                        criaturas.put(tmp.getId(), tmp);
+                                                        //remove dos humanos
+                                                        criaturas.remove(vivo1.getId());
+                                                        idEquipaAtual = 10;
 
-                                if (type != -1) {
-                                    // System.out.println(vivo1.getEquipamento());
-                                    switch (type) {
-                                        case 0:
-                                        case 3:
-                                        case 4:
-                                        case 5:
-                                        case 7:
-                                        case 8:
-                                        case 9:
-                                            if (!defense(humanoHashMap.get(idCriatura), (Zombie) zombie1, true)) {
-                                                //nao sucedeu na defesa
-                                                //foi para zombie
-                                                humanoHashMap.get(vivo1.getId()).setDead(true);
-                                                //mudar id para idzombie respetivo
-                                                vivo1.setIdTipo(vivo1.getIdTipo()-5);
-                                                //zombie tmp para colocar no hash
-                                                Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
-                                                        creatureTYPE_ID(vivo1.getIdTipo()),
-                                                        "Os Outros", vivo1.getNome(),
-                                                        vivo1.cordenadaX(), vivo1.cordenadaY(),
-                                                        new Equipamento(),0,false);
+                                                        //houve uma infeção logo nrTurnos volta para 0.
+                                                        if (nrTurnos % 2 == 0) {
+                                                            day = !day;
+                                                        }
+                                                        nrTurnos = 0;
+                                                        return true;
+                                                    }
 
-                                                zombieHashMap.put(tmp.getId(),tmp);
-                                                //foi transformado logo vai ter tag de @RIP
-                                                zombieHashMap.get(tmp.getId()).setTranformado(true);
-                                                //remove dos humanos
-                                                humanoHashMap.remove(vivo1.getId());
-                                                idEquipaAtual = 10;
+                                                    nrTurnos++;
+                                                    if (nrTurnos % 2 == 0) {
+                                                        //se forem multiplos de 2 muda o dia
+                                                        day = !day;
+                                                    }
+                                                    idEquipaAtual = 10;
+                                                    return true;
+                                                case 10:
+                                                case 1:
+                                                case 2:
+                                                    if (zombie1.getIdTipo() == 4) {
+                                                        //pistolas nao podem ser usadas contra zombies vampiros
+                                                        return false;
+                                                    }
 
-                                                //houve uma infeção logo nrTurnos volta para 0.
-                                                if (nrTurnos % 2 == 0){
-                                                    day = !day;
-                                                }
-                                                nrTurnos = 0;
-                                                return true;
+                                                case 6:
+                                                    if (!attack((Vivo) vivo1, (Zombie) zombie1, true)) {
+                                                        //nao sucedeu no ataque
+                                                        //foi para zombie
+                                                        criaturas.get(vivo1.getId()).setDead(true);
+                                                        //mudar id para idzombie respetivo
+                                                        vivo1.setIdTipo(vivo1.getIdTipo() - 5);
+                                                        //zombie tmp para colocar no hash
+                                                        Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
+                                                                creatureTYPE_ID(vivo1.getIdTipo()),
+                                                                "Os Outros", vivo1.getNome(),
+                                                                vivo1.cordenadaX(), vivo1.cordenadaY(),
+                                                                new Equipamento(), 0, false);
+
+                                                        criaturas.put(tmp.getId(), tmp);
+
+                                                        idEquipaAtual = 10;
+
+                                                        //houve uma infeção logo nrTurnos volta para 0.
+                                                        if (nrTurnos % 2 == 0) {
+                                                            day = !day;
+                                                        }
+                                                        nrTurnos = 0;
+                                                        return true;
+                                                    }
+
+                                                    nrTurnos++;
+                                                    if (nrTurnos % 2 == 0) {
+                                                        //se forem multiplos de 2 muda o dia
+                                                        day = !day;
+                                                    }
+                                                    idEquipaAtual = 10;
+                                                    return true;
                                             }
+                                        }
+                                    } else {
 
-                                            nrTurnos++;
-                                            if (nrTurnos % 2 == 0) {
-                                                //se forem multiplos de 2 muda o dia
-                                                day = !day;
-                                            }
-                                            idEquipaAtual = 10;
-                                            return true;
-                                        case 10:
-                                        case 1:
-                                        case 2:
-                                            if (zombie1.getIdTipo() == 4){
-                                                //pistolas nao podem ser usadas contra zombies vampiros
-                                                return false;
-                                            }
+                                        //nao tinha equipamentos entao vai para zombie
+                                        //foi para zombie
+                                        vivo1.setDead(true);
+                                        //mudar id para idzombie respetivo
+                                        vivo1.setIdTipo(vivo1.getIdTipo() - 5);
+                                        //zombie tmp para colocar no hash
+                                        Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
+                                                creatureTYPE_ID(vivo1.getIdTipo()),
+                                                "Os Outros", vivo1.getNome(),
+                                                vivo1.cordenadaX(), vivo1.cordenadaY(),
+                                                new Equipamento(), 0, false);
 
-                                        case 6:
-                                            if (!attack((Vivo) vivo1, (Zombie) zombie1, true)) {
-                                                //nao sucedeu no ataque
-                                                //foi para zombie
-                                                humanoHashMap.get(vivo1.getId()).setDead(true);
-                                                //mudar id para idzombie respetivo
-                                                vivo1.setIdTipo(vivo1.getIdTipo()-5);
-                                                //zombie tmp para colocar no hash
-                                                Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
-                                                        creatureTYPE_ID(vivo1.getIdTipo()),
-                                                        "Os Outros", vivo1.getNome(),
-                                                        vivo1.cordenadaX(), vivo1.cordenadaY(),
-                                                        new Equipamento(),0,false);
+                                        criaturas.put(tmp.getId(), tmp);
 
-                                                zombieHashMap.put(tmp.getId(),tmp);
-                                                //foi transformado logo vai ter tag de transformado
-                                                zombieHashMap.get(tmp.getId()).setTranformado(true);
-                                                //remove dos humanos
-                                                humanoHashMap.remove(vivo1.getId());
-
-                                                idEquipaAtual = 10;
-
-                                                //houve uma infeção logo nrTurnos volta para 0.
-                                                if (nrTurnos % 2 == 0){
-                                                    day = !day;
-                                                }
-                                                nrTurnos = 0;
-                                                return true;
-                                            }
-
-                                            nrTurnos++;
-                                            if (nrTurnos % 2 == 0) {
-                                                //se forem multiplos de 2 muda o dia
-                                                day = !day;
-                                            }
-                                            idEquipaAtual = 10;
-                                            return true;
+                                        nrTurnos++;
+                                        if (nrTurnos % 2 == 0) {
+                                            //se forem multiplos de 2 muda o dia
+                                            day = !day;
+                                        }
+                                        idEquipaAtual = 10;
+                                        return true;
                                     }
                                 }
-                            } else {
-
-                                //nao tinha equipamentos entao vai para zombie
-                                //foi para zombie
-                                vivo1.setDead(true);
-                                //mudar id para idzombie respetivo
-                                vivo1.setIdTipo(vivo1.getIdTipo()-5);
-                                //zombie tmp para colocar no hash
-                                Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
-                                        creatureTYPE_ID(vivo1.getIdTipo()),
-                                        "Os Outros", vivo1.getNome(),
-                                        vivo1.cordenadaX(), vivo1.cordenadaY(),
-                                        new Equipamento(),0,false);
-
-                                zombieHashMap.put(tmp.getId(),tmp);
-                                //foi transformado logo vai ter tag de transformado
-                                zombieHashMap.get(tmp.getId()).setTranformado(true);
-                                //remove dos humanos
-                                humanoHashMap.remove(vivo1.getId());
-
-                                nrTurnos++;
-                                if (nrTurnos % 2 == 0) {
-                                    //se forem multiplos de 2 muda o dia
-                                    day = !day;
-                                }
-                                idEquipaAtual = 10;
-                                return true;
                             }
                         }
                     }
@@ -420,83 +421,85 @@ public class TWDGameManager {
 
         //verificar se existem criaturas na posicao pretendida
         //ya pt sou o humano a atacar
-        for (Creature zombie1 : zombieHashMap.values()) {
-            if (zombie1.cordenadaX() == xD && zombie1.cordenadaY() == yD) {
+        for (Creature zombie1 : criaturas.values()) {
+            if (zombie1 instanceof Zombie) {
+                if (zombie1.cordenadaX() == xD && zombie1.cordenadaY() == yD) {
 
-                if (isZombie) {
-                    return false;
-                } else {
+                    if (isZombie) {
+                        return false;
+                    } else {
 
-                    //Se a creatura nao for zombie ele entra aqui
-                    for (Creature humano1 : humanoHashMap.values()) {
-                        if (humano1.cordenadaX() == xO && humano1.cordenadaY() == yO) {
-                            //se nao tiver equipamentos nenhuns nao entra
-                            if (humano1.getEquipamento().getTypeID() != -23) {
-                                int type = -1;
-                                type = humano1.getEquipamento().getTypeID();
-                                if (type != -1) {
-                                    switch (type) {
-                                        case 0:
-                                        case 3:
-                                        case 4:
-                                        case 5:
-                                        case 7:
-                                        case 8:
-                                        case 9:
-                                            //nao tinha equipamentos de ataque
-                                            return false;
-                                        case 10:
-                                        case 1:
-                                            if (humano1.getIdTipo() == 5 && zombie1.getIdTipo() !=0){
-                                                //criança humana nao pode lutar com nao criancas zombies
-                                                return false;
+                        //Se a creatura nao for zombie ele entra aqui
+                        for (Creature humano1 : criaturas.values()) {
+                            if (humano1 instanceof Vivo) {
+                                if (humano1.cordenadaX() == xO && humano1.cordenadaY() == yO) {
+                                    //se nao tiver equipamentos nenhuns nao entra
+                                    if (humano1.getEquipamento().getTypeID() != -23) {
+                                        int type = -1;
+                                        type = humano1.getEquipamento().getTypeID();
+                                        if (type != -1) {
+                                            switch (type) {
+                                                case 0:
+                                                case 3:
+                                                case 4:
+                                                case 5:
+                                                case 7:
+                                                case 8:
+                                                case 9:
+                                                    //nao tinha equipamentos de ataque
+                                                    return false;
+                                                case 10:
+                                                case 1:
+                                                    if (humano1.getIdTipo() == 5 && zombie1.getIdTipo() != 0) {
+                                                        //criança humana nao pode lutar com nao criancas zombies
+                                                        return false;
+                                                    }
+                                                case 2:
+                                                    if (zombie1.getIdTipo() == 4) {
+                                                        //pistolas nao podem ser usadas contra zombies vampiros
+                                                        return false;
+                                                    }
+                                                case 6:
+                                                    if (!attack((Vivo) criaturas.get(idCriatura), (Zombie) zombie1,
+                                                            zombieAttack)) {
+                                                        //nao sucedeu no ataque
+                                                        //foi para zombie
+                                                        criaturas.get(humano1.getId()).setDead(true);
+                                                        //mudar id para idzombie respetivo
+                                                        humano1.setIdTipo(humano1.getIdTipo() - 5);
+                                                        //zombie tmp para colocar no hash
+                                                        Zombie tmp = new Zombie(humano1.getId(), humano1.getIdTipo(),
+                                                                creatureTYPE_ID(humano1.getIdTipo()),
+                                                                "Os Outros", humano1.getNome(),
+                                                                humano1.cordenadaX(), humano1.cordenadaY(),
+                                                                new Equipamento(), 0, false);
+
+                                                        criaturas.put(tmp.getId(), tmp);
+
+                                                        idEquipaAtual = 20;
+
+                                                        //houve uma infeção logo nrTurnos volta para 0.
+                                                        if (nrTurnos % 2 == 0) {
+                                                            day = !day;
+                                                        }
+                                                        nrTurnos = 0;
+                                                        return true;
+
+                                                    }
+                                                    nrTurnos++;
+                                                    if (nrTurnos % 2 == 0) {
+                                                        //se forem multiplos de 2 muda o dia
+                                                        day = !day;
+                                                    }
+                                                    idEquipaAtual = 20;
+                                                    return true;
                                             }
-                                        case 2:
-                                            if (zombie1.getIdTipo() == 4){
-                                                //pistolas nao podem ser usadas contra zombies vampiros
-                                                return false;
-                                            }
-                                        case 6:
-                                            if (!attack(humanoHashMap.get(idCriatura), (Zombie) zombie1,zombieAttack)){
-                                                //nao sucedeu no ataque
-                                                //foi para zombie
-                                                humanoHashMap.get(humano1.getId()).setDead(true);
-                                                //mudar id para idzombie respetivo
-                                                humano1.setIdTipo(humano1.getIdTipo()-5);
-                                                //zombie tmp para colocar no hash
-                                                Zombie tmp = new Zombie(humano1.getId(),humano1.getIdTipo(),
-                                                        creatureTYPE_ID(humano1.getIdTipo()),
-                                                        "Os Outros",humano1.getNome(),
-                                                        humano1.cordenadaX(),humano1.cordenadaY(),
-                                                        new Equipamento(),0,false);
-
-                                                zombieHashMap.put(tmp.getId(),tmp);
-                                                //foi transformado logo vai ter tag transormado
-                                                zombieHashMap.get(tmp.getId()).setTranformado(true);
-                                                //remove dos humanos
-                                                humanoHashMap.remove(humano1.getId());
-                                                idEquipaAtual = 20;
-
-                                                //houve uma infeção logo nrTurnos volta para 0.
-                                                if (nrTurnos % 2 == 0){
-                                                    day = !day;
-                                                }
-                                                nrTurnos = 0;
-                                                return true;
-
-                                            }
-                                            nrTurnos++;
-                                            if (nrTurnos % 2 == 0) {
-                                                //se forem multiplos de 2 muda o dia
-                                                day = !day;
-                                            }
-                                            idEquipaAtual = 20;
-                                            return true;
+                                        }
+                                    } else {
+                                        //humano nao tinha defesa
+                                        return false;
                                     }
                                 }
-                            } else {
-                                //humano nao tinha defesa
-                                return false;
                             }
                         }
                     }
@@ -506,23 +509,29 @@ public class TWDGameManager {
 
         //ver se é humano ou zombie e atualizar a coordenada
         if (isHumano && idEquipaAtual == 10) {
-            Vivo vivo = humanoHashMap.get(idCriatura);
+
+            //ve se algum humano morre envenenado
+            for (Creature vivo2 : criaturas.values()){
+                if (vivo2 instanceof Vivo) {
+                    Vivo vivo1 = (Vivo) vivo2;
+                    if (vivo1.getTomouVeneno()) {
+                        if (vivo1.getNrTurnosEnvenenados() > 2) {
+                            vivo1.setDead(true);
+                        }
+                        int nr = vivo1.getNrTurnosEnvenenados();
+                        vivo1.setNrTurnosEnvenenados(nr + 1);
+                    }
+                }
+            }
+
+            Vivo vivo = (Vivo) criaturas.get(idCriatura);
 
             vivo.colocarCoordenada(xD, yD);
 
             int xH = vivo.cordenadaX();
             int yH = vivo.cordenadaY();
 
-            for (Vivo vivo1 : humanoHashMap.values()){
-                if (vivo1.getTomouVeneno()){
-                    if (vivo1.getNrTurnosEnvenenados()>2){
-                        vivo1.setDead(true);
-                        humanoHashMap.remove(vivo1.getId());
-                    }
-                    int nr = vivo1.getNrTurnosEnvenenados();
-                    vivo1.setNrTurnosEnvenenados(nr+1);
-                }
-            }
+
 
             //Caso especifico para o idosoVIVO
             //se o idoso for para uma casa com equipamento
@@ -586,7 +595,7 @@ public class TWDGameManager {
                 if (vivo.getEquipamento().getTypeID() == 0 && vivo.getIdTipo() == 7){
                     for (int k : vivo.getEquipamento().getApanhadoPorCreaturesID()){
                         //se for militar
-                        if (humanoHashMap.get(k).getIdTipo() == 7) {
+                        if (criaturas.get(k).getIdTipo() == 7) {
                             //mas se nao for o mesmo militar e se foi usado por outro
                             if (k != vivo.getId() && vivo.getEquipamento().getIsUsadoPorMilitar()) {
                                 //tem 1 strike left
@@ -647,7 +656,7 @@ public class TWDGameManager {
                 if (vivo.getEquipamento().getTypeID() == 0 && vivo.getIdTipo() == 7){
                     for (int k : vivo.getEquipamento().getApanhadoPorCreaturesID()){
                         //se for militar
-                        if (humanoHashMap.get(k).getIdTipo() == 7) {
+                        if (criaturas.get(k).getIdTipo() == 7) {
                             //mas se nao for o mesmo militar e se foi usado por outro
                             if (k != vivo.getId() && vivo.getEquipamento().getIsUsadoPorMilitar()) {
                                 //tem 1 strike left
@@ -697,23 +706,30 @@ public class TWDGameManager {
 
         //ver se é zombie e atualiza a coordenada
         if (isZombie && idEquipaAtual == 20) {
+
+            for (Creature vivo2 : criaturas.values()){
+                if (vivo2 instanceof Vivo) {
+                    Vivo vivo1 = (Vivo) vivo2;
+                    if (vivo1.getTomouVeneno()) {
+                        if (vivo1.getNrTurnosEnvenenados() > 2) {
+                            vivo1.setDead(true);
+
+                        }
+                        int nr = vivo1.getNrTurnosEnvenenados();
+                        vivo1.setNrTurnosEnvenenados(nr + 1);
+                    }
+                }
+            }
+
+
             Zombie zombie = (Zombie) criaturas.get(idCriatura);
             zombie.colocarCoordenada(xD, yD);
 
 
-            int xZ = zombieHashMap.get(idCriatura).cordenadaX();
-            int yZ = zombieHashMap.get(idCriatura).cordenadaY();
+            int xZ = zombie.cordenadaX();
+            int yZ = zombie.cordenadaY();
 
-            for (Vivo vivo1 : humanoHashMap.values()){
-                if (vivo1.getTomouVeneno()){
-                    if (vivo1.getNrTurnosEnvenenados()>2){
-                        vivo1.setDead(true);
-                        humanoHashMap.remove(vivo1.getId());
-                    }
-                    int nr = vivo1.getNrTurnosEnvenenados();
-                    vivo1.setNrTurnosEnvenenados(nr+1);
-                }
-            }
+
 
             //se existir equipamento naquelas coordenadas ele destroi
             if (existEquipment(xZ, yZ) != null) {
@@ -767,7 +783,7 @@ public class TWDGameManager {
                 if (vivo.getIdTipo() == 5 && zombie.getIdTipo() ==0){
                     //qd e uma crianca vivo vs crianca zombie
                     //crianca mata o zombie
-                    zombieHashMap.remove(zombie.getId());
+                    //zombieHashMap.remove(zombie.getId());
 
                     criaturas.get(zombie.getId()).setDead(true);
 
@@ -782,7 +798,7 @@ public class TWDGameManager {
                     return false;
                 }else{
 
-                    zombieHashMap.remove(zombie.getId());
+                    //zombieHashMap.remove(zombie.getId());
                     criaturas.get(zombie.getId()).setDead(true);
 
                     if (!zombieAttack) {
@@ -795,7 +811,7 @@ public class TWDGameManager {
                 //qd é uma pistola
             case 2:
                 if (equipAttack.getStrikesLEFT()>0){
-                    zombieHashMap.remove(zombie.getId());
+                    //zombieHashMap.remove(zombie.getId());
                     criaturas.get(zombie.getId()).setDead(true);
 
                     //dar update nos strikes
@@ -816,7 +832,7 @@ public class TWDGameManager {
                 //qd e um beskar
             case 10:
 
-                zombieHashMap.remove(zombie.getId());
+               // zombieHashMap.remove(zombie.getId());
                 criaturas.get(zombie.getId()).setDead(true);
                 if (!zombieAttack) {
                     vivo.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
@@ -975,28 +991,36 @@ public class TWDGameManager {
     //TODO adicionar cenas E ORDENAR PELO ID
     public List<String> getGameResults() {
         ArrayList<String> survivors = new ArrayList<>();
+        ArrayList<Creature> creatures = (ArrayList<Creature>) getCreatures();
+
         //fazer a string
         survivors.add("Nr. de turnos terminados:");
         survivors.add(nrTurnos +"" );
         survivors.add("OS VIVOS");
 
-        for (Creature humano : humanoHashMap.values()) {
-            survivors.add(humano.getId() + " " + humano.getNome() + "");
+        for (Creature humano : criaturas.values()) {
+            if (humano instanceof Vivo) {
+                survivors.add(humano.getId() + " " + humano.getNome() + "");
+            }
         }
 
         survivors.add("");
         survivors.add("OS OUTROS");
 
-        for (Creature zombie : zombieHashMap.values()) {
-            survivors.add(zombie.getId() + "  (antigamente conhecido como " + zombie.getNome()+ ")");
+        for (Creature zombie : criaturas.values()) {
+            if (zombie instanceof Zombie) {
+                survivors.add(zombie.getId() + "  (antigamente conhecido como " + zombie.getNome() + ")");
+            }
         }
         survivors.add("");
         survivors.add("Num safe haven:");
         survivors.add("Os Vivos");
 
-        for (Vivo c : humanoHashMap.values()){
-            if (c.getIsSafe()){
-                survivors.add(c.getId() + " " + c.getNome() + "");
+        for (Creature c : criaturas.values()){
+            if (c instanceof Vivo) {
+                if (((Vivo) c).getIsSafe()) {
+                    survivors.add(c.getId() + " " + c.getNome() + "");
+                }
             }
         }
 
@@ -1005,17 +1029,21 @@ public class TWDGameManager {
         survivors.add("Os Vivos");
 
 //fazer a cena dos envenenados com for
-        for (Vivo c : humanoHashMap.values()){
-            if (c.isDeadVeneno()){
-                survivors.add(c.getId() + " " + c.getNome() + "");
+        for (Creature c : criaturas.values()){
+            if (c instanceof Vivo) {
+                if (((Vivo) c).isDeadVeneno()) {
+                    survivors.add(c.getId() + " " + c.getNome() + "");
+                }
             }
         }
 
         survivors.add("");
         survivors.add("OS OUTROS");
-        for (Zombie c : zombieHashMap.values()){
-            if (c.getIsDead()){
-                survivors.add(c.getId() + " " + c.getNome() + "");
+        for (Creature c : criaturas.values()){
+            if (c instanceof Zombie) {
+                if (c.getIsDead()) {
+                    survivors.add(c.getId() + " " + c.getNome() + "");
+                }
             }
         }
 
@@ -1032,10 +1060,12 @@ public class TWDGameManager {
 
         //se for null percorre a lista de humanos para verificar se existe la um
         if (equipamento == null){
-            for (Creature humano1 : humanoHashMap.values()) {
-                if (humano1.getEquipamento().getId() == equipmentId) {
-                    //encontrou
-                    return humano1.getEquipamento().getTypeID();
+            for (Creature humano1 : criaturas.values()) {
+                if (humano1 instanceof Vivo) {
+                    if (humano1.getEquipamento().getId() == equipmentId) {
+                        //encontrou
+                        return humano1.getEquipamento().getTypeID();
+                    }
                 }
             }
         } else {
@@ -1065,11 +1095,13 @@ public class TWDGameManager {
         Creature vivo = new Creature();
 
         if (equipamento == null){
-            for (Creature humano1 : humanoHashMap.values()) {
-                if (humano1.getEquipamento().getId() == equipmentId) {
-                    //encontrou
-                    equipamento= humano1.getEquipamento();
-                    vivo = humano1;
+            for (Creature humano1 : criaturas.values()) {
+                if (humano1 instanceof Vivo) {
+                    if (humano1.getEquipamento().getId() == equipmentId) {
+                        //encontrou
+                        equipamento = humano1.getEquipamento();
+                        vivo = humano1;
+                    }
                 }
             }
         }
@@ -1255,8 +1287,8 @@ public class TWDGameManager {
 
         //--HashsCreatures
         criaturas.clear();
-        zombieHashMap.clear();
-        humanoHashMap.clear();
+       // zombieHashMap.clear();
+        //humanoHashMap.clear();
 
         //--equi
         equipamentoHashMap.clear();

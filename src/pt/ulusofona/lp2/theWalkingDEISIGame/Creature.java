@@ -110,7 +110,7 @@ public class Creature {
 
     @Override
     public String toString(){
-        Vivo human =TWDGameManager.humanoHashMap.get(id);
+        Vivo human = (Vivo) TWDGameManager.criaturas.get(id);
         Creature zombie =TWDGameManager.criaturas.get(id);
 
         if (human!=null) {
