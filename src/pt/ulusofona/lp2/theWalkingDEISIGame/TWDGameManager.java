@@ -7,7 +7,6 @@ import java.util.*;
 public class TWDGameManager {
     //game
 
-
     //--havens
     ArrayList<Integer> safeCreaturesID= new ArrayList<>();
     ArrayList<SafeHaven> safeHavens = new ArrayList<>();
@@ -424,6 +423,11 @@ public class TWDGameManager {
                                 if (humano1.cordenadaX() == xO && humano1.cordenadaY() == yO) {
                                     //se nao tiver equipamentos nenhuns nao entra
                                     if (humano1.getEquipamento().getTypeID() != -23) {
+
+                                        //serva para ver se o eq do humano tem strikesLeft
+                                        if (humano1.getEquipamento().getStrikesLEFT() == 0){
+                                            return false;
+                                        }
                                         int type = -1;
                                         type = humano1.getEquipamento().getTypeID();
                                         if (type != -1) {
@@ -504,7 +508,6 @@ public class TWDGameManager {
                     Vivo vivo1 = (Vivo) vivo2;
                     if (vivo1.getTomouVeneno()) {
                         if (vivo1.getNrTurnosEnvenenados() > 2) {
-                            vivo1.setDead(true);
                             vivo1.setDeadVeneno(true);
                             //faz a criatura desaparecer do jogo
                             criaturas.get(vivo1.getId()).colocarCoordenada(xMorto,yMorto);
@@ -705,7 +708,6 @@ public class TWDGameManager {
                     Vivo vivo1 = (Vivo) vivo2;
                     if (vivo1.getTomouVeneno()) {
                         if (vivo1.getNrTurnosEnvenenados() > 2) {
-                            vivo1.setDead(true);
                             vivo1.setDeadVeneno(true);
                             criaturas.get(vivo1.getId()).colocarCoordenada(xMorto,yMorto);
                             xMorto--;
@@ -767,8 +769,6 @@ public class TWDGameManager {
     }
     //----
 
-
-    //TODO funcao de ataques meter os zombies.setdead true se morrerem
     public boolean attack(Vivo vivo, Zombie zombie, boolean zombieAttack){
         //equipamento atual do humano que ataca o zombie
         Equipamento equipAttack = vivo.getEquipamento();
@@ -1010,55 +1010,56 @@ public class TWDGameManager {
         ArrayList<Creature> creatures = (ArrayList<Creature>) getCreatures();
 
         //fazer a string
-        survivors.add("Nr. de turnos terminados:");
-        survivors.add(nrTurnos +"" );
-        survivors.add("OS VIVOS");
+        survivors.add("Nr. de turnos terminados:\n");
+        survivors.add(nrTurnos +"\n\n" );
+        survivors.add("Ainda pelo bairo:\n\n");
+        survivors.add("OS VIVOS\n");
 
         for (Creature humano : criaturas.values()) {
             if (humano instanceof Vivo) {
-                survivors.add(humano.getId() + " " + humano.getNome() + "");
+                survivors.add(humano.getId() + " " + humano.getNome() + "\n");
             }
         }
 
-        survivors.add("");
-        survivors.add("OS OUTROS");
+        survivors.add("\n");
+        survivors.add("OS OUTROS\n");
 
         for (Creature zombie : criaturas.values()) {
             if (zombie instanceof Zombie) {
-                survivors.add(zombie.getId() + "  (antigamente conhecido como " + zombie.getNome() + ")");
+                survivors.add(zombie.getId() + "  (antigamente conhecido como " + zombie.getNome() + ")\n");
             }
         }
-        survivors.add("");
-        survivors.add("Num safe haven:");
-        survivors.add("Os Vivos");
+        survivors.add("\n");
+        survivors.add("Num safe haven:\n\n");
+        survivors.add("Os Vivos\n");
 
         for (Creature c : criaturas.values()){
             if (c instanceof Vivo) {
                 if (((Vivo) c).getIsSafe()) {
-                    survivors.add(c.getId() + " " + c.getNome() + "");
+                    survivors.add(c.getId() + " " + c.getNome() + "\n");
                 }
             }
         }
 
-        survivors.add("");
-        survivors.add("Envenenados / Destruidos");
-        survivors.add("Os Vivos");
+        survivors.add("\n");
+        survivors.add("Envenenados / Destruidos\n\n");
+        survivors.add("Os Vivos\n");
 
 //fazer a cena dos envenenados com for
         for (Creature c : criaturas.values()){
             if (c instanceof Vivo) {
                 if (((Vivo) c).isDeadVeneno()) {
-                    survivors.add(c.getId() + " " + c.getNome() + "");
+                    survivors.add(c.getId() + " " + c.getNome() + "\n");
                 }
             }
         }
 
-        survivors.add("");
-        survivors.add("OS OUTROS");
+        survivors.add("\n");
+        survivors.add("OS OUTROS\n");
         for (Creature c : criaturas.values()){
             if (c instanceof Zombie) {
                 if (c.getIsDead()) {
-                    survivors.add(c.getId() + " " + c.getNome() + "");
+                    survivors.add(c.getId() + " " + c.getNome() + "\n");
                 }
             }
         }
