@@ -60,7 +60,7 @@ public class TestGetElementId {
         teste.startGame(file);
 
         int resultEsperado = 5;
-        int resultReal= teste.getElementId(1,1);
+        int resultReal= teste.getElementId(5,1);
 
         assertEquals("Devia dar 5, cao sam",resultEsperado,resultReal);
     }
