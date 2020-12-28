@@ -1032,17 +1032,14 @@ public class TWDGameManager {
         }
 
         survivors.add("OS OUTROS");
-        survivors.add("");
 
         for (Creature zombie : criaturas.values()) {
             if (zombie instanceof Zombie && !zombie.getIsDead()) {
-                survivors.add(zombie.getId() + "  (antigamente conhecido como " + zombie.getNome() + ")");
-                survivors.add("");
+                survivors.add(zombie.getId() + " (antigamente conhecido como " + zombie.getNome() + ")");
             }
         }
-        survivors.add("");
+
         survivors.add("Num safe haven:");
-        survivors.add("");
         survivors.add("");
         survivors.add("Os Vivos");
         survivors.add("");
@@ -1051,14 +1048,12 @@ public class TWDGameManager {
             if (c instanceof Vivo) {
                 if (((Vivo) c).getIsSafe()) {
                     survivors.add(c.getId() + " " + c.getNome());
-                    survivors.add("");
                 }
             }
         }
 
         survivors.add("");
         survivors.add("Envenenados / Destruidos");
-        survivors.add("");
         survivors.add("Os Vivos");
         survivors.add("");
 
@@ -1083,6 +1078,7 @@ public class TWDGameManager {
             }
         }
 
+        survivors.add("");
         return survivors;
     }
 
