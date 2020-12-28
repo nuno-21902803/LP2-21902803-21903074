@@ -172,13 +172,8 @@ public class TWDGameManager {
     }
 
     public List<Creature> getCreatures(){
-        ArrayList<Creature> creatures = new ArrayList<>();
 
-        creatures.clear();
-
-        for (Creature c : criaturas.values()){
-            creatures.add(c);
-        }
+        ArrayList<Creature> creatures = new ArrayList<>(criaturas.values());
 
         return creatures;
     }
@@ -1041,8 +1036,7 @@ public class TWDGameManager {
 
         survivors.add("Num safe haven:");
         survivors.add("");
-        survivors.add("Os Vivos");
-        survivors.add("");
+        survivors.add("Os VIVOS");
 
         for (Creature c : criaturas.values()){
             if (c instanceof Vivo) {
@@ -1053,8 +1047,8 @@ public class TWDGameManager {
         }
 
         survivors.add("");
-        survivors.add("Envenenados / Destruidos");
-        survivors.add("Os Vivos");
+        survivors.add("Envenenados / Destruídos");
+        survivors.add("Os VIVOS");
         survivors.add("");
 
 //fazer a cena dos envenenados com for
@@ -1335,7 +1329,7 @@ public class TWDGameManager {
         day = true;
         xMorto = -1;
         yMorto = -1;
-
+        
         return startGame(fich);
     }
 }
