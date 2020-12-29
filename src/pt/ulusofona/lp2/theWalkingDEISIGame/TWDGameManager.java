@@ -42,6 +42,16 @@ public class TWDGameManager {
         criaturas.clear();
         //--equi
         equipamentoHashMap.clear();
+        numeroLinhas = 0;
+        numeroColunas = 0;
+        idxInfecoes = -1;
+        idEquipaAtual = 0;
+        idEquipaInicial = 0;
+        nrTurnos = 0;
+        day = true;
+        xMorto = -1;
+        yMorto = -1;
+        //clear das estruturas e vars
 
         try {
             Scanner leitorFicheiro = new Scanner(new FileInputStream(ficheiroInicial));
@@ -890,10 +900,10 @@ public class TWDGameManager {
                 return zombie.getIdTipo() == 4;
                 //qd e garrafa de lixivia
             case 7:
-                if (equipDefense.getLitroLEFT()>=0.3){
+                if (equipDefense.getLitroLEFTfloat()>=0.3){
 
                     //dar update nos strikes
-                    float numStrikes = equipDefense.getLitroLEFT();
+                    float numStrikes = equipDefense.getLitroLEFTfloat();
                     equipDefense.setLitroLEFT((float) (numStrikes-0.3));
 
                 } else {
@@ -1146,7 +1156,7 @@ public class TWDGameManager {
                 info= equipamento.getNome() +" | "+ equipamento.getStrikesLEFT();
                 return info;
             case 7:
-                info= equipamento.getNome() +" | "+ equipamento.getLitroLEFT();
+                info= equipamento.getNome() +" | "+ equipamento.getLitroLEFTint();
                 return info;
             default:
                 info= equipamento.getNome()+"";
@@ -1169,7 +1179,7 @@ public class TWDGameManager {
         answers[9] = "1978";
         answers[10] = "James Bond";
         answers[11] = "Friends";
-        answers[12] = "chocho";
+        answers[12] = "cabeça de alho chocho";
         answers[13] = "Freddie mercury";
 
         return answers;

@@ -82,7 +82,11 @@ public class Equipamento {
         this.litroLEFT = litroLEFT;
     }
 
-    public int getLitroLEFT() {
+    public float getLitroLEFTfloat() {
+        return litroLEFT;
+    }
+
+    public int getLitroLEFTint() {
 
         if (litroLEFT == 1.0){
             return 3;
