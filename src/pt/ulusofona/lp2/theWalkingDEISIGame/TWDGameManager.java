@@ -558,8 +558,6 @@ public class TWDGameManager {
                         vivo.setTomouVeneno(true);
                         vivo.setNrTurnosEnvenenados(1);
                         equipamento.setStrikesLEFT(0);
-                    } else if (true){
-
                     }
                 } else if (equipamento.getTypeID() == 9){
                     if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 1){
@@ -568,7 +566,7 @@ public class TWDGameManager {
                         vivo.setTomouVeneno(false);
 
                     } else if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 0){
-                        return true;
+
                     } else if (!vivo.getTomouVeneno()){
                         //nao estava envenenado
                         return false;
@@ -1212,7 +1210,7 @@ public class TWDGameManager {
         answers[0] = "Resident Evil";
         answers[1] = "Evil Dead";
         answers[2] = "I Am Legend"; //certo ate aqui
-        answers[3] = "The Village";
+        answers[3] = "Evolution";
         answers[4] = "The Code";
         answers[5] = "World War Z";
         answers[6] = "The Mandalorian's";
