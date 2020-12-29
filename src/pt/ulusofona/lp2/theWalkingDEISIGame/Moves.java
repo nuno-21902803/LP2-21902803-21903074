@@ -112,8 +112,8 @@ public class Moves {
                       //  return false;
                     }
 
-                    return !(xAnterior -xPretendido > -2 && xAnterior-xPretendido <2) ||
-                            !(yAnterior-yPretendido> -2 && yAnterior-yPretendido <2);
+                    return (xAnterior -xPretendido > -3 && xAnterior-xPretendido <3) &&
+                            (yAnterior-yPretendido> -3 && yAnterior-yPretendido <3);
                 }else {
                     return false;
                 }
