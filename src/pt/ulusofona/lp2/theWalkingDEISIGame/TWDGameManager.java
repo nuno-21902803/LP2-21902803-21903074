@@ -1036,7 +1036,7 @@ public class TWDGameManager {
 
         survivors.add("Num safe haven:");
         survivors.add("");
-        survivors.add("Os VIVOS");
+        survivors.add("OS VIVOS");
 
         for (Creature c : criaturas.values()){
             if (c instanceof Vivo) {
@@ -1048,7 +1048,7 @@ public class TWDGameManager {
 
         survivors.add("");
         survivors.add("Envenenados / Destruídos");
-        survivors.add("Os VIVOS");
+        survivors.add("OS VIVOS");
         survivors.add("");
 
 //fazer a cena dos envenenados com for
@@ -1329,7 +1329,7 @@ public class TWDGameManager {
         day = true;
         xMorto = -1;
         yMorto = -1;
-        
+
         return startGame(fich);
     }
 }
