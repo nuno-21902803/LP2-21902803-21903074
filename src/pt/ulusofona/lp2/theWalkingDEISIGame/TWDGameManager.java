@@ -1269,7 +1269,7 @@ public class TWDGameManager {
             //funcao de escrever p ficheiro
             BufferedWriter writer = new BufferedWriter(new FileWriter(fich.getName(), true));
 
-            writer.write(getWorldSize()[0] + " " + getWorldSize()[1] + "\n"+idEquipaInicial + "\n"
+            writer.write(getWorldSize()[0] + " " + getWorldSize()[1] + "\n"+idEquipaAtual + "\n"
                     +criaturas.size() + "\n");
 
 
