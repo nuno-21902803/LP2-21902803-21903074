@@ -893,8 +893,8 @@ public class TWDGameManager {
                 if (equipDefense.getLitroLEFT()>=0.3){
 
                     //dar update nos strikes
-                    int numStrikes = equipDefense.getLitroLEFT();
-                    equipDefense.setLitroLEFT(numStrikes-1);
+                    float numStrikes = equipDefense.getLitroLEFT();
+                    equipDefense.setLitroLEFT((float) (numStrikes-0.3));
 
                 } else {
                     //nao tem strickes
