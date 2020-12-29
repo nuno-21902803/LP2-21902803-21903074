@@ -526,6 +526,7 @@ public class TWDGameManager {
                         }
                         int nr = vivo1.getNrTurnosEnvenenados();
                         vivo1.setNrTurnosEnvenenados(nr + 1);
+                        break;
                     }
                 }
             }
@@ -556,6 +557,19 @@ public class TWDGameManager {
                     if (!vivo.getTomouVeneno()){
                         vivo.setTomouVeneno(true);
                         vivo.setNrTurnosEnvenenados(1);
+                        equipamento.setStrikesLEFT(0);
+                    }
+                } else if (equipamento.getTypeID() == 9){
+                    if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 1){
+                        //atualiza os usos left e mete o vivo curado
+                        equipamento.setStrikesLEFT(0);
+                        vivo.setTomouVeneno(false);
+
+                    } else if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 0){
+                        return true;
+                    } else if (!vivo.getTomouVeneno()){
+                        //nao estava envenenado
+                        return false;
                     }
                 }
 
@@ -581,6 +595,19 @@ public class TWDGameManager {
                         if (!vivo.getTomouVeneno()){
                             vivo.setTomouVeneno(true);
                             vivo.setNrTurnosEnvenenados(1);
+                            equipamento.setStrikesLEFT(0);
+                        }
+                    } else if (equipamento.getTypeID() == 9){
+                        if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 1){
+                            //atualiza os usos left e mete o vivo curado
+                            equipamento.setStrikesLEFT(0);
+                            vivo.setTomouVeneno(false);
+
+                        } else if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 0){
+                            return true;
+                        } else if (!vivo.getTomouVeneno()){
+                            //nao estava envenenado
+                            return false;
                         }
                     }
                 }
@@ -626,6 +653,19 @@ public class TWDGameManager {
                     if (!vivo.getTomouVeneno()){
                         vivo.setTomouVeneno(true);
                         vivo.setNrTurnosEnvenenados(1);
+                        equipamento.setStrikesLEFT(0);
+                    }
+                } else if (equipamento.getTypeID() == 9){
+                    if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 1){
+                        //atualiza os usos left e mete o vivo curado
+                        equipamento.setStrikesLEFT(0);
+                        vivo.setTomouVeneno(false);
+
+                    } else if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 0){
+                        return true;
+                    } else if (!vivo.getTomouVeneno()){
+                        //nao estava envenenado
+                        return false;
                     }
                 }
 
@@ -687,6 +727,19 @@ public class TWDGameManager {
                     if (!vivo.getTomouVeneno()){
                         vivo.setTomouVeneno(true);
                         vivo.setNrTurnosEnvenenados(1);
+                        equipamento.setStrikesLEFT(0);
+                    }
+                } else if (equipamento.getTypeID() == 9){
+                    if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 1){
+                        //atualiza os usos left e mete o vivo curado
+                        equipamento.setStrikesLEFT(0);
+                        vivo.setTomouVeneno(false);
+
+                    } else if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 0){
+                        return true;
+                    } else if (!vivo.getTomouVeneno()){
+                        //nao estava envenenado
+                        return false;
                     }
                 }
 
@@ -727,6 +780,7 @@ public class TWDGameManager {
                         }
                         int nr = vivo1.getNrTurnosEnvenenados();
                         vivo1.setNrTurnosEnvenenados(nr + 1);
+                        break;
                     }
                 }
             }
@@ -748,6 +802,7 @@ public class TWDGameManager {
 
                 //se for veneno da logo false
                 if (equipamento.getTypeID() == 8){
+                    zombie.colocarCoordenada(xO,yO);
                     return false;
                 }
                 //se o zombie for vampiro e o eqq for uma cabeça de alho
@@ -916,20 +971,11 @@ public class TWDGameManager {
             case 8:
                 //ou seja nao esta vazio
                 //nao tem strickes
-                if (equipDefense.getStrikesLEFT()>0){
-                    equipDefense.setStrikesLEFT(0);
-                    return true;
-                } else {
-                    return false;
-                }
+                return vivo.getTomouVeneno() && vivo.getNrTurnosEnvenenados() < 3 && vivo.getNrTurnosEnvenenados() > 0;
             //qd e antidoto
             case 9:
                 //ou seja tem um uso
-                if (vivo.getTomouVeneno() && equipDefense.getStrikesLEFT() > 0){
-                    //atualiza os usos left e mete o vivo curado
-                    equipDefense.setStrikesLEFT(0);
-                    vivo.setTomouVeneno(false);
-                }
+                return false;
         }
         //sucedeu na defesa
         return true;
@@ -956,7 +1002,7 @@ public class TWDGameManager {
         //se para cada vivo ele nao estiver morto nem a salvo
         for (Creature vivo : criaturas.values()){
             if (vivo instanceof Vivo){
-                if (!((Vivo) vivo).getIsSafe() && !vivo.getIsDead()){
+                if (!((Vivo) vivo).getIsSafe() && !vivo.getIsDead() && !((Vivo) vivo).isDeadVeneno()){
                     return false;
                 }
             }
@@ -1030,9 +1076,9 @@ public class TWDGameManager {
         survivors.add("");
 
         for (Creature humano : criaturas.values()) {
-            if (humano instanceof Vivo && !((Vivo) humano).getIsSafe() && !humano.getIsDead()) {
+            if (humano instanceof Vivo && !((Vivo) humano).getIsSafe() && !humano.getIsDead() &&
+                    !((Vivo) humano).isDeadVeneno()) {
                 survivors.add(humano.getId() + " " + humano.getNome());
-                survivors.add("");
             }
         }
 
@@ -1083,6 +1129,7 @@ public class TWDGameManager {
         }
 
         survivors.add("");
+        System.out.println(survivors);
         return survivors;
     }
 
@@ -1170,7 +1217,7 @@ public class TWDGameManager {
         answers[0] = "Resident Evil";
         answers[1] = "Evil Dead";
         answers[2] = "I Am Legend"; //certo ate aqui
-        answers[3] = "doom";
+        answers[3] = "The Village";
         answers[4] = "The Code";
         answers[5] = "World War Z";
         answers[6] = "The Mandalorian's";
@@ -1315,31 +1362,6 @@ public class TWDGameManager {
     }
 
     public boolean loadGame(File fich){
-        //clear das estruturas
-
-        //--havens
-        safeCreaturesID.clear();
-        safeHavens.clear();
-
-        //--HashsCreatures
-        criaturas.clear();
-       // zombieHashMap.clear();
-        //humanoHashMap.clear();
-
-        //--equi
-        equipamentoHashMap.clear();
-
-        //--vars
-        numeroLinhas = 0;
-        numeroColunas = 0;
-        idxInfecoes = -1;
-        idEquipaInicial = 0;
-        idEquipaAtual = 0;
-        nrTurnos = 0;
-        day = true;
-        xMorto = -1;
-        yMorto = -1;
-
         return startGame(fich);
     }
 }
