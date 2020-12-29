@@ -90,7 +90,7 @@ public class TestGetElementId {
     @Test
     public void testGETElementID_8_saveLOAD(){
         File file = new File("test-files/teste1.txt");
-        File file1 = new File("testeSAVE.txt");
+        File file1 = new File("testeSAVE");
         teste.startGame(file);
         teste.move(3,3,2,3);
         teste.saveGame(file1);

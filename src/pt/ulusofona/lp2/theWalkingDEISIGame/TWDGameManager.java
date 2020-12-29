@@ -1316,7 +1316,7 @@ public class TWDGameManager {
     public boolean saveGame(File fich){
         try {
 
-            File file = new File(fich.getAbsolutePath());
+            File file = new File(fich.getAbsolutePath() + "txt");
 
             //funcao de escrever p ficheiro
             BufferedWriter writer = new BufferedWriter(new FileWriter(fich.getName(), true));
