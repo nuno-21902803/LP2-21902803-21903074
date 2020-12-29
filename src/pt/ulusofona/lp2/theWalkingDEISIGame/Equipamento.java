@@ -86,11 +86,11 @@ public class Equipamento {
 
         if (litroLEFT == 1.0){
             return 3;
-        }else if (litroLEFT == 0.7){
+        }else if (litroLEFT >= 0.6 && litroLEFT <= 0.9){
             return 2;
-        }else if (litroLEFT == 0.4){
+        }else if (litroLEFT >= 0.3 && litroLEFT <= 0.5){
             return 1;
-        }else if (litroLEFT == 0.1){
+        }else if (litroLEFT < 0.3){
             return 0;
         }
         return 0;
