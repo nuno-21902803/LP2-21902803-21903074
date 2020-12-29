@@ -65,7 +65,7 @@ public class Testes {
         teste.startGame(file);
         teste.loadGame(new File("test-files/teste1.txt"));
 
-        int resultEsperado = 20;
+        int resultEsperado = 10;
         int resultReal= teste.getCurrentTeamId();
 
         assertEquals("Devia dar igual",resultEsperado,resultReal);

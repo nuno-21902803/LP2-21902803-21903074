@@ -142,11 +142,11 @@ public class Equipamento {
     }
 
     public int cordenadaX(){
-        return this.x;
+        return x;
     }
 
     public int cordenadaY(){
-        return this.y;
+        return y;
     }
 
     @Override

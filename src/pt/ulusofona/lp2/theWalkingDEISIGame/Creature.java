@@ -8,7 +8,8 @@ public class Creature {
     private String tipoCriatura;
     private String nomeEquipa;
     private String nome;
-    private int x, y;
+    private int x;
+    private int y;
     private Equipamento equipamento = new Equipamento();
     private int numEqApanhadosDestruidos = 0;
     private boolean isDead;
@@ -77,11 +78,11 @@ public class Creature {
     }
 
     public int cordenadaX() {
-        return this.x;
+        return x;
     }
 
     public int cordenadaY() {
-        return this.y;
+        return y;
     }
 
     public int getEquipamentos(){
@@ -128,7 +129,7 @@ public class Creature {
         }
 
         return id + " | " + tipoCriatura + " | " + nomeEquipa + " | " + nome + " " +
-                getEquipamentos() + " @ (" + x + ", " + y + ")";
+                getEquipamentos() + " @ (" + cordenadaX() + ", " + cordenadaY() + ")";
 
     }
 }

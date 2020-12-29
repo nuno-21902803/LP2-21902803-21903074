@@ -22,6 +22,7 @@ public class TestMove {
         assertEquals("Devia dar igual, movimento cao", true, resultReal);
     }
 
+
     @Test
     public void testMove_2() {
         File file = new File("test-files/testesFile.txt");
@@ -89,6 +90,17 @@ public class TestMove {
         assertEquals("Devia dar true, militar apanha eq", resultEsperado, resultReal);
     }
 
+    @Test
+    public void testMove_7() {
+        File file = new File("test-files/testesFile.txt");
+        teste.startGame(file);
+
+
+        boolean resultEsperado = false;
+        boolean resultReal = teste.move(3, 0, 3, -1);
+
+        assertEquals("Devia dar false, coordenadas invalidas", resultEsperado, resultReal);
+    }
 
 
     @Test

@@ -46,6 +46,11 @@ public class Moves {
     public boolean validarMove(int xPretendido, int yPretendido, int xAnterior, int yAnterior, int tYPEidCriaturaAtual,
                                boolean day) {
 
+        if (xAnterior <0 || yPretendido <0 || xPretendido <0 || yAnterior <0){
+            //coordenadas negativas nao valem
+            return false;
+        }
+
         boolean check = xPretendido == xAnterior - 1 && yPretendido == yAnterior ||
                 xPretendido == xAnterior + 1 && yPretendido == yAnterior ||
                 xPretendido == xAnterior && yPretendido == yAnterior - 1 ||

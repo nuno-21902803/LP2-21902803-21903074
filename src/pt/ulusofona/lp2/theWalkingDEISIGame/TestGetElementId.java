@@ -86,4 +86,19 @@ public class TestGetElementId {
 
         assertEquals("Devia dar 0, porta",resultEsperado,resultReal);
     }
+
+    @Test
+    public void testGETElementID_8_saveLOAD(){
+        File file = new File("test-files/teste1.txt");
+        File file1 = new File("testeSAVE.txt");
+        teste.startGame(file);
+        teste.move(3,3,2,3);
+        teste.saveGame(file1);
+        teste.loadGame(file1);
+
+        int resultEsperado = 1;
+        int resultReal= teste.getElementId(2,3);
+
+        assertEquals("Devia dar igual",resultEsperado,resultReal);
+    }
 }

@@ -205,6 +205,7 @@ public class TWDGameManager {
     //move
     public boolean move(int xO, int yO, int xD, int yD) {
 
+
         int idCriatura = 0;
         boolean isHumano = false;
         boolean isZombie = false;
@@ -249,6 +250,8 @@ public class TWDGameManager {
             if (!moves.validarMove(xD, yD, xO, yO, criaturas.get(idCriatura).getIdTipo(),day)) {
                 return false;
             }
+        } else {
+            return false;
         }
 
 
@@ -551,10 +554,12 @@ public class TWDGameManager {
 
                 //ver se foi veneno e começar a contar
                 if (equipamento.getTypeID() == 8){
-                    if (!vivo.getTomouVeneno()){
+                    if (!vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 1){
                         vivo.setTomouVeneno(true);
                         vivo.setNrTurnosEnvenenados(1);
                         equipamento.setStrikesLEFT(0);
+                    } else if (true){
+
                     }
                 } else if (equipamento.getTypeID() == 9){
                     if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 1){
@@ -588,7 +593,7 @@ public class TWDGameManager {
                     equipamento.setY(yO);
 
                     //ver se foi veneno e começar a contar
-                    if (equipamento.getTypeID() == 8){
+                    if (equipamento.getTypeID() == 8 && equipamento.getStrikesLEFT() == 1){
                         if (!vivo.getTomouVeneno()){
                             vivo.setTomouVeneno(true);
                             vivo.setNrTurnosEnvenenados(1);
@@ -647,7 +652,7 @@ public class TWDGameManager {
 
                 //ver se foi veneno e começar a contar
                 if (equipamento.getTypeID() == 8){
-                    if (!vivo.getTomouVeneno()){
+                    if (!vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 1) {
                         vivo.setTomouVeneno(true);
                         vivo.setNrTurnosEnvenenados(1);
                         equipamento.setStrikesLEFT(0);
@@ -720,7 +725,7 @@ public class TWDGameManager {
                 }
 
                 //ver se foi veneno e começar a contar
-                if (equipamento.getTypeID() == 8){
+                if (equipamento.getTypeID() == 8 && equipamento.getStrikesLEFT() == 1){
                     if (!vivo.getTomouVeneno()){
                         vivo.setTomouVeneno(true);
                         vivo.setNrTurnosEnvenenados(1);
@@ -1029,22 +1034,11 @@ public class TWDGameManager {
         //adquirir o id da criatura naquela posicao
 
         for (Creature creature : criaturas.values()){
+
             if (creature.cordenadaX() == x && creature.cordenadaY() == y){
                 return creature.getId();
             }
         }
-        /*for (Creature zombie1 : zombieHashMap.values()) {
-            if (zombie1.cordenadaX() == x && zombie1.cordenadaY() == y) {
-                return zombie1.getId();
-            }
-        }
-        //se nao for zombie ele entra aqui para verificar se é humano
-        for (Creature humano1 : humanoHashMap.values()) {
-            if (humano1.cordenadaX() == x && humano1.cordenadaY() == y) {
-                return humano1.getId();
-            }
-        }*/
-
         for (Equipamento equipamento : equipamentoHashMap.values()) {
             if (equipamento.cordenadaX() == x && equipamento.cordenadaY() == y) {
                 return equipamento.getId();
@@ -1130,7 +1124,7 @@ public class TWDGameManager {
         }
 
         survivors.add("");
-        //System.out.println(survivors);
+
         return survivors;
     }
 
@@ -1322,14 +1316,13 @@ public class TWDGameManager {
     public boolean saveGame(File fich){
         try {
 
-            File file = new File(fich.getAbsolutePath() + ".txt");
+            File file = new File(fich.getAbsolutePath());
 
             //funcao de escrever p ficheiro
             BufferedWriter writer = new BufferedWriter(new FileWriter(fich.getName(), true));
 
             writer.write(getWorldSize()[0] + " " + getWorldSize()[1] + "\n"+idEquipaAtual + "\n"
                     +criaturas.size() + "\n");
-
 
             for (Creature c : criaturas.values()) {
                 writer.write(c.getId() + " : "
