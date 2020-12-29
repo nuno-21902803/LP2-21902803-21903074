@@ -202,12 +202,7 @@ public class TWDGameManager {
         return safeCreaturesID;
     }
 
-    //TODO fazer as restricoes NA CLASSE MOVE para cada criatura etc...
-    //TODO fazer restricoes sobre noite dia etc...
-    //TODO METER O SETTER QUANDO O VIVO É MILITAR (IDtipo == 7)
-    //TODO se esta envenenado durante +2 turnos (morre) criar vars aux com nTurno inicial e final com o getTomouVeneno
-    //TODO e a cena do antidoto se ele apanhar
-    //TODO ver se ele tem strikes, se nao tiver move return false
+    //move
     public boolean move(int xO, int yO, int xD, int yD) {
 
         int idCriatura = 0;
@@ -330,7 +325,8 @@ public class TWDGameManager {
                                                         if (nrTurnos % 2 == 0) {
                                                             day = !day;
                                                         }
-                                                        // TODO nrTurnos = 0;
+
+                                                        nrTurnos = 0;
                                                         return true;
                                                     }
 
@@ -371,7 +367,7 @@ public class TWDGameManager {
                                                         if (nrTurnos % 2 == 0) {
                                                             day = !day;
                                                         }
-                                                        //TODO nrTurnos = 0;
+                                                        nrTurnos = 0;
                                                         return true;
                                                     }
 
@@ -405,6 +401,7 @@ public class TWDGameManager {
                                             //se forem multiplos de 2 muda o dia
                                             day = !day;
                                         }
+                                        nrTurnos = 0;
                                         idEquipaAtual = 10;
                                         return true;
                                     }
@@ -484,7 +481,7 @@ public class TWDGameManager {
                                                         if (nrTurnos % 2 == 0) {
                                                             day = !day;
                                                         }
-                                                        //TODO nrTurnos = 0;
+                                                        nrTurnos = 0;
                                                         return true;
 
                                                     }
@@ -970,8 +967,13 @@ public class TWDGameManager {
                 //qd e veneno
             case 8:
                 //ou seja nao esta vazio
-                //nao tem strickes
-                return vivo.getTomouVeneno() && vivo.getNrTurnosEnvenenados() < 3 && vivo.getNrTurnosEnvenenados() > 0;
+                //aumenta o nrTurno por defesa
+                if (vivo.getTomouVeneno() && vivo.getNrTurnosEnvenenados() < 3 && vivo.getNrTurnosEnvenenados() > 0){
+                    int nr = vivo.getNrTurnosEnvenenados();
+                    vivo.setNrTurnosEnvenenados(nr +1);
+                    return true;
+                }
+
             //qd e antidoto
             case 9:
                 //ou seja tem um uso
@@ -992,7 +994,6 @@ public class TWDGameManager {
         return null;
     }
 
-    //TODO alterar as restricoes para o fim do jogo
     public boolean gameIsOver() {
         //se nao houve infecoes
         if (nrTurnos >=12){
@@ -1129,7 +1130,7 @@ public class TWDGameManager {
         }
 
         survivors.add("");
-        System.out.println(survivors);
+        //System.out.println(survivors);
         return survivors;
     }
 
