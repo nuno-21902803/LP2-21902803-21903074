@@ -122,16 +122,25 @@ public class Moves {
                 if (checkCreatures){
                    // return false;
                 }
-                if (xPretendido + 1 >TWDGameManager.numeroColunas || yPretendido +1 > TWDGameManager.numeroLinhas){
+                if (xPretendido + 1 >TWDGameManager.numeroColunas ||
+                        yPretendido + 1 > TWDGameManager.numeroLinhas){
+                    return false;
+                } else if (xPretendido + 2 >TWDGameManager.numeroColunas ||
+                        yPretendido + 2 > TWDGameManager.numeroLinhas){
                     return false;
                 }
 
-                if (xPretendido == xAnterior-1 ){
+                if (xPretendido == xAnterior - 1 ){
                     return yPretendido == yAnterior + 1 || yPretendido == yAnterior - 1;
-                } else if (xPretendido == xAnterior +1){
+                } else if (xPretendido == xAnterior + 1 ){
                     return yPretendido == yAnterior + 1 || yPretendido == yAnterior - 1;
                 }
 
+                if (xPretendido == xAnterior - 2 ){
+                    return yPretendido == yAnterior + 2 || yPretendido == yAnterior - 2;
+                } else if (xPretendido == xAnterior + 2 ){
+                    return yPretendido == yAnterior + 2 || yPretendido == yAnterior - 2;
+                }
                 return false;
                 //zombieFILME
             case 10:
@@ -140,8 +149,8 @@ public class Moves {
                 }
                 //TODO zombie filme
             default:
-                return xPretendido <= TWDGameManager.numeroLinhas - 1 && xPretendido >= 0 ||
-                        yPretendido <= TWDGameManager.numeroColunas - 1 && yPretendido >= 0;
+                return xPretendido <= TWDGameManager.numeroLinhas - 1 ||
+                        yPretendido <= TWDGameManager.numeroColunas - 1;
         }
 
     }

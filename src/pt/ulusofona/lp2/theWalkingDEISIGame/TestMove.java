@@ -103,14 +103,7 @@ public class TestMove {
     }
 
 
-    @Test
-    public void testMove_oneLeftDownDiagonal() {
-        File file = new File("test-files/testesFile.txt");
-        teste.loadGame(file);
 
-        boolean obtained = teste.move(3, 3, 2, 4);
-        assertTrue(obtained);
-    }
     @Test
     public void testMove_outOfBounds1() {
         File file = new File("test-files/testesFile.txt");
@@ -196,4 +189,23 @@ public class TestMove {
         assertTrue(obtained);
     }
 
+    @Test
+    public void testMove_oneLeftDownDiagonal() {
+        File file = new File("test-files/testesFile.txt");
+        teste.loadGame(file);
+
+        boolean obtained = teste.move(3, 3, 2, 4);
+        assertTrue(obtained);
+    }
+
+    //--testes file modelo
+    //
+    @Test
+    public void testMove_Modelo_1() {
+        File file = new File("test-files/modelo.txt");
+        teste.loadGame(file);
+
+        boolean obtained = teste.move(0, 2, 0, 4);
+        assertEquals(false,obtained);
+    }
 }
