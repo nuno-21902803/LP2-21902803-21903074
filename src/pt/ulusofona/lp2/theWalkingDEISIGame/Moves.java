@@ -122,12 +122,18 @@ public class Moves {
                 if (checkCreatures){
                    // return false;
                 }
-                if (xPretendido + 1 >TWDGameManager.numeroColunas ||
-                        yPretendido + 1 > TWDGameManager.numeroLinhas){
-                    return false;
-                } else if (xPretendido + 2 >TWDGameManager.numeroColunas ||
-                        yPretendido + 2 > TWDGameManager.numeroLinhas){
-                    return false;
+                if (xPretendido == xAnterior +1) {
+                    if (xPretendido + 1 > TWDGameManager.numeroColunas ||
+                            yPretendido + 1 > TWDGameManager.numeroLinhas) {
+                        return false;
+                    }
+                }
+
+                if (xPretendido == xAnterior +2) {
+                    if (xPretendido + 2 > TWDGameManager.numeroColunas ||
+                            yPretendido + 2 > TWDGameManager.numeroLinhas) {
+                        return false;
+                    }
                 }
 
                 if (xPretendido == xAnterior - 1 ){
