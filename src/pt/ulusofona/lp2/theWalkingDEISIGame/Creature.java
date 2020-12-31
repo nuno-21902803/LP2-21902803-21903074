@@ -93,6 +93,14 @@ public class Creature {
         this.numEqApanhadosDestruidos = numEqApanhadosDestruidos;
     }
 
+    public void setTipoCriatura(String tipoCriatura) {
+        this.tipoCriatura = tipoCriatura;
+    }
+
+    public void setNomeEquipa(String nomeEquipa) {
+        this.nomeEquipa = nomeEquipa;
+    }
+
     public Equipamento getEquipamento() {
         return equipamento;
     }
