@@ -63,7 +63,7 @@ public class Testes {
         teste.startGame(file);
         teste.startGame(file);
         teste.saveGame(new File("save.txt"));
-        teste.loadGame(new File("save"));
+        teste.loadGame(new File("save.txt"));
 
         int resultEsperado = 10;
         int resultReal= teste.getCurrentTeamId();
