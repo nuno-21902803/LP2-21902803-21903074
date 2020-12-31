@@ -313,20 +313,13 @@ public class TWDGameManager {
                                                         vivo1.setIdTipo(vivo1.getIdTipo() - 5);
                                                         //zombie tmp para colocar no hash
                                                         //System.out.println("FOI AQUI");
-                                                        criaturas.put(vivo1.getId(), vivo1);
-
-                                                        //zombie tmp para colocar no hash
-                                                        vivo1.setNomeEquipa("Os Outros");
-                                                        vivo1.setTipoCriatura(creatureTYPE_ID(vivo1.getIdTipo()));
-                                                        vivo1.setNumEqApanhadosDestruidos(0);
-                                                        vivo1.setDead(false);
-                                                        /*Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
+                                                        Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
                                                                 creatureTYPE_ID(vivo1.getIdTipo()),
                                                                 "Os Outros", vivo1.getNome(),
                                                                 vivo1.cordenadaX(), vivo1.cordenadaY(),
                                                                 new Equipamento(), 0, false);
 
-                                                        criaturas.put(tmp.getId(), tmp);*/
+                                                        criaturas.put(tmp.getId(), tmp);
                                                         //remove dos humanos
                                                         idEquipaAtual = 10;
 
@@ -336,7 +329,7 @@ public class TWDGameManager {
                                                             day = !day;
                                                         }
 
-                                                        nrTurnos = 0;
+                                                        idxInfecoes = 100;
                                                         return true;
                                                     }
 
@@ -363,21 +356,14 @@ public class TWDGameManager {
                                                         vivo1.setIdTipo(vivo1.getIdTipo() - 5);
                                                         //zombie tmp para colocar no hash
                                                         //System.out.println("FOI AQUI 2");
-                                                        criaturas.put(vivo1.getId(), vivo1);
-
-                                                        //zombie tmp para colocar no hash
-                                                        vivo1.setNomeEquipa("Os Outros");
-                                                        vivo1.setTipoCriatura(creatureTYPE_ID(vivo1.getIdTipo()));
-                                                        vivo1.setNumEqApanhadosDestruidos(0);
-                                                        vivo1.setDead(false);
-                                                        /*Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
+                                                        Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
                                                                 creatureTYPE_ID(vivo1.getIdTipo()),
                                                                 "Os Outros", vivo1.getNome(),
                                                                 vivo1.cordenadaX(), vivo1.cordenadaY(),
                                                                 new Equipamento(), 0, false);
 
                                                         criaturas.put(tmp.getId(), tmp);
-*/
+
                                                         idEquipaAtual = 10;
 
                                                         //houve uma infeção logo nrTurnos volta para 0.
@@ -385,7 +371,7 @@ public class TWDGameManager {
                                                         if (nrTurnos % 2 == 0) {
                                                             day = !day;
                                                         }
-                                                        nrTurnos = 0;
+                                                        idxInfecoes = 100;
                                                         return true;
                                                     }
 
@@ -406,28 +392,20 @@ public class TWDGameManager {
                                         vivo1.setIdTipo(vivo1.getIdTipo() - 5);
                                         //zombie tmp para colocar no hash
                                         //System.out.println("FOI AQUI 3");
-                                        criaturas.put(vivo1.getId(), vivo1);
-
-                                        //zombie tmp para colocar no hash
-                                        vivo1.setNomeEquipa("Os Outros");
-
-                                        vivo1.setTipoCriatura(creatureTYPE_ID(vivo1.getIdTipo()));
-                                        vivo1.setNumEqApanhadosDestruidos(0);
-                                        vivo1.setDead(false);
-  /*                                      Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
+                                        Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
                                                 creatureTYPE_ID(vivo1.getIdTipo()),
                                                 "Os Outros", vivo1.getNome(),
                                                 vivo1.cordenadaX(), vivo1.cordenadaY(),
                                                 new Equipamento(), 0, false);
 
                                         criaturas.put(tmp.getId(), tmp);
-*/
+
                                         nrTurnos++;
                                         if (nrTurnos % 2 == 0) {
                                             //se forem multiplos de 2 muda o dia
                                             day = !day;
                                         }
-                                        nrTurnos = 0;
+                                        idxInfecoes = 100;
                                         idEquipaAtual = 10;
                                         return true;
                                     }
@@ -492,21 +470,17 @@ public class TWDGameManager {
                                                         //foi para zombie
                                                         //mudar id para idzombie respetivo
                                                         //System.out.println("FOI AQUI 4");
-                                                        criaturas.put(humano1.getId(), humano1);
                                                         humano1.setIdTipo(humano1.getIdTipo() - 5);
+
                                                         //zombie tmp para colocar no hash
-                                                        humano1.setNomeEquipa("Os Outros");
-                                                        humano1.setTipoCriatura(creatureTYPE_ID(humano1.getIdTipo()));
-                                                        humano1.setNumEqApanhadosDestruidos(0);
-                                                        humano1.setDead(false);
-                                                        /*Zombie tmp = new Zombie(humano1.getId(), humano1.getIdTipo(),
+                                                        Zombie tmp = new Zombie(humano1.getId(), humano1.getIdTipo(),
                                                                 creatureTYPE_ID(humano1.getIdTipo()),
                                                                 "Os Outros", humano1.getNome(),
                                                                 humano1.cordenadaX(), humano1.cordenadaY(),
                                                                 new Equipamento(), 0, false);
 
                                                         criaturas.put(tmp.getId(), tmp);
-*/
+
                                                         idEquipaAtual = 20;
 
                                                         //houve uma infeção logo nrTurnos volta para 0.
@@ -514,7 +488,7 @@ public class TWDGameManager {
                                                         if (nrTurnos % 2 == 0) {
                                                             day = !day;
                                                         }
-                                                        nrTurnos = 0;
+                                                        idxInfecoes = 100;
                                                         return true;
 
                                                     }
@@ -1028,9 +1002,11 @@ public class TWDGameManager {
 
     public boolean gameIsOver() {
         //se nao houve infecoes
-        if (nrTurnos >=12){
+        if (nrTurnos >=12 && idxInfecoes == -1){
             return true;
         }
+        //reset de infecao
+        idxInfecoes = -1;
 
         //se para cada vivo ele nao estiver morto nem a salvo
         for (Creature vivo : criaturas.values()){
