@@ -27,6 +27,7 @@ public class TWDGameManager {
     int nrTurnos = 0;
 
     boolean day = true;
+    boolean load = false;
 
     int xMorto = -1;
     int yMorto = -1;
@@ -84,39 +85,41 @@ public class TWDGameManager {
                                 Integer.parseInt(dadosCriatura[1]) <= 4 &&
                                 dadosCriatura.length == 5) {
                             //é zombie
-                                int idZ = Integer.parseInt(dadosCriatura[0]);
-                                int idTipoZ = Integer.parseInt(dadosCriatura[1]);
-                                String nomeZ = dadosCriatura[2];
-                                int xZ = Integer.parseInt(dadosCriatura[3]);
-                                int yZ = Integer.parseInt(dadosCriatura[4]);
-                                Equipamento equipamentos = new Equipamento();
+
+                            int idZ = Integer.parseInt(dadosCriatura[0]);
+                            int idTipoZ = Integer.parseInt(dadosCriatura[1]);
+                            String nomeZ = dadosCriatura[2];
+                            int xZ = Integer.parseInt(dadosCriatura[3]);
+                            int yZ = Integer.parseInt(dadosCriatura[4]);
+                            Equipamento equipamentos = new Equipamento();
 
 
-                                Zombie zombieAtual =
-                                        new Zombie(idZ, idTipoZ, creatureTYPE_ID(idTipoZ), "Os Outros",
-                                                nomeZ, xZ, yZ, equipamentos, 0, false);
+                            Zombie zombieAtual =
+                                    new Zombie(idZ, idTipoZ, creatureTYPE_ID(idTipoZ), "Os Outros",
+                                            nomeZ, xZ, yZ, equipamentos,0,false);
 
-                                criaturas.putIfAbsent(idZ, zombieAtual);
+                            criaturas.putIfAbsent(idZ, zombieAtual);
+
 
                         } else if (Integer.parseInt(dadosCriatura[1]) >= 5 &&
-                                   Integer.parseInt(dadosCriatura[1]) <= 10 &&
-                                   dadosCriatura.length == 5) {
+                                Integer.parseInt(dadosCriatura[1]) <= 10 &&
+                                dadosCriatura.length == 5 ) {
 
                             //é humano
-                                int idH = Integer.parseInt(dadosCriatura[0]);
-                                int idTipoH = Integer.parseInt(dadosCriatura[1]);
-                                String nomeH = dadosCriatura[2];
-                                int xH = Integer.parseInt(dadosCriatura[3]);
-                                int yH = Integer.parseInt(dadosCriatura[4]);
-                                Equipamento equipamentos = new Equipamento();
 
-                                Vivo vivoAtual =
-                                        new Vivo(idH, idTipoH, creatureTYPE_ID(idTipoH)
-                                                , "Os Vivos", nomeH, xH, yH, equipamentos,
-                                                0, false, false);
+                            int idH = Integer.parseInt(dadosCriatura[0]);
+                            int idTipoH = Integer.parseInt(dadosCriatura[1]);
+                            String nomeH = dadosCriatura[2];
+                            int xH = Integer.parseInt(dadosCriatura[3]);
+                            int yH = Integer.parseInt(dadosCriatura[4]);
+                            Equipamento equipamentos = new Equipamento();
 
+                            Vivo vivoAtual =
+                                    new Vivo(idH, idTipoH, creatureTYPE_ID(idTipoH)
+                                            , "Os Vivos", nomeH, xH, yH, equipamentos,
+                                            0,false, false);
 
-                                criaturas.putIfAbsent(idH, vivoAtual);
+                            criaturas.putIfAbsent(idH, vivoAtual);
                         }
                     }
                 }
@@ -163,24 +166,6 @@ public class TWDGameManager {
                 }
 
             }
-
-                if (leitorFicheiro.hasNextLine()) {
-                    day = Boolean.parseBoolean(leitorFicheiro.nextLine());
-                }
-                if (leitorFicheiro.hasNextLine()) {
-                    nrTurnos = Integer.parseInt(leitorFicheiro.nextLine());
-                }
-                if (leitorFicheiro.hasNextLine()) {
-                    idxInfecoes = Integer.parseInt(leitorFicheiro.nextLine());
-                }
-                if (leitorFicheiro.hasNextLine()) {
-                    xMorto = Integer.parseInt(leitorFicheiro.nextLine());
-                }
-                if (leitorFicheiro.hasNextLine()) {
-                    yMorto= Integer.parseInt(leitorFicheiro.nextLine());
-                }
-
-
             leitorFicheiro.close();
             return true;
 
@@ -1333,7 +1318,7 @@ public class TWDGameManager {
     }
 
     public boolean saveGame(File fich){
-        try {
+      /*  try {
 
             File file = new File(fich.getAbsolutePath() + ".txt");
 
@@ -1389,7 +1374,49 @@ public class TWDGameManager {
             writer.write(nrTurnos + "\n");
             writer.write(idxInfecoes + "\n");
             writer.write(xMorto + "\n");
-            writer.write(yMorto + "\n");
+            writer.write(yMorto);
+
+            writer.close();
+
+            return file.createNewFile();
+        } catch (IOException e) {
+            //erro
+            e.printStackTrace();
+        }
+        return false;*/
+
+        try {
+
+            File file = new File(fich.getAbsolutePath() + ".txt");
+
+            //funcao de escrever p ficheiro
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fich.getName(), true));
+
+            writer.write(getWorldSize()[0] + " " + getWorldSize()[1] + "\n"+idEquipaAtual + "\n"
+                    +criaturas.size() + "\n");
+
+
+
+            for (Creature c : criaturas.values()) {
+                writer.write(c.getId() + " : "
+                        + c.getIdTipo() + " : " + c.getNome() + " : "
+                        + c.cordenadaX() + " : " + c.cordenadaY() + "\n");
+            }
+
+            writer.write(equipamentoHashMap.size() + "\n");
+
+            for (Equipamento e : equipamentoHashMap.values()) {
+                writer.write(e.getId() + " : " + e.getTypeID()
+                        + " : " + e.cordenadaX() + " : "
+                        + e.cordenadaY() + "\n");
+            }
+
+            writer.write(safeHavens.size() + "\n");
+
+            for (SafeHaven sh : safeHavens) {
+                writer.write(sh.getX() + " : "
+                        + sh.getY() + "\n");
+            }
 
             writer.close();
 
@@ -1402,23 +1429,7 @@ public class TWDGameManager {
     }
 
     public boolean loadGame(File fich){
-        safeCreaturesID.clear();
-        safeHavens.clear();
-        //--HashsCreatures
-        criaturas.clear();
-        //--equi
-        equipamentoHashMap.clear();
-        numeroLinhas = 0;
-        numeroColunas = 0;
-        idxInfecoes = -1;
-        idEquipaAtual = 0;
-        idEquipaInicial = 0;
-        nrTurnos = 0;
-        day = true;
-        xMorto = -1;
-        yMorto = -1;
-        //clear das estruturas e vars
-
+/*
         try {
             Scanner leitorFicheiro = new Scanner(new FileInputStream(fich));
             while (leitorFicheiro.hasNextLine()) {
@@ -1433,12 +1444,10 @@ public class TWDGameManager {
 
 
                 idEquipaInicial = Integer.parseInt(leitorFicheiro.nextLine());
-
                 idEquipaAtual = idEquipaInicial;
-
                 int nrCriaturas = 0;
                 nrCriaturas = Integer.parseInt(leitorFicheiro.nextLine());
-
+                System.out.println(idEquipaInicial);
 
                 for (int x = 0; x < nrCriaturas; x++) {
                     if (leitorFicheiro.hasNextLine()) {
@@ -1552,10 +1561,8 @@ public class TWDGameManager {
                         safeHavens.add(safeHaven);
                     }
 
+
                 }
-
-            }
-
 
                 if (leitorFicheiro.hasNextLine()) {
                     day = Boolean.parseBoolean(leitorFicheiro.nextLine());
@@ -1573,13 +1580,15 @@ public class TWDGameManager {
                     yMorto= Integer.parseInt(leitorFicheiro.nextLine());
                 }
 
-
-
+            }
+            load = true;
             leitorFicheiro.close();
             return true;
 
         } catch (FileNotFoundException exception) {
             return false;
-        }
+        }*/
+        return startGame(fich);
+
     }
 }
