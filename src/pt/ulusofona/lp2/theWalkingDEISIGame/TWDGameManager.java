@@ -1231,7 +1231,7 @@ public class TWDGameManager {
         answers[0] = "Resident Evil";
         answers[1] = "Evil Dead";
         answers[2] = "I Am Legend"; //certo ate aqui
-        answers[3] = "Don Jon";
+        answers[3] = "I Am Legend";
         answers[4] = "The Code";
         answers[5] = "World War Z";
         answers[6] = "The Mandalorian's";
