@@ -456,13 +456,7 @@ public class TWDGameManager {
                                                 case 1:
                                                     if (humano1.getIdTipo() == 5 && zombie1.getIdTipo() != 0) {
                                                         //criança humana nao pode lutar com nao criancas zombies
-                                                        nrTurnos++;
-                                                        if (nrTurnos % 2 == 0) {
-                                                            //se forem multiplos de 2 muda o dia
-                                                            day = !day;
-                                                        }
-                                                        idEquipaAtual = 20;
-                                                        return true;
+                                                        return false;
                                                     }
                                                 case 2:
                                                     if (zombie1.getIdTipo() == 4) {
@@ -869,7 +863,7 @@ public class TWDGameManager {
 
                 }else if (vivo.getIdTipo() == 5 && zombieAttack && zombie.getIdTipo() != 0){
                     //zombie criança nao consegue atacar outros zombies nao crianças
-                    return true;
+                    return false;
                 }else{
 
                     //zombieHashMap.remove(zombie.getId());
