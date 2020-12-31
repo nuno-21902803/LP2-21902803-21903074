@@ -8,8 +8,8 @@ public class Equipamento {
     private int idTipo = -23;
     private String nome;
     private int x,y;
-    private int strikesLEFT;
-    private float litroLEFT;
+    private int strikesLEFT = -1;
+    private float litroLEFT = -1;
     private ArrayList<Integer> apanhadoPorCreaturesID = new ArrayList<>();
 
     private boolean usado=false;

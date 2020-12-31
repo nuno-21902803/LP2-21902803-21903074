@@ -122,9 +122,12 @@ public class Moves {
                 if (checkCreatures){
                    // return false;
                 }
-                if (xPretendido == xAnterior +1) {
+                if (xPretendido == xAnterior + 1 || xPretendido == xAnterior - 1) {
                     if (xPretendido + 1 > TWDGameManager.numeroColunas ||
                             yPretendido + 1 > TWDGameManager.numeroLinhas) {
+                        return false;
+                    } else if (xPretendido - 1 > TWDGameManager.numeroColunas ||
+                            yPretendido - 1 > TWDGameManager.numeroLinhas){
                         return false;
                     }
                 }
@@ -132,6 +135,9 @@ public class Moves {
                 if (xPretendido == xAnterior +2) {
                     if (xPretendido + 2 > TWDGameManager.numeroColunas ||
                             yPretendido + 2 > TWDGameManager.numeroLinhas) {
+                        return false;
+                    } else if (xPretendido - 2 > TWDGameManager.numeroColunas ||
+                            yPretendido - 2 > TWDGameManager.numeroLinhas) {
                         return false;
                     }
                 }
@@ -153,7 +159,22 @@ public class Moves {
                 if (checkCreatures){
                   //  return false;
                 }
-                //TODO zombie filme
+
+                if (xPretendido == xAnterior + 1 || xPretendido == xAnterior - 1) {
+                    if (xPretendido + 1 > TWDGameManager.numeroColunas ||
+                            yPretendido + 1 > TWDGameManager.numeroLinhas) {
+                        return false;
+                    } else if (xPretendido - 1 > TWDGameManager.numeroColunas ||
+                            yPretendido - 1 > TWDGameManager.numeroLinhas){
+                        return false;
+                    }
+                }
+
+                if (xPretendido == xAnterior - 1 ){
+                    return yPretendido == yAnterior + 1 || yPretendido == yAnterior - 1;
+                } else if (xPretendido == xAnterior + 1 ){
+                    return yPretendido == yAnterior + 1 || yPretendido == yAnterior - 1;
+                }
             default:
                 return xPretendido <= TWDGameManager.numeroLinhas - 1 ||
                         yPretendido <= TWDGameManager.numeroColunas - 1;

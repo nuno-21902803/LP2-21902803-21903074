@@ -312,7 +312,7 @@ public class TWDGameManager {
                                                         //mudar id para idzombie respetivo
                                                         vivo1.setIdTipo(vivo1.getIdTipo() - 5);
                                                         //zombie tmp para colocar no hash
-
+                                                        //System.out.println("FOI AQUI");
                                                         Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
                                                                 creatureTYPE_ID(vivo1.getIdTipo()),
                                                                 "Os Outros", vivo1.getNome(),
@@ -355,6 +355,7 @@ public class TWDGameManager {
                                                         //mudar id para idzombie respetivo
                                                         vivo1.setIdTipo(vivo1.getIdTipo() - 5);
                                                         //zombie tmp para colocar no hash
+                                                        //System.out.println("FOI AQUI 2");
                                                         Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
                                                                 creatureTYPE_ID(vivo1.getIdTipo()),
                                                                 "Os Outros", vivo1.getNome(),
@@ -390,7 +391,7 @@ public class TWDGameManager {
                                         //mudar id para idzombie respetivo
                                         vivo1.setIdTipo(vivo1.getIdTipo() - 5);
                                         //zombie tmp para colocar no hash
-
+                                        //System.out.println("FOI AQUI 3");
                                         Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
                                                 creatureTYPE_ID(vivo1.getIdTipo()),
                                                 "Os Outros", vivo1.getNome(),
@@ -439,6 +440,7 @@ public class TWDGameManager {
                                         }
                                         int type = -1;
                                         type = humano1.getEquipamento().getTypeID();
+
                                         if (type != -1) {
                                             switch (type) {
                                                 case 0:
@@ -454,7 +456,13 @@ public class TWDGameManager {
                                                 case 1:
                                                     if (humano1.getIdTipo() == 5 && zombie1.getIdTipo() != 0) {
                                                         //criança humana nao pode lutar com nao criancas zombies
-                                                        return false;
+                                                        nrTurnos++;
+                                                        if (nrTurnos % 2 == 0) {
+                                                            //se forem multiplos de 2 muda o dia
+                                                            day = !day;
+                                                        }
+                                                        idEquipaAtual = 20;
+                                                        return true;
                                                     }
                                                 case 2:
                                                     if (zombie1.getIdTipo() == 4) {
@@ -467,6 +475,7 @@ public class TWDGameManager {
                                                         //nao sucedeu no ataque
                                                         //foi para zombie
                                                         //mudar id para idzombie respetivo
+                                                        //System.out.println("FOI AQUI 4");
                                                         humano1.setIdTipo(humano1.getIdTipo() - 5);
                                                         //zombie tmp para colocar no hash
                                                         Zombie tmp = new Zombie(humano1.getId(), humano1.getIdTipo(),
@@ -672,10 +681,8 @@ public class TWDGameManager {
                 //vai buscar o equipamento e coloca o idTIPO do humano na lista de usados do eq
                 vivo.getEquipamento().getApanhadoPorCreaturesID().add(vivo.getId());
 
-
                 //caso contrario se ele ja tiver um equipamento ele adiciona o da casa seguinte e dropa o antigo-
             } else if (existEquipment(xH, yH) != null && vivo.getEquipamento().getTypeID() != -23 && !idoso) {
-
                 //vai buscar o eq do humano anterior
                 Equipamento equipamentoAnterior = vivo.getEquipamento();
                 Equipamento equipamento = new Equipamento();
@@ -762,6 +769,7 @@ public class TWDGameManager {
             }
             //muda o id da equipa atual
             idEquipaAtual = 20;
+
             return true;
         }
 
@@ -861,7 +869,7 @@ public class TWDGameManager {
 
                 }else if (vivo.getIdTipo() == 5 && zombieAttack && zombie.getIdTipo() != 0){
                     //zombie criança nao consegue atacar outros zombies nao crianças
-                    return false;
+                    return true;
                 }else{
 
                     //zombieHashMap.remove(zombie.getId());
@@ -1210,7 +1218,7 @@ public class TWDGameManager {
         answers[0] = "Resident Evil";
         answers[1] = "Evil Dead";
         answers[2] = "I Am Legend"; //certo ate aqui
-        answers[3] = "Evolution";
+        answers[3] = "Don Jon";
         answers[4] = "The Code";
         answers[5] = "World War Z";
         answers[6] = "The Mandalorian's";
@@ -1249,7 +1257,7 @@ public class TWDGameManager {
                 return "Cão";
             case 10:
                 //personagem the walking dead
-                return "Beta";
+                return "Beta (Zombie)";
             default:
                 throw new IllegalArgumentException("CreatureTYPEid Not Found");
         }
@@ -1314,13 +1322,15 @@ public class TWDGameManager {
     public boolean saveGame(File fich){
         try {
 
-            File file = new File(fich.getAbsolutePath() + "txt");
+            File file = new File(fich.getAbsolutePath() + ".txt");
 
             //funcao de escrever p ficheiro
             BufferedWriter writer = new BufferedWriter(new FileWriter(fich.getName(), true));
 
             writer.write(getWorldSize()[0] + " " + getWorldSize()[1] + "\n"+idEquipaAtual + "\n"
                     +criaturas.size() + "\n");
+
+
 
             for (Creature c : criaturas.values()) {
                 writer.write(c.getId() + " : "
