@@ -27,6 +27,7 @@ public class TWDGameManager {
     int nrTurnos = 0;
 
     boolean day = true;
+    boolean load = false;
 
     int xMorto = -1;
     int yMorto = -1;
@@ -82,43 +83,85 @@ public class TWDGameManager {
 
                         if (    Integer.parseInt(dadosCriatura[1]) >= 0 &&
                                 Integer.parseInt(dadosCriatura[1]) <= 4 &&
-                                dadosCriatura.length == 5) {
+                                dadosCriatura.length == 5 || (dadosCriatura.length > 5 && load)) {
                             //é zombie
 
-                            int idZ = Integer.parseInt(dadosCriatura[0]);
-                            int idTipoZ = Integer.parseInt(dadosCriatura[1]);
-                            String nomeZ = dadosCriatura[2];
-                            int xZ = Integer.parseInt(dadosCriatura[3]);
-                            int yZ = Integer.parseInt(dadosCriatura[4]);
-                            Equipamento equipamentos = new Equipamento();
+                            if (!load) {
+                                int idZ = Integer.parseInt(dadosCriatura[0]);
+                                int idTipoZ = Integer.parseInt(dadosCriatura[1]);
+                                String nomeZ = dadosCriatura[2];
+                                int xZ = Integer.parseInt(dadosCriatura[3]);
+                                int yZ = Integer.parseInt(dadosCriatura[4]);
+                                Equipamento equipamentos = new Equipamento();
 
 
-                            Zombie zombieAtual =
-                                    new Zombie(idZ, idTipoZ, creatureTYPE_ID(idTipoZ), "Os Outros",
-                                            nomeZ, xZ, yZ, equipamentos,0,false);
+                                Zombie zombieAtual =
+                                        new Zombie(idZ, idTipoZ, creatureTYPE_ID(idTipoZ), "Os Outros",
+                                                nomeZ, xZ, yZ, equipamentos, 0, false);
 
-                            criaturas.putIfAbsent(idZ, zombieAtual);
+                                criaturas.putIfAbsent(idZ, zombieAtual);
 
+                            } else {
+                                int idZ = Integer.parseInt(dadosCriatura[0]);
+                                int idTipoZ = Integer.parseInt(dadosCriatura[1]);
+                                String nomeZ = dadosCriatura[2];
+                                int xZ = Integer.parseInt(dadosCriatura[3]);
+                                int yZ = Integer.parseInt(dadosCriatura[4]);
+                                Equipamento equipamentos = new Equipamento();
+
+
+                                Zombie zombieAtual =
+                                        new Zombie(idZ, idTipoZ, creatureTYPE_ID(idTipoZ), "Os Outros",
+                                                nomeZ, xZ, yZ, equipamentos, Integer.parseInt(dadosCriatura[5]),false);
+
+                                criaturas.putIfAbsent(idZ, zombieAtual);
+                            }
 
                         } else if (Integer.parseInt(dadosCriatura[1]) >= 5 &&
                                    Integer.parseInt(dadosCriatura[1]) <= 10 &&
-                                   dadosCriatura.length == 5 ) {
+                                   dadosCriatura.length == 5 || (load && dadosCriatura.length > 5)) {
 
                             //é humano
 
-                            int idH = Integer.parseInt(dadosCriatura[0]);
-                            int idTipoH = Integer.parseInt(dadosCriatura[1]);
-                            String nomeH = dadosCriatura[2];
-                            int xH = Integer.parseInt(dadosCriatura[3]);
-                            int yH = Integer.parseInt(dadosCriatura[4]);
-                            Equipamento equipamentos = new Equipamento();
+                            if (!load) {
+                                int idH = Integer.parseInt(dadosCriatura[0]);
+                                int idTipoH = Integer.parseInt(dadosCriatura[1]);
+                                String nomeH = dadosCriatura[2];
+                                int xH = Integer.parseInt(dadosCriatura[3]);
+                                int yH = Integer.parseInt(dadosCriatura[4]);
+                                Equipamento equipamentos = new Equipamento();
 
-                            Vivo vivoAtual =
-                                    new Vivo(idH, idTipoH, creatureTYPE_ID(idTipoH)
-                                            , "Os Vivos", nomeH, xH, yH, equipamentos,
-                                            0,false, false);
+                                Vivo vivoAtual =
+                                        new Vivo(idH, idTipoH, creatureTYPE_ID(idTipoH)
+                                                , "Os Vivos", nomeH, xH, yH, equipamentos,
+                                                0, false, false);
 
-                            criaturas.putIfAbsent(idH, vivoAtual);
+
+                                criaturas.putIfAbsent(idH, vivoAtual);
+                            } else {
+
+                                int idH = Integer.parseInt(dadosCriatura[0]);
+                                int idTipoH = Integer.parseInt(dadosCriatura[1]);
+                                String nomeH = dadosCriatura[2];
+                                int xH = Integer.parseInt(dadosCriatura[3]);
+                                int yH = Integer.parseInt(dadosCriatura[4]);
+
+                                Equipamento equipamentos =
+                                        new Equipamento(Integer.parseInt(dadosCriatura[5])
+                                        ,Integer.parseInt(dadosCriatura[6]),dadosCriatura[7],
+                                                Integer.parseInt(dadosCriatura[8]),
+                                                Integer.parseInt(dadosCriatura[9])
+                                        ,new ArrayList<>());
+
+
+                                Vivo vivoAtual =
+                                        new Vivo(idH, idTipoH, creatureTYPE_ID(idTipoH)
+                                                , "Os Vivos", nomeH, xH, yH, equipamentos,
+                                                Integer.parseInt(dadosCriatura[10]), false, false);
+
+
+                                criaturas.putIfAbsent(idH, vivoAtual);
+                            }
                         }
                     }
                 }
@@ -165,7 +208,28 @@ public class TWDGameManager {
                 }
 
             }
+
+            if (load) {
+                if (leitorFicheiro.hasNextLine()) {
+                    day = Boolean.parseBoolean(leitorFicheiro.nextLine());
+                }
+                if (leitorFicheiro.hasNextLine()) {
+                    nrTurnos = Integer.parseInt(leitorFicheiro.nextLine());
+                }
+                if (leitorFicheiro.hasNextLine()) {
+                    idxInfecoes = Integer.parseInt(leitorFicheiro.nextLine());
+                }
+                if (leitorFicheiro.hasNextLine()) {
+                    xMorto = Integer.parseInt(leitorFicheiro.nextLine());
+                }
+                if (leitorFicheiro.hasNextLine()) {
+                    yMorto= Integer.parseInt(leitorFicheiro.nextLine());
+                }
+
+            }
+
             leitorFicheiro.close();
+            load = false;
             return true;
 
         } catch (FileNotFoundException exception) {
@@ -1330,9 +1394,28 @@ public class TWDGameManager {
 
 
             for (Creature c : criaturas.values()) {
-                writer.write(c.getId() + " : "
-                        + c.getIdTipo() + " : " + c.getNome() + " : "
-                        + c.cordenadaX() + " : " + c.cordenadaY() + "\n");
+                if (c instanceof Vivo) {
+                    if (c.getEquipamento() != null) {
+                        writer.write(c.getId() + " : " +
+                                c.getIdTipo() + " : " + c.getNome() + " : " +
+                                c.cordenadaX() + " : " + c.cordenadaY() + " : " +
+                                c.getEquipamento().getId() +" : "+
+                                c.getEquipamento().getTypeID() + " : " +
+                                c.getEquipamento().getNome() + " : " +
+                                c.getEquipamento().cordenadaX() + " : " +
+                                c.getEquipamento().cordenadaY() + " : " +
+                                c.getEquipamentos() + "\n");
+                    } else {
+                        writer.write(c.getId() + " : "
+                                + c.getIdTipo() + " : " + c.getNome() + " : "
+                                + c.cordenadaX() + " : " + c.cordenadaY() + " : "
+                                + c.getEquipamentos() + "\n");
+                    }
+                } else if (c instanceof Zombie){
+                    writer.write(c.getId() + " : "
+                            + c.getIdTipo() + " : " + c.getNome() + " : "
+                            + c.cordenadaX() + " : " + c.cordenadaY() + " : " + c.getEquipamentos() + "\n");
+                }
             }
 
             writer.write(equipamentoHashMap.size() + "\n");
@@ -1350,6 +1433,12 @@ public class TWDGameManager {
                         + sh.getY() + "\n");
             }
 
+            writer.write(day +"\n");
+            writer.write(nrTurnos + "\n");
+            writer.write(idxInfecoes + "\n");
+            writer.write(xMorto + "\n");
+            writer.write(yMorto + "\n");
+
             writer.close();
 
             return file.createNewFile();
@@ -1361,6 +1450,7 @@ public class TWDGameManager {
     }
 
     public boolean loadGame(File fich){
+        load = true;
         return startGame(fich);
     }
 }

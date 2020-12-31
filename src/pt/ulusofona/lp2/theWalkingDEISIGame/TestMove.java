@@ -19,7 +19,7 @@ public class TestMove {
         boolean resultEsperado = true;
         boolean resultReal = teste.move(5, 1, 6, 0);
 
-        assertEquals("Devia dar igual, movimento cao", true, resultReal);
+        assertTrue("Devia dar igual, movimento cao", resultReal);
     }
 
 
@@ -107,7 +107,7 @@ public class TestMove {
     @Test
     public void testMove_outOfBounds1() {
         File file = new File("test-files/testesFile.txt");
-        teste.loadGame(file);
+        teste.startGame(file);
 
         boolean obtained = teste.move(0,0,-1,0);
         assertFalse(obtained);
@@ -116,7 +116,7 @@ public class TestMove {
     @Test
     public void testMove_outOfBounds2() {
         File file = new File("test-files/testesFile.txt");
-        teste.loadGame(file);
+        teste.startGame(file);
 
         boolean obtained = teste.move(0,0,0,-1);
         assertFalse(obtained);
@@ -125,7 +125,7 @@ public class TestMove {
     @Test
     public void testMove_outOfBounds3() {
         File file = new File("test-files/testesFile.txt");
-        teste.loadGame(file);
+        teste.startGame(file);
 
         boolean obtained = teste.move(6,6,7,6);
         assertFalse(obtained);
@@ -134,7 +134,7 @@ public class TestMove {
     @Test
     public void testMove_outOfBounds4() {
         File file = new File("test-files/testesFile.txt");
-        teste.loadGame(file);
+        teste.startGame(file);
 
         boolean obtained = teste.move(6,6,6,7);
         assertFalse(obtained);
@@ -143,7 +143,7 @@ public class TestMove {
     @Test
     public void testMove_oneRight(){
         File file = new File("test-files/testesFile.txt");
-        teste.loadGame(file);
+        teste.startGame(file);
 
         boolean obtained = teste.move(3,3,4,3);
         assertTrue(obtained);
@@ -151,7 +151,7 @@ public class TestMove {
     @Test
     public void testMove_oneLeft() {
         File file = new File("test-files/testesFile.txt");
-        teste.loadGame(file);
+        teste.startGame(file);;
 
         boolean obtained = teste.move(3,3,2,3);
         assertTrue(obtained);
@@ -159,7 +159,7 @@ public class TestMove {
     @Test
     public void testMove_oneUp() {
         File file = new File("test-files/testesFile.txt");
-        teste.loadGame(file);
+        teste.startGame(file);
 
         boolean obtained = teste.move(3,3,3,2);
         assertTrue(obtained);
@@ -167,15 +167,15 @@ public class TestMove {
     @Test
     public void testMove_oneDown() {
         File file = new File("test-files/testesFile.txt");
-        teste.loadGame(file);
+        teste.startGame(file);
 
         boolean obtained = teste.move(3,3,3,4);
-        assertEquals("devia dar false, militar nao tem eq defensivo e move para zombie",false,obtained);
+        assertFalse("devia dar false, militar nao tem eq defensivo e move para zombie", obtained);
     }
     @Test
     public void testMove_oneUpRightDiagonal() {
         File file = new File("test-files/testesFile.txt");
-        teste.loadGame(file);
+        teste.startGame(file);
 
         boolean obtained = teste.move(3,3,4,2);
         assertTrue(obtained);
@@ -183,7 +183,7 @@ public class TestMove {
     @Test
     public void testMove_oneLeftUpDiagonal() {
         File file = new File("test-files/testesFile.txt");
-        teste.loadGame(file);
+        teste.startGame(file);
 
         boolean obtained = teste.move(3,3,2,2);
         assertTrue(obtained);
@@ -192,7 +192,7 @@ public class TestMove {
     @Test
     public void testMove_oneLeftDownDiagonal() {
         File file = new File("test-files/testesFile.txt");
-        teste.loadGame(file);
+        teste.startGame(file);
 
         boolean obtained = teste.move(3, 3, 2, 4);
         assertTrue(obtained);
@@ -204,33 +204,36 @@ public class TestMove {
     @Test
     public void testMove_ModeloBeta_1() {
         File file = new File("test-files/modelo.txt");
-        teste.loadGame(file);
-        Zombie beta = new Zombie(7,10,"Beta(Zombie)", "Os Outros" ,"Oppie", 5, 5,new Equipamento(),0,false);
+        teste.startGame(file);
+        Zombie beta = new Zombie(7,10,"Beta (Zombie)", "Os Outros" ,"Oppie", 5, 5,new Equipamento(),0,false);
         TWDGameManager.criaturas.put(7,beta);
+        teste.move(1, 1, 2, 0);
 
         boolean obtained = teste.move(5, 5, 5, 6);
-        assertEquals(false,obtained);
+        assertFalse("Nao devia deixar, nao faz o move certo", obtained);
     }
 
     @Test
-    public void testMove_ModeloBeta_1() { ACABAR A PERSONAGEM TWD
+    public void testMove_ModeloBeta_2() {
         File file = new File("test-files/modelo.txt");
-        teste.loadGame(file);
-        Zombie beta = new Zombie(7,10,"Beta(Zombie)", "Os Outros" ,"Oppie", 5, 5,new Equipamento(),0,false);
+        teste.startGame(file);
+        Zombie beta = new Zombie(7,10,"Beta (Zombie)", "Os Outros" ,"Oppie", 5, 5,new Equipamento(),0,false);
         TWDGameManager.criaturas.put(7,beta);
+        teste.move(1, 1, 2, 0);
 
-        boolean obtained = teste.move(5, 5, 5, 6);
-        assertEquals(false,obtained);
+        boolean obtained = teste.move(5, 5, 4, 3);
+        assertTrue("Deveria dar true, Beta consegue-se mover ", obtained);
     }
 
     @Test
     public void testMove_ModeloBeta_3() {
         File file = new File("test-files/modelo.txt");
-        teste.loadGame(file);
-        Zombie beta = new Zombie(7,10,"Beta(Zombie)", "Os Outros" ,"Oppie", 5, 5,new Equipamento(),0,false);
+        teste.startGame(file);
+        Zombie beta = new Zombie(7,10,"Beta (Zombie)", "Os Outros" ,"Oppie", 4, 1,new Equipamento(),0,false);
         TWDGameManager.criaturas.put(7,beta);
+        teste.move(1, 1, 2, 0);
 
-        boolean obtained = teste.move(5, 5, 5, 6);
-        assertEquals(false,obtained);
+        boolean obtained = teste.move(4, 1, 5, 3);
+        assertTrue("Deveria dar true, Beta consegue-se mover ", obtained);
     }
 }
