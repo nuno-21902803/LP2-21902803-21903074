@@ -67,7 +67,7 @@ public class Creature {
             case 9:
                 return "dog.png";
             case 10:
-                return "unknown-piece.png";
+                return "betaZombie.png";
             default:
                 throw new IllegalArgumentException("Equipment Not Found");
         }

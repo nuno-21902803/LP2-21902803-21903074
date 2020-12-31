@@ -200,12 +200,37 @@ public class TestMove {
 
     //--testes file modelo
     //
+
     @Test
-    public void testMove_Modelo_1() {
+    public void testMove_ModeloBeta_1() {
         File file = new File("test-files/modelo.txt");
         teste.loadGame(file);
+        Zombie beta = new Zombie(7,10,"Beta(Zombie)", "Os Outros" ,"Oppie", 5, 5,new Equipamento(),0,false);
+        TWDGameManager.criaturas.put(7,beta);
 
-        boolean obtained = teste.move(0, 2, 0, 4);
+        boolean obtained = teste.move(5, 5, 5, 6);
+        assertEquals(false,obtained);
+    }
+
+    @Test
+    public void testMove_ModeloBeta_1() { ACABAR A PERSONAGEM TWD
+        File file = new File("test-files/modelo.txt");
+        teste.loadGame(file);
+        Zombie beta = new Zombie(7,10,"Beta(Zombie)", "Os Outros" ,"Oppie", 5, 5,new Equipamento(),0,false);
+        TWDGameManager.criaturas.put(7,beta);
+
+        boolean obtained = teste.move(5, 5, 5, 6);
+        assertEquals(false,obtained);
+    }
+
+    @Test
+    public void testMove_ModeloBeta_3() {
+        File file = new File("test-files/modelo.txt");
+        teste.loadGame(file);
+        Zombie beta = new Zombie(7,10,"Beta(Zombie)", "Os Outros" ,"Oppie", 5, 5,new Equipamento(),0,false);
+        TWDGameManager.criaturas.put(7,beta);
+
+        boolean obtained = teste.move(5, 5, 5, 6);
         assertEquals(false,obtained);
     }
 }
