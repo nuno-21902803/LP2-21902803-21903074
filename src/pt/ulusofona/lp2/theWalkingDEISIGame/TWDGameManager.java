@@ -563,6 +563,10 @@ public class TWDGameManager {
                         vivo.setTomouVeneno(true);
                         vivo.setNrTurnosEnvenenados(1);
                         equipamento.setStrikesLEFT(0);
+                    } else if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 1){
+                        int nr = vivo.getNrTurnosEnvenenados();
+                        vivo.setNrTurnosEnvenenados(nr +1 );
+                        equipamento.setStrikesLEFT(0);
                     }
                 } else if (equipamento.getTypeID() == 9){
                     if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 1){
@@ -596,10 +600,14 @@ public class TWDGameManager {
                     equipamento.setY(yO);
 
                     //ver se foi veneno e começar a contar
-                    if (equipamento.getTypeID() == 8 && equipamento.getStrikesLEFT() == 1){
-                        if (!vivo.getTomouVeneno()){
+                    if (equipamento.getTypeID() == 8 ){
+                        if (!vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 1){
                             vivo.setTomouVeneno(true);
                             vivo.setNrTurnosEnvenenados(1);
+                            equipamento.setStrikesLEFT(0);
+                        } else if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 1){
+                            int nr = vivo.getNrTurnosEnvenenados();
+                            vivo.setNrTurnosEnvenenados(nr +1 );
                             equipamento.setStrikesLEFT(0);
                         }
                     } else if (equipamento.getTypeID() == 9){
@@ -658,6 +666,10 @@ public class TWDGameManager {
                     if (!vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 1) {
                         vivo.setTomouVeneno(true);
                         vivo.setNrTurnosEnvenenados(1);
+                        equipamento.setStrikesLEFT(0);
+                    }  else if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 1){
+                        int nr = vivo.getNrTurnosEnvenenados();
+                        vivo.setNrTurnosEnvenenados(nr + 1 );
                         equipamento.setStrikesLEFT(0);
                     }
                 } else if (equipamento.getTypeID() == 9){
@@ -726,10 +738,14 @@ public class TWDGameManager {
                 }
 
                 //ver se foi veneno e começar a contar
-                if (equipamento.getTypeID() == 8 && equipamento.getStrikesLEFT() == 1){
-                    if (!vivo.getTomouVeneno()){
+                if (equipamento.getTypeID() == 8 ){
+                    if (!vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 1){
                         vivo.setTomouVeneno(true);
                         vivo.setNrTurnosEnvenenados(1);
+                        equipamento.setStrikesLEFT(0);
+                    }  else if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 1){
+                        int nr = vivo.getNrTurnosEnvenenados();
+                        vivo.setNrTurnosEnvenenados(nr +1 );
                         equipamento.setStrikesLEFT(0);
                     }
                 } else if (equipamento.getTypeID() == 9){
