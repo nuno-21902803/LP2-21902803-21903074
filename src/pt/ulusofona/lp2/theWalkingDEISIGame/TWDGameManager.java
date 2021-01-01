@@ -1104,6 +1104,7 @@ public class TWDGameManager {
             }
         }
 
+        survivors.add("");
         survivors.add("OS OUTROS");
 
         for (Creature zombie : criaturas.values()) {
@@ -1112,6 +1113,7 @@ public class TWDGameManager {
             }
         }
 
+        survivors.add("");
         survivors.add("Num safe haven:");
         survivors.add("");
         survivors.add("OS VIVOS");
@@ -1126,9 +1128,9 @@ public class TWDGameManager {
 
         survivors.add("");
         survivors.add("Envenenados / Destruídos");
-        survivors.add("OS VIVOS");
         survivors.add("");
-
+        survivors.add("OS VIVOS");
+        
 //fazer a cena dos envenenados com for
         for (Creature c : criaturas.values()){
             if (c instanceof Vivo) {
@@ -1149,8 +1151,6 @@ public class TWDGameManager {
                 }
             }
         }
-
-        survivors.add("");
 
         return survivors;
     }
