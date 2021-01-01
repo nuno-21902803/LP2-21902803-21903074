@@ -1093,7 +1093,7 @@ public class TWDGameManager {
         survivors.add("Nr. de turnos terminados:");
         survivors.add(nrTurnosTotal +"");
         survivors.add("");
-        survivors.add("Ainda pelo bairro:");
+        survivors.add("Ainda pelo bairo:");
         survivors.add("");
         survivors.add("OS VIVOS");
         survivors.add("");
