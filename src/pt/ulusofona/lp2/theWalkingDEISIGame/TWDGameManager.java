@@ -1140,7 +1140,7 @@ public class TWDGameManager {
                 }
             }
         }
-        
+
         survivors.add("");
         survivors.add("OS OUTROS");
 
