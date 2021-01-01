@@ -30,6 +30,8 @@ public class TWDGameManager {
     int xMorto = -1;
     int yMorto = -1;
 
+
+
     public TWDGameManager() {
     }
 
@@ -317,8 +319,7 @@ public class TWDGameManager {
                                                                 "Os Outros", vivo1.getNome(),
                                                                 vivo1.cordenadaX(), vivo1.cordenadaY(),
                                                                 new Equipamento(), 0, false);
-
-                                                        criaturas.put(tmp.getId(), tmp);
+                                                        criaturas.put(vivo1.getId(), tmp);
                                                         //remove dos humanos
                                                         idEquipaAtual = 10;
 
@@ -363,7 +364,7 @@ public class TWDGameManager {
                                                                 vivo1.cordenadaX(), vivo1.cordenadaY(),
                                                                 new Equipamento(), 0, false);
 
-                                                        criaturas.put(tmp.getId(), tmp);
+                                                        criaturas.put(vivo1.getId(), tmp);
 
                                                         idEquipaAtual = 10;
 
@@ -401,7 +402,7 @@ public class TWDGameManager {
                                                 vivo1.cordenadaX(), vivo1.cordenadaY(),
                                                 new Equipamento(), 0, false);
 
-                                        criaturas.put(tmp.getId(), tmp);
+                                        criaturas.put(vivo1.getId(), tmp);
 
                                         nrTurnosTotal++;
                                         nrTurnos++;
@@ -483,7 +484,7 @@ public class TWDGameManager {
                                                                 humano1.cordenadaX(), humano1.cordenadaY(),
                                                                 new Equipamento(), 0, false);
 
-                                                        criaturas.put(tmp.getId(), tmp);
+                                                        criaturas.put(humano1.getId(), tmp);
 
                                                         idEquipaAtual = 20;
 
@@ -1084,7 +1085,6 @@ public class TWDGameManager {
         return 0;
     }
 
-    //TODO adicionar cenas E ORDENAR PELO ID
     public List<String> getGameResults() {
         ArrayList<String> survivors = new ArrayList<>();
         ArrayList<Creature> creatures = (ArrayList<Creature>) getCreatures();
@@ -1094,6 +1094,7 @@ public class TWDGameManager {
         survivors.add(nrTurnosTotal +"");
         survivors.add("");
         survivors.add("Ainda pelo bairro:");
+        survivors.add("");
         survivors.add("OS VIVOS");
         survivors.add("");
 
@@ -1238,8 +1239,8 @@ public class TWDGameManager {
 
         answers[0] = "Resident Evil";
         answers[1] = "Evil Dead";
-        answers[2] = "I Am Legend"; //certo ate aqui
-        answers[3] = "I Am Legend";
+        answers[2] = "I Am Legend";
+        answers[3] = "I Am Legend";//certo ate aqui
         answers[4] = "The Code";
         answers[5] = "World War Z";
         answers[6] = "The Mandalorian's";

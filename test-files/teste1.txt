@@ -8,8 +8,8 @@
 5 : 9 : Sam : 5 : 1
 6 : 7 : Paciente Zero : 4 : 3
 7 : 6 : Velhote : 5 : 6
-8 : 7 : MataCao : 0 : 3
-9 : 3 : Makakka : 1 : 3
+8 : 3 : MataCao : 0 : 3
+9 : 4 : Makakka : 2 : 2
 5
 -1 : 8 : 4 : 2
 -2 : 8 : 2 : 3
