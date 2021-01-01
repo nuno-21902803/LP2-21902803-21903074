@@ -21,13 +21,11 @@ public class TWDGameManager {
     //vars static para aceder as classes de teste
     static int numeroLinhas;
     static int numeroColunas;
-    int idxInfecoes = -1; // TODO ver se detetou alguma infecao no jogo
     int idEquipaAtual = 0;
     int idEquipaInicial = 0;
     int nrTurnos = 0;
-
+    int nrTurnosTotal = 0; //ver se detetou alguma infecao no jogo
     boolean day = true;
-    boolean load = false;
 
     int xMorto = -1;
     int yMorto = -1;
@@ -45,7 +43,6 @@ public class TWDGameManager {
         equipamentoHashMap.clear();
         numeroLinhas = 0;
         numeroColunas = 0;
-        idxInfecoes = -1;
         idEquipaAtual = 0;
         idEquipaInicial = 0;
         nrTurnos = 0;
@@ -263,8 +260,9 @@ public class TWDGameManager {
                 vivo.colocarCoordenada(xMorto, yMorto);
                 safeCreaturesID.add(idCriatura);
 
+                nrTurnosTotal++;
                 nrTurnos++;
-                if (nrTurnos % 2 == 0) {
+                if (nrTurnosTotal % 2 == 0) {
                     //se forem multiplos de 2 muda o dia
                     day = !day;
                 }
@@ -325,17 +323,19 @@ public class TWDGameManager {
                                                         idEquipaAtual = 10;
 
                                                         //houve uma infeção logo nrTurnos volta para 0.
+                                                        nrTurnosTotal++;
                                                         nrTurnos++;
-                                                        if (nrTurnos % 2 == 0) {
+                                                        if (nrTurnosTotal % 2 == 0) {
                                                             day = !day;
                                                         }
 
-                                                        idxInfecoes = 100;
+                                                        nrTurnos = 0;
                                                         return true;
                                                     }
 
+                                                    nrTurnosTotal++;
                                                     nrTurnos++;
-                                                    if (nrTurnos % 2 == 0) {
+                                                    if (nrTurnosTotal % 2 == 0) {
                                                         //se forem multiplos de 2 muda o dia
                                                         day = !day;
                                                     }
@@ -368,16 +368,18 @@ public class TWDGameManager {
                                                         idEquipaAtual = 10;
 
                                                         //houve uma infeção logo nrTurnos volta para 0.
+                                                        nrTurnosTotal++;
                                                         nrTurnos++;
-                                                        if (nrTurnos % 2 == 0) {
+                                                        if (nrTurnosTotal % 2 == 0) {
                                                             day = !day;
                                                         }
-                                                        idxInfecoes = 100;
+                                                        nrTurnos = 0;
                                                         return true;
                                                     }
 
+                                                    nrTurnosTotal++;
                                                     nrTurnos++;
-                                                    if (nrTurnos % 2 == 0) {
+                                                    if (nrTurnosTotal % 2 == 0) {
                                                         //se forem multiplos de 2 muda o dia
                                                         day = !day;
                                                     }
@@ -401,12 +403,13 @@ public class TWDGameManager {
 
                                         criaturas.put(tmp.getId(), tmp);
 
+                                        nrTurnosTotal++;
                                         nrTurnos++;
-                                        if (nrTurnos % 2 == 0) {
+                                        if (nrTurnosTotal % 2 == 0) {
                                             //se forem multiplos de 2 muda o dia
                                             day = !day;
                                         }
-                                        idxInfecoes = 100;
+                                        nrTurnos = 0;
                                         idEquipaAtual = 10;
                                         return true;
                                     }
@@ -485,16 +488,20 @@ public class TWDGameManager {
                                                         idEquipaAtual = 20;
 
                                                         //houve uma infeção logo nrTurnos volta para 0.
+                                                        nrTurnosTotal++;
                                                         nrTurnos++;
-                                                        if (nrTurnos % 2 == 0) {
+                                                        if (nrTurnosTotal % 2 == 0) {
                                                             day = !day;
                                                         }
-                                                        idxInfecoes = 100;
+
+                                                        nrTurnos = 0;
                                                         return true;
 
                                                     }
+
+                                                    nrTurnosTotal++;
                                                     nrTurnos++;
-                                                    if (nrTurnos % 2 == 0) {
+                                                    if (nrTurnosTotal % 2 == 0) {
                                                         //se forem multiplos de 2 muda o dia
                                                         day = !day;
                                                     }
@@ -774,8 +781,9 @@ public class TWDGameManager {
             }
 
 
+            nrTurnosTotal++;
             nrTurnos++;
-            if (nrTurnos % 2 == 0) {
+            if (nrTurnosTotal % 2 == 0) {
                 //se forem multiplos de 2 muda o dia
                 day = !day;
             }
@@ -842,8 +850,9 @@ public class TWDGameManager {
                 }
             }
 
+            nrTurnosTotal++;
             nrTurnos++;
-            if (nrTurnos % 2 == 0) {
+            if (nrTurnosTotal % 2 == 0) {
                 //se forem multiplos de 2 muda o dia
                 day = !day;
             }
@@ -1019,11 +1028,9 @@ public class TWDGameManager {
 
     public boolean gameIsOver() {
         //se nao houve infecoes
-        if (nrTurnos >=12 && idxInfecoes == -1){
+        if (nrTurnos == 12){
             return true;
         }
-        //reset de infecao
-        idxInfecoes = -1;
 
         //se para cada vivo ele nao estiver morto nem a salvo
         for (Creature vivo : criaturas.values()){
@@ -1084,7 +1091,7 @@ public class TWDGameManager {
 
         //fazer a string
         survivors.add("Nr. de turnos terminados:");
-        survivors.add(nrTurnos +"");
+        survivors.add(nrTurnosTotal +"");
         survivors.add("");
         survivors.add("Ainda pelo bairro:");
         survivors.add("OS VIVOS");
