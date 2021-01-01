@@ -1130,7 +1130,7 @@ public class TWDGameManager {
         survivors.add("Envenenados / Destruídos");
         survivors.add("");
         survivors.add("OS VIVOS");
-        
+
 //fazer a cena dos envenenados com for
         for (Creature c : criaturas.values()){
             if (c instanceof Vivo) {
