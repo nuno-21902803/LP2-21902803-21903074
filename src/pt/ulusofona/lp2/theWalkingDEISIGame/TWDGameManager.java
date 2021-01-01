@@ -1096,7 +1096,6 @@ public class TWDGameManager {
         survivors.add("Ainda pelo bairo:");
         survivors.add("");
         survivors.add("OS VIVOS");
-        survivors.add("");
 
         for (Creature humano : criaturas.values()) {
             if (humano instanceof Vivo && !((Vivo) humano).getIsSafe() && !humano.getIsDead() &&
@@ -1137,11 +1136,12 @@ public class TWDGameManager {
             if (c instanceof Vivo) {
                 if (((Vivo) c).isDeadVeneno()) {
                     survivors.add(c.getId() + " " + c.getNome());
-                    survivors.add("");
+
                 }
             }
         }
-
+        
+        survivors.add("");
         survivors.add("OS OUTROS");
 
         for (Creature c : criaturas.values()){
