@@ -1148,7 +1148,6 @@ public class TWDGameManager {
             if (c instanceof Vivo) {
                 if (((Vivo) c).isDeadVeneno()) {
                     survivors.add(c.getId() + " " + c.getNome());
-
                 }
             }
         }
@@ -1156,10 +1155,11 @@ public class TWDGameManager {
         survivors.add("");
         survivors.add("OS OUTROS");
 
-        for (Creature c : criaturas.values()){
-            if (c instanceof Zombie) {
-                if (c.getIsDead()) {
-                    survivors.add(c.getId() + " " + c.getNome());
+        for (Creature zombie : criaturas.values()){
+            if (zombie instanceof Zombie) {
+                if (zombie.getIsDead()) {
+                    survivors.add(zombie.getId() + " (antigamente conhecido como " + zombie.getNome() + ")");
+
                 }
             }
         }
@@ -1258,7 +1258,7 @@ public class TWDGameManager {
         answers[7] = "1972";
         answers[8] = "Kill Bill";
         answers[9] = "1978";
-        answers[10] = "Sean Connery";
+        answers[10] = "James Bond";
         answers[11] = "Friends";
         answers[12] = "cabeça de alho chocho";
         answers[13] = "Freddie mercury";
