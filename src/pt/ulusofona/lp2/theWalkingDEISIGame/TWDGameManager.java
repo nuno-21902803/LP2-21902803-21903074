@@ -1155,7 +1155,6 @@ public class TWDGameManager {
             if (c instanceof Zombie) {
                 if (c.getIsDead()) {
                     survivors.add(c.getId() + " " + c.getNome());
-                    survivors.add("\n");
                 }
             }
         }
@@ -1248,7 +1247,7 @@ public class TWDGameManager {
         answers[1] = "Evil Dead";
         answers[2] = "I Am Legend";
         answers[3] = "I Am Legend";//certo ate aqui
-        answers[4] = "Popeye";
+        answers[4] = "The Liberator";
         answers[5] = "World War Z";
         answers[6] = "The Mandalorian's";
         answers[7] = "1972";
