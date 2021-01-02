@@ -314,6 +314,7 @@ public class TWDGameManager {
                                                 case 7:
                                                 case 8:
                                                 case 9:
+                                                case 10:
                                                     if (!defense((Vivo) vivo1, (Zombie) zombie1, true)) {
                                                         //nao sucedeu na defesa
                                                         //foi para zombie
@@ -349,7 +350,7 @@ public class TWDGameManager {
                                                     }
                                                     idEquipaAtual = 10;
                                                     return true;
-                                                case 10:
+
                                                 case 1:
                                                 case 2:
                                                     if (zombie1.getIdTipo() == 4) {
@@ -989,8 +990,8 @@ public class TWDGameManager {
                 return zombie.getIdTipo() == 3;
                 //qd e cabeca de alho
             case 5:
-                return zombie.getIdTipo() == 4;
-                //qd e garrafa de lixivia
+                return !day;
+            //qd e garrafa de lixivia
             case 7:
                 if (equipDefense.getLitroLEFTfloat()>=0.3){
 
@@ -1018,6 +1019,10 @@ public class TWDGameManager {
             case 9:
                 //ou seja tem um uso
                 return false;
+
+            case 10:
+                //defende o ataque
+                return true;
         }
         //sucedeu na defesa
         return true;
