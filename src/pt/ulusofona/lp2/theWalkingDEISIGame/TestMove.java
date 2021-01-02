@@ -221,7 +221,7 @@ public class TestMove {
         TWDGameManager.criaturas.put(7,beta);
         teste.move(1, 1, 2, 0);
 
-        boolean obtained = teste.move(5, 5, 4, 3);
+        boolean obtained = teste.move(5, 5, 4, 2);
         assertTrue("Deveria dar true, Beta consegue-se mover ", obtained);
     }
 
@@ -233,7 +233,7 @@ public class TestMove {
         TWDGameManager.criaturas.put(7,beta);
         teste.move(1, 1, 2, 0);
 
-        boolean obtained = teste.move(4, 1, 5, 3);
+        boolean obtained = teste.move(4, 1, 5, 4);
         assertTrue("Deveria dar true, Beta consegue-se mover ", obtained);
     }
 }

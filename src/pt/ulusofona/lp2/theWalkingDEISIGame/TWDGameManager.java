@@ -993,7 +993,7 @@ public class TWDGameManager {
                 return !day;
             //qd e garrafa de lixivia
             case 7:
-                if (equipDefense.getLitroLEFTfloat()>=0.3){
+                if (equipDefense.getLitroLEFTfloat() >= 0.3){
 
                     //dar update nos strikes
                     float numStrikes = equipDefense.getLitroLEFTfloat();
@@ -1258,7 +1258,7 @@ public class TWDGameManager {
         answers[7] = "1972";
         answers[8] = "Kill Bill";
         answers[9] = "1978";
-        answers[10] = "Agent 007";
+        answers[10] = "007 Agent";
         answers[11] = "Friends";
         answers[12] = "cabeça de alho chocho";
         answers[13] = "Freddie mercury";

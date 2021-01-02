@@ -162,26 +162,27 @@ public class Moves {
 
                 //anda em L mas para esquerda so pode andar em L para cima
                 //ser for para a direita é em L para baixo
+
                 if (xPretendido == xAnterior +1) {
                     if (xPretendido + 1 > TWDGameManager.numeroColunas ||
-                            yPretendido + 2 > TWDGameManager.numeroLinhas) {
+                            yPretendido + 3 > TWDGameManager.numeroLinhas) {
                         return false;
                     }
                 }
 
                 if (xPretendido == xAnterior - 1) {
                     if (xPretendido - 1 > TWDGameManager.numeroColunas ||
-                            yPretendido - 2 > TWDGameManager.numeroLinhas) {
+                            yPretendido - 3 > TWDGameManager.numeroLinhas) {
                         return false;
                     }
                 }
 
                 if (xPretendido == xAnterior - 1 ){
-                    return yPretendido == yAnterior - 2;
+                    return yPretendido == yAnterior - 3;
 
                 } else if (xPretendido == xAnterior + 1 ){
 
-                    return yPretendido == yAnterior + 2;
+                    return yPretendido == yAnterior + 3;
 
                 }
                 return false;
