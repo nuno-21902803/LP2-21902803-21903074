@@ -1251,17 +1251,17 @@ public class TWDGameManager {
         answers[0] = "Resident Evil";
         answers[1] = "Evil Dead";
         answers[2] = "I Am Legend";
-        answers[3] = "I Am Legend";//certo ate aqui
+        answers[3] = "I Am Legend";
         answers[4] = "Dragon Ball";
         answers[5] = "World War Z";
         answers[6] = "Mandalorians";
         answers[7] = "1972";
         answers[8] = "Kill Bill";
-        answers[9] = "1978";
-        answers[10] = "Bond";
+        answers[9] = "1978";//certo ate aqui
+        answers[10] = "Bond James Bond";
         answers[11] = "Friends";
-        answers[12] = "cabeça de alho chocho";
-        answers[13] = "Freddie mercury";
+        answers[12] = "chocho";
+        answers[13] = "Freddie Mercury";
 
         return answers;
     }
