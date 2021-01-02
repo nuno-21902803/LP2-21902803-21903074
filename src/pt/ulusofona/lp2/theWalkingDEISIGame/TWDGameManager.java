@@ -1127,7 +1127,7 @@ public class TWDGameManager {
         }
 
         survivors.add("");
-        survivors.add("Envenenados / Destruídos");
+        survivors.add("Envenenados / Destruidos");
         survivors.add("");
         survivors.add("OS VIVOS");
 
