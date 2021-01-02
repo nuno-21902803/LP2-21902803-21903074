@@ -1258,7 +1258,7 @@ public class TWDGameManager {
         answers[7] = "1972";
         answers[8] = "Kill Bill";
         answers[9] = "1978";
-        answers[10] = "James Bond";
+        answers[10] = "Agent 007";
         answers[11] = "Friends";
         answers[12] = "cabeça de alho chocho";
         answers[13] = "Freddie mercury";
