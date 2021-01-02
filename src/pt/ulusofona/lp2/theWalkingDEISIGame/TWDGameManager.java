@@ -25,7 +25,9 @@ public class TWDGameManager {
     int idEquipaInicial = 0;
     int nrTurnos = 0;
     int nrTurnosTotal = 0; //ver se detetou alguma infecao no jogo
+
     boolean day = true;
+    boolean load = false;
 
     int xMorto = -1;
     int yMorto = -1;
@@ -37,21 +39,24 @@ public class TWDGameManager {
 
     public boolean startGame(File ficheiroInicial) {
 
-        safeCreaturesID.clear();
-        safeHavens.clear();
-        //--HashsCreatures
-        criaturas.clear();
-        //--equi
-        equipamentoHashMap.clear();
-        numeroLinhas = 0;
-        numeroColunas = 0;
-        idEquipaAtual = 0;
-        idEquipaInicial = 0;
-        nrTurnos = 0;
-        day = true;
-        xMorto = -1;
-        yMorto = -1;
-        //clear das estruturas e vars
+        if (!load) {
+            safeCreaturesID.clear();
+            safeHavens.clear();
+            //--HashsCreatures
+            criaturas.clear();
+            //--equi
+            equipamentoHashMap.clear();
+            numeroLinhas = 0;
+            numeroColunas = 0;
+            nrTurnosTotal = 0;
+            idEquipaAtual = 0;
+            idEquipaInicial = 0;
+            nrTurnos = 0;
+            day = true;
+            xMorto = -1;
+            yMorto = -1;
+            //clear das estruturas e vars
+        }
 
         try {
             Scanner leitorFicheiro = new Scanner(new FileInputStream(ficheiroInicial));
@@ -166,9 +171,11 @@ public class TWDGameManager {
 
             }
             leitorFicheiro.close();
+            load = false;
             return true;
 
         } catch (FileNotFoundException exception) {
+            load = false;
             return false;
         }
     }
@@ -1241,7 +1248,7 @@ public class TWDGameManager {
         answers[1] = "Evil Dead";
         answers[2] = "I Am Legend";
         answers[3] = "I Am Legend";//certo ate aqui
-        answers[4] = "Adventure Time";
+        answers[4] = "Popeye";
         answers[5] = "World War Z";
         answers[6] = "The Mandalorian's";
         answers[7] = "1972";
@@ -1342,72 +1349,6 @@ public class TWDGameManager {
     }
 
     public boolean saveGame(File fich){
-      /*  try {
-
-            File file = new File(fich.getAbsolutePath() + ".txt");
-
-            //funcao de escrever p ficheiro
-            BufferedWriter writer = new BufferedWriter(new FileWriter(fich.getName(), true));
-
-            writer.write(getWorldSize()[0] + " " + getWorldSize()[1] + "\n"+idEquipaAtual + "\n"
-                    +criaturas.size() + "\n");
-
-
-
-            for (Creature c : criaturas.values()) {
-                if (c instanceof Vivo) {
-                    if (c.getEquipamento() != null) {
-                        writer.write(c.getId() + " : " +
-                                c.getIdTipo() + " : " + c.getNome() + " : " +
-                                c.cordenadaX() + " : " + c.cordenadaY() + " : " +
-                                c.getEquipamento().getId() +" : "+
-                                c.getEquipamento().getTypeID() + " : " +
-                                c.getEquipamento().getNome() + " : " +
-                                c.getEquipamento().cordenadaX() + " : " +
-                                c.getEquipamento().cordenadaY() + " : " +
-                                c.getEquipamentos() + "\n");
-                    } else {
-                        writer.write(c.getId() + " : "
-                                + c.getIdTipo() + " : " + c.getNome() + " : "
-                                + c.cordenadaX() + " : " + c.cordenadaY() + " : "
-                                + c.getEquipamentos() + "\n");
-                    }
-                } else if (c instanceof Zombie){
-                    writer.write(c.getId() + " : "
-                            + c.getIdTipo() + " : " + c.getNome() + " : "
-                            + c.cordenadaX() + " : " + c.cordenadaY() + " : " + c.getEquipamentos() + "\n");
-                }
-            }
-
-            writer.write(equipamentoHashMap.size() + "\n");
-
-            for (Equipamento e : equipamentoHashMap.values()) {
-                writer.write(e.getId() + " : " + e.getTypeID()
-                        + " : " + e.cordenadaX() + " : "
-                        + e.cordenadaY() + "\n");
-            }
-
-            writer.write(safeHavens.size() + "\n");
-
-            for (SafeHaven sh : safeHavens) {
-                writer.write(sh.getX() + " : "
-                        + sh.getY() + "\n");
-            }
-
-            writer.write(day +"\n");
-            writer.write(nrTurnos + "\n");
-            writer.write(idxInfecoes + "\n");
-            writer.write(xMorto + "\n");
-            writer.write(yMorto);
-
-            writer.close();
-
-            return file.createNewFile();
-        } catch (IOException e) {
-            //erro
-            e.printStackTrace();
-        }
-        return false;*/
 
         try {
 
@@ -1453,165 +1394,7 @@ public class TWDGameManager {
     }
 
     public boolean loadGame(File fich){
-/*
-        try {
-            Scanner leitorFicheiro = new Scanner(new FileInputStream(fich));
-            while (leitorFicheiro.hasNextLine()) {
-
-                String linha = leitorFicheiro.nextLine();
-                String[] dados = linha.split(" ");
-
-                if (dados.length == 2) {
-                    numeroLinhas = Integer.parseInt(dados[0].trim());
-                    numeroColunas = Integer.parseInt(dados[1].trim());
-                }
-
-
-                idEquipaInicial = Integer.parseInt(leitorFicheiro.nextLine());
-                idEquipaAtual = idEquipaInicial;
-                int nrCriaturas = 0;
-                nrCriaturas = Integer.parseInt(leitorFicheiro.nextLine());
-                System.out.println(idEquipaInicial);
-
-                for (int x = 0; x < nrCriaturas; x++) {
-                    if (leitorFicheiro.hasNextLine()) {
-                        String[] dadosCriatura = leitorFicheiro.nextLine().split(" : ");
-                        //fazer o split da linha com os " : "
-                        //e guardar os dados nos objetos e add na lista respetiva
-
-                        if (    Integer.parseInt(dadosCriatura[1]) >= 0 &&
-                                Integer.parseInt(dadosCriatura[1]) <= 4 &&
-                                dadosCriatura.length == 6) {
-                            //é zombie
-                                int idZ = Integer.parseInt(dadosCriatura[0]);
-                                int idTipoZ = Integer.parseInt(dadosCriatura[1]);
-                                String nomeZ = dadosCriatura[2];
-                                int xZ = Integer.parseInt(dadosCriatura[3]);
-                                int yZ = Integer.parseInt(dadosCriatura[4]);
-                                Equipamento equipamentos = new Equipamento();
-
-
-                                Zombie zombieAtual =
-                                        new Zombie(idZ, idTipoZ, creatureTYPE_ID(idTipoZ), "Os Outros",
-                                                nomeZ, xZ, yZ, equipamentos, Integer.parseInt(dadosCriatura[5]),false);
-
-                                criaturas.putIfAbsent(idZ, zombieAtual);
-
-
-                        } else if (Integer.parseInt(dadosCriatura[1]) >= 5 &&
-                                Integer.parseInt(dadosCriatura[1]) <= 10 &&
-                                dadosCriatura.length == 11) {
-
-                            //é humano
-                                int idH = Integer.parseInt(dadosCriatura[0]);
-                                int idTipoH = Integer.parseInt(dadosCriatura[1]);
-                                String nomeH = dadosCriatura[2];
-                                int xH = Integer.parseInt(dadosCriatura[3]);
-                                int yH = Integer.parseInt(dadosCriatura[4]);
-
-                                Equipamento equipamentos =
-                                        new Equipamento(Integer.parseInt(dadosCriatura[5])
-                                                ,Integer.parseInt(dadosCriatura[6]),dadosCriatura[7],
-                                                Integer.parseInt(dadosCriatura[8]),
-                                                Integer.parseInt(dadosCriatura[9])
-                                                ,new ArrayList<>());
-
-
-                                Vivo vivoAtual =
-                                        new Vivo(idH, idTipoH, creatureTYPE_ID(idTipoH)
-                                                , "Os Vivos", nomeH, xH, yH, equipamentos,
-                                                Integer.parseInt(dadosCriatura[10]), false, false);
-
-
-                                criaturas.putIfAbsent(idH, vivoAtual);
-                        } else if (Integer.parseInt(dadosCriatura[1]) >= 5 &&
-                                Integer.parseInt(dadosCriatura[1]) <= 10 &&
-                                dadosCriatura.length == 6) {
-                            //é humano
-                            int idH = Integer.parseInt(dadosCriatura[0]);
-                            int idTipoH = Integer.parseInt(dadosCriatura[1]);
-                            String nomeH = dadosCriatura[2];
-                            int xH = Integer.parseInt(dadosCriatura[3]);
-                            int yH = Integer.parseInt(dadosCriatura[4]);
-                            Equipamento equipamentos = new Equipamento();
-
-                            Vivo vivoAtual =
-                                    new Vivo(idH, idTipoH, creatureTYPE_ID(idTipoH)
-                                            , "Os Vivos", nomeH, xH, yH, equipamentos,
-                                            Integer.parseInt(dadosCriatura[5]), false, false);
-
-
-                            criaturas.putIfAbsent(idH, vivoAtual);
-                        }
-                    }
-                }
-
-                int nrEquipamentos = 0;
-                nrEquipamentos = Integer.parseInt(leitorFicheiro.nextLine());
-
-                //adicionar os equipamentos nas estruturas
-                for (int k = 0; k < nrEquipamentos; k++) {
-                    if (leitorFicheiro.hasNextLine()) {
-                        String[] dadosEquipamento = leitorFicheiro.nextLine().split(" : ");
-
-
-                        int idE = Integer.parseInt(dadosEquipamento[0]);
-                        int idTipoE = Integer.parseInt(dadosEquipamento[1]);
-                        int xE = Integer.parseInt(dadosEquipamento[2]);
-                        int yE = Integer.parseInt(dadosEquipamento[3]);
-                        ArrayList<Integer> c = new ArrayList<>();
-                        Equipamento equipamento = new Equipamento(idE, idTipoE, equipmentTYPE_ID(idTipoE), xE, yE,c);
-
-                        equipamentoHashMap.putIfAbsent(idE,equipamento);
-                        equipmentSTRIKESsetter(idTipoE, idE);
-                    }
-                }
-
-
-                int nrSafeHavens = 0;
-                if (leitorFicheiro.hasNextLine()) {
-                    nrSafeHavens = Integer.parseInt(leitorFicheiro.nextLine());
-                }
-
-                //adicionar as safeHavens
-                for (int k = 0; k < nrSafeHavens; k++){
-                    if (leitorFicheiro.hasNextLine()) {
-                        String[] dadosSafeHaven = leitorFicheiro.nextLine().split(" : ");
-
-                        int shX = Integer.parseInt(dadosSafeHaven[0]);
-                        int shY = Integer.parseInt(dadosSafeHaven[1]);
-
-                        SafeHaven safeHaven = new SafeHaven(shX, shY);
-                        safeHavens.add(safeHaven);
-                    }
-
-
-                }
-
-                if (leitorFicheiro.hasNextLine()) {
-                    day = Boolean.parseBoolean(leitorFicheiro.nextLine());
-                }
-                if (leitorFicheiro.hasNextLine()) {
-                    nrTurnos = Integer.parseInt(leitorFicheiro.nextLine());
-                }
-                if (leitorFicheiro.hasNextLine()) {
-                    idxInfecoes = Integer.parseInt(leitorFicheiro.nextLine());
-                }
-                if (leitorFicheiro.hasNextLine()) {
-                    xMorto = Integer.parseInt(leitorFicheiro.nextLine());
-                }
-                if (leitorFicheiro.hasNextLine()) {
-                    yMorto= Integer.parseInt(leitorFicheiro.nextLine());
-                }
-
-            }
-            load = true;
-            leitorFicheiro.close();
-            return true;
-
-        } catch (FileNotFoundException exception) {
-            return false;
-        }*/
+        load = true;
         return startGame(fich);
 
     }
