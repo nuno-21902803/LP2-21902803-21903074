@@ -106,7 +106,7 @@ public class TWDGameManager {
 
 
                         } else if (Integer.parseInt(dadosCriatura[1]) >= 5 &&
-                                Integer.parseInt(dadosCriatura[1]) <= 10 &&
+                                Integer.parseInt(dadosCriatura[1]) <= 9 &&
                                 dadosCriatura.length == 5 ) {
 
                             //é humano
@@ -124,6 +124,20 @@ public class TWDGameManager {
                                             0,false, false);
 
                             criaturas.putIfAbsent(idH, vivoAtual);
+                        } else if (Integer.parseInt(dadosCriatura[1]) == 10){
+                            int idZ = Integer.parseInt(dadosCriatura[0]);
+                            int idTipoZ = Integer.parseInt(dadosCriatura[1]);
+                            String nomeZ = dadosCriatura[2];
+                            int xZ = Integer.parseInt(dadosCriatura[3]);
+                            int yZ = Integer.parseInt(dadosCriatura[4]);
+                            Equipamento equipamentos = new Equipamento();
+
+
+                            Zombie zombieAtual =
+                                    new Zombie(idZ, idTipoZ, creatureTYPE_ID(idTipoZ), "Os Outros",
+                                            nomeZ, xZ, yZ, equipamentos,0,false);
+
+                            criaturas.putIfAbsent(idZ, zombieAtual);
                         }
                     }
                 }
@@ -567,6 +581,13 @@ public class TWDGameManager {
                 idoso = true;
                 Equipamento equipamento = existEquipment(xH,yH);
 
+
+                if (!vivo.getTomouVeneno() && equipamento.getTypeID() == 9){
+                    vivo.colocarCoordenada(xO,yO);
+                    //nao estava envenenado
+                    return false;
+                }
+
                 vivo.setEquipamento(equipamento);
                 equipamentoHashMap.remove(equipamento.getId());
 
@@ -592,9 +613,6 @@ public class TWDGameManager {
 
                     } else if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 0){
 
-                    } else if (!vivo.getTomouVeneno()){
-                        //nao estava envenenado
-                        return false;
                     }
                 }
 
@@ -605,6 +623,13 @@ public class TWDGameManager {
                 if (vivo.getEquipamento() != null){
                     Equipamento equipamento = vivo.getEquipamento();
                     //add na lista global
+
+                    if (!vivo.getTomouVeneno() && equipamento.getTypeID() == 9){
+                        vivo.colocarCoordenada(xO,yO);
+                        //nao estava envenenado
+                        return false;
+                    }
+
                     equipamentoHashMap.put(equipamento.getId(),equipamento);
 
                     //se ele tiver um equipamento tirar o mesmo
@@ -636,6 +661,7 @@ public class TWDGameManager {
                             return true;
                         } else if (!vivo.getTomouVeneno()){
                             //nao estava envenenado
+                            vivo.colocarCoordenada(xO,yO);
                             return false;
                         }
                     }
@@ -646,6 +672,13 @@ public class TWDGameManager {
             //se existir equipamento naquelas coordenadas ele adiciona e remove da lista
             if (existEquipment(xH, yH) != null && vivo.getEquipamento().getTypeID() == -23 && !idoso) {
                 Equipamento equipamento = existEquipment(xH,yH);
+
+                if (!vivo.getTomouVeneno() && equipamento.getTypeID() == 9){
+                    vivo.colocarCoordenada(xO,yO);
+                    //nao estava envenenado
+                    return false;
+                }
+
                 //adiciona o equipamento no humano
                 vivo.setEquipamento(equipamento);
                 //remove o equipamento da lista global
@@ -696,9 +729,6 @@ public class TWDGameManager {
 
                     } else if (vivo.getTomouVeneno() && equipamento.getStrikesLEFT() == 0){
                         return true;
-                    } else if (!vivo.getTomouVeneno()){
-                        //nao estava envenenado
-                        return false;
                     }
                 }
 
@@ -710,6 +740,13 @@ public class TWDGameManager {
                 //vai buscar o eq do humano anterior
                 Equipamento equipamentoAnterior = vivo.getEquipamento();
                 Equipamento equipamento = new Equipamento();
+
+
+                if (!vivo.getTomouVeneno() && equipamento.getTypeID() == 9){
+                    vivo.colocarCoordenada(xO,yO);
+                    //nao estava envenenado
+                    return false;
+                }
                 //guarda-o na lista global
                 equipamentoHashMap.put(equipamentoAnterior.getId(),equipamentoAnterior);
 
