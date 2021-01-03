@@ -1261,7 +1261,7 @@ public class TWDGameManager {
         answers[10] = "Bond. James Bond.";//certo ate aqui
         answers[11] = "Lost";
         answers[12] = "chocho";
-        answers[13] = "Freddie Mercury";
+        answers[13] = "Farrokh Bulsara";
 
         return answers;
     }
