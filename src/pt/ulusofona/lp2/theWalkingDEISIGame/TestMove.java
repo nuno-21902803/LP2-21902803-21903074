@@ -205,8 +205,6 @@ public class TestMove {
     public void testMove_ModeloBeta_1() {
         File file = new File("test-files/modelo.txt");
         teste.startGame(file);
-        Zombie beta = new Zombie(7,10,"Beta (Zombie)", "Os Outros" ,"Oppie", 5, 5,new Equipamento(),0,false);
-        TWDGameManager.criaturas.put(7,beta);
         teste.move(1, 1, 2, 0);
 
         boolean obtained = teste.move(5, 5, 5, 6);
@@ -217,8 +215,6 @@ public class TestMove {
     public void testMove_ModeloBeta_2() {
         File file = new File("test-files/modelo.txt");
         teste.startGame(file);
-        Zombie beta = new Zombie(7,10,"Beta (Zombie)", "Os Outros" ,"Oppie", 5, 5,new Equipamento(),0,false);
-        TWDGameManager.criaturas.put(7,beta);
         teste.move(1, 1, 2, 0);
 
         boolean obtained = teste.move(5, 5, 4, 2);
@@ -229,8 +225,6 @@ public class TestMove {
     public void testMove_ModeloBeta_3() {
         File file = new File("test-files/modelo.txt");
         teste.startGame(file);
-        Zombie beta = new Zombie(7,10,"Beta (Zombie)", "Os Outros" ,"Oppie", 4, 1,new Equipamento(),0,false);
-        TWDGameManager.criaturas.put(7,beta);
         teste.move(1, 1, 2, 0);
 
         boolean obtained = teste.move(4, 1, 5, 4);
