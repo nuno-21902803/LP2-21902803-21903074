@@ -6,6 +6,7 @@ import java.util.*;
 
 public class TWDGameManager {
     //game
+    //vars static para aceder a outras classes
 
     //--havens
     ArrayList<Integer> safeCreaturesID= new ArrayList<>();
@@ -18,7 +19,6 @@ public class TWDGameManager {
     HashMap<Integer, Equipamento> equipamentoHashMap = new HashMap<>();
 
 
-    //vars static para aceder as classes de teste
     static int numeroLinhas;
     static int numeroColunas;
     int idEquipaAtual = 0;
