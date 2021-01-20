@@ -3,6 +3,7 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +13,7 @@ public class TestMove {
     static TWDGameManager teste = new TWDGameManager();
 
     @Test
-    public void testMove_1() {
+    public void testMove_1() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -24,7 +25,7 @@ public class TestMove {
 
 
     @Test
-    public void testMove_2() {
+    public void testMove_2() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
         //System.out.println(teste.day);
@@ -44,7 +45,7 @@ public class TestMove {
     }
 
     @Test
-    public void testMove_3() {
+    public void testMove_3() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -55,7 +56,7 @@ public class TestMove {
     }
 
     @Test
-    public void testMove_4() {
+    public void testMove_4() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -66,7 +67,7 @@ public class TestMove {
     }
 
     @Test
-    public void testMove_5() {
+    public void testMove_5() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
         teste.move(2, 6, 1, 6);
@@ -79,7 +80,7 @@ public class TestMove {
     }
 
     @Test
-    public void testMove_6() {
+    public void testMove_6() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -91,7 +92,7 @@ public class TestMove {
     }
 
     @Test
-    public void testMove_7() {
+    public void testMove_7() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -105,7 +106,7 @@ public class TestMove {
 
 
     @Test
-    public void testMove_outOfBounds1() {
+    public void testMove_outOfBounds1() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -114,7 +115,7 @@ public class TestMove {
     }
 
     @Test
-    public void testMove_outOfBounds2() {
+    public void testMove_outOfBounds2() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -123,7 +124,7 @@ public class TestMove {
     }
 
     @Test
-    public void testMove_outOfBounds3() {
+    public void testMove_outOfBounds3() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -132,7 +133,7 @@ public class TestMove {
     }
 
     @Test
-    public void testMove_outOfBounds4() {
+    public void testMove_outOfBounds4() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -141,7 +142,7 @@ public class TestMove {
     }
 
     @Test
-    public void testMove_oneRight(){
+    public void testMove_oneRight() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -149,7 +150,7 @@ public class TestMove {
         assertTrue(obtained);
     }
     @Test
-    public void testMove_oneLeft() {
+    public void testMove_oneLeft() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);;
 
@@ -157,7 +158,7 @@ public class TestMove {
         assertTrue(obtained);
     }
     @Test
-    public void testMove_oneUp() {
+    public void testMove_oneUp() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -165,7 +166,7 @@ public class TestMove {
         assertTrue(obtained);
     }
     @Test
-    public void testMove_oneDown() {
+    public void testMove_oneDown() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -173,7 +174,7 @@ public class TestMove {
         assertFalse("devia dar false, militar nao tem eq defensivo e move para zombie", obtained);
     }
     @Test
-    public void testMove_oneUpRightDiagonal() {
+    public void testMove_oneUpRightDiagonal() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -181,7 +182,7 @@ public class TestMove {
         assertTrue(obtained);
     }
     @Test
-    public void testMove_oneLeftUpDiagonal() {
+    public void testMove_oneLeftUpDiagonal() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -190,7 +191,7 @@ public class TestMove {
     }
 
     @Test
-    public void testMove_oneLeftDownDiagonal() {
+    public void testMove_oneLeftDownDiagonal() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -202,7 +203,7 @@ public class TestMove {
     //
 
     @Test
-    public void testMove_ModeloBeta_1() {
+    public void testMove_ModeloBeta_1() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/modelo.txt");
         teste.startGame(file);
         teste.move(1, 1, 2, 0);
@@ -212,7 +213,7 @@ public class TestMove {
     }
 
     @Test
-    public void testMove_ModeloBeta_2() {
+    public void testMove_ModeloBeta_2() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/modelo.txt");
         teste.startGame(file);
         teste.move(1, 1, 2, 0);
@@ -222,7 +223,7 @@ public class TestMove {
     }
 
     @Test
-    public void testMove_ModeloBeta_3() {
+    public void testMove_ModeloBeta_3() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/modelo.txt");
         teste.startGame(file);
         teste.move(1, 1, 2, 0);

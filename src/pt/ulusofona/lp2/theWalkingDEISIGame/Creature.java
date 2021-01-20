@@ -54,16 +54,23 @@ public class Creature {
     public String getImagePNG() {
         switch (idTipo) {
             case 0:
+                return "zombiekid.png";
             case 1:
+                return "zombieA.png";
             case 2:
-            case 3:
-            case 4:
                 return "zombie.png";
+            case 3:
+                return "zombie_Idoso.png";
+            case 4:
+                return "zombie_vamp.png";
             case 5:
+                return "human_K.png";
             case 6:
-            case 7:
-            case 8:
                 return "human.png";
+            case 7:
+                return "human_M.png";
+            case 8:
+                return "human_I.png";
             case 9:
                 return "dog.png";
             case 10:

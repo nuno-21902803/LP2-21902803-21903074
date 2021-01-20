@@ -3,6 +3,7 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,7 +12,7 @@ public class TestGetElementId {
     static TWDGameManager teste = new TWDGameManager();
 
     @Test
-    public void testGetElementID_1(){
+    public void testGetElementID_1() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -22,7 +23,7 @@ public class TestGetElementId {
     }
 
     @Test
-    public void testGetElementID_2(){
+    public void testGetElementID_2() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -33,7 +34,7 @@ public class TestGetElementId {
     }
 
     @Test
-    public void testGetElementID_3(){
+    public void testGetElementID_3() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -44,7 +45,7 @@ public class TestGetElementId {
     }
 
     @Test
-    public void testGetElementID_4(){
+    public void testGetElementID_4() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -55,7 +56,7 @@ public class TestGetElementId {
     }
 
     @Test
-    public void testGetElementID_5(){
+    public void testGetElementID_5() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -66,7 +67,7 @@ public class TestGetElementId {
     }
 
     @Test
-    public void testGetElementID_6(){
+    public void testGetElementID_6() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -77,7 +78,7 @@ public class TestGetElementId {
     }
 
     @Test
-    public void testGetElementID_7(){
+    public void testGetElementID_7() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -88,7 +89,7 @@ public class TestGetElementId {
     }
 
     @Test
-    public void testGETElementID_8_saveLOAD(){
+    public void testGETElementID_8_saveLOAD() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/modelo.txt");
         File file1 = new File("testeSAVE.txt");
 

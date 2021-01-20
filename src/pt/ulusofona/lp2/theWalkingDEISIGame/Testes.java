@@ -3,6 +3,7 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 
@@ -15,17 +16,17 @@ public class Testes {
 
 
     @Test
-    public void testFileErrado(){
+    public void testFileErrado() throws InvalidTWDInitialFileException, FileNotFoundException {
         File f = new File("test-files/testesERRADO.txt");
 
-        boolean resultReal = teste.startGame(f);
+        teste.startGame(f);
         boolean resultEsperado = false;
 
-        assertEquals("Devia dar false",resultEsperado,resultReal);
+        assertEquals("Devia dar false",resultEsperado,true);
     }
 
     @Test
-    public void testGetWorldSize(){
+    public void testGetWorldSize() throws InvalidTWDInitialFileException, FileNotFoundException {
         File f = new File("test-files/testesFile.txt");
         teste.startGame(f);
         int[] resultReal = teste.getWorldSize();
@@ -35,7 +36,7 @@ public class Testes {
     }
 
     @Test
-    public void testGetTeamInicial(){
+    public void testGetTeamInicial() throws InvalidTWDInitialFileException, FileNotFoundException {
         File f = new File("test-files/testesFile.txt");
         teste.startGame(f);
 
@@ -47,7 +48,7 @@ public class Testes {
 
 
     @Test
-    public void testGETcreatures(){
+    public void testGETcreatures() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
 
@@ -58,7 +59,7 @@ public class Testes {
     }
 
     @Test
-    public void testGETinicialTeam(){
+    public void testGETinicialTeam() throws InvalidTWDInitialFileException, FileNotFoundException {
         File file = new File("test-files/testesFile.txt");
         teste.startGame(file);
         teste.startGame(file);
