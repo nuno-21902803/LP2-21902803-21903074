@@ -6,7 +6,7 @@ public class Moves {
     int x, y;
     int x0, y0;
     int idCriaturaAtual;
-
+    TWDGameManager gameManager = new TWDGameManager();
 
     public Moves(int x, int y, int x0, int y0, int idCriaturaAtual) {
         this.x = x;
@@ -16,28 +16,93 @@ public class Moves {
         this.idCriaturaAtual = idCriaturaAtual;
     }
 
-//TODO passarem por cima
-    public boolean checkCriaturasNoCaminho(int xPretendido, int yPretendido, int xAnterior, int yAnterior){
-        //um id nao existente
-        int checkID = -1000;
-        int loopMaxX = -1;
-        int loopMaxY = -30;
-        int loopTOTALmax = -100;
 
-        TWDGameManager guia = new TWDGameManager();
+    public boolean checkCriaturasNoCaminho(int xAnterior, int yAnterior,int maxMoves, int direcao){
 
-        loopMaxX = Math.max(xPretendido,xAnterior) +1;
-        loopMaxY = Math.max(yPretendido,yAnterior) +1;
+    boolean check = false;
+        switch (direcao){
+                //Cima
+            case 0:
+                if (maxMoves == 1){
+                    return gameManager.getElementId(xAnterior, yAnterior + 1) == 0;
+                }
+                if (maxMoves == 2){
+                    check = gameManager.getElementId(xAnterior, yAnterior + 1) == 0;
+                    return check && gameManager.getElementId(xAnterior, yAnterior + 2) == 0;
+                }
+                //baixo
+            case 1:
+                if (maxMoves == 1){
+                    return gameManager.getElementId(xAnterior, yAnterior - 1) == 0;
+                }
+                if (maxMoves == 2){
 
-        loopTOTALmax = Math.max(loopMaxX,loopMaxY);
+                    check = gameManager.getElementId(xAnterior, yAnterior - 1) == 0;
+                    return check && gameManager.getElementId(xAnterior, yAnterior - 2) == 0;
+                }
 
 
-        int x = 0;
-        int y = 0;
+                //ladoESQ
+            case 2:
+                if (maxMoves == 1){
+                    return gameManager.getElementId(xAnterior - 1, yAnterior) == 0;
+                }
+                if (maxMoves == 2){
+                    check = gameManager.getElementId(xAnterior - 1, yAnterior) == 0;
+                    return check && gameManager.getElementId(xAnterior - 2, yAnterior ) == 0;
+                }
 
 
-        return checkID != -1000;
-        //tem element no meio return true else false
+                //ladoDIR
+            case 3:
+                if (maxMoves == 1){
+                    return gameManager.getElementId(xAnterior + 1, yAnterior) == 0;
+                }
+                if (maxMoves == 2){
+                    check = gameManager.getElementId(xAnterior + 1, yAnterior) == 0;
+                    return check &&  gameManager.getElementId(xAnterior + 2, yAnterior ) == 0;
+                }
+
+
+                //diagonal direitaCIMA
+            case 4:
+                if (maxMoves == 1){
+                    return gameManager.getElementId(xAnterior + 1, yAnterior - 1) == 0;
+                }
+                if (maxMoves == 2){
+                    check = gameManager.getElementId(xAnterior + 1, yAnterior - 1) == 0;
+                    return check && gameManager.getElementId(xAnterior + 2, yAnterior - 2 ) == 0;
+                }
+                //diagonal direitaBAIXO
+            case 5:
+                if (maxMoves == 1){
+                    return gameManager.getElementId(xAnterior + 1, yAnterior + 1) == 0;
+                }
+                if (maxMoves == 2){
+                    check = gameManager.getElementId(xAnterior + 1, yAnterior + 1) == 0;
+                    return check && gameManager.getElementId(xAnterior + 2, yAnterior + 2 ) == 0;
+                }
+                //diagonal esqCIMA
+            case 6:
+                if (maxMoves == 1){
+                    return gameManager.getElementId(xAnterior - 1, yAnterior - 1) == 0;
+                }
+                if (maxMoves == 2){
+                    check = gameManager.getElementId(xAnterior - 1, yAnterior - 1) == 0;
+                    return check && gameManager.getElementId(xAnterior - 2, yAnterior - 2 ) == 0;
+                }
+                //diagonal esqBAIXO
+            case 7:
+                if (maxMoves == 1){
+                    return gameManager.getElementId(xAnterior - 1, yAnterior + 1) == 0;
+                }
+                if (maxMoves == 2){
+                    check = gameManager.getElementId(xAnterior - 1, yAnterior + 1) == 0;
+                    return check && gameManager.getElementId(xAnterior - 2, yAnterior + 2 ) == 0;
+                }
+        }
+
+        return false;
     }
 
 
@@ -51,12 +116,14 @@ public class Moves {
             return false;
         }
 
+
         boolean check = xPretendido == xAnterior - 1 && yPretendido == yAnterior ||
                 xPretendido == xAnterior + 1 && yPretendido == yAnterior ||
                 xPretendido == xAnterior && yPretendido == yAnterior - 1 ||
                 xPretendido == xAnterior && yPretendido == yAnterior + 1;
 
-        boolean checkCreatures = checkCriaturasNoCaminho(xPretendido,yPretendido,xAnterior,yAnterior);
+        int moveMAX= 0;
+        int direcao = 0;
 
 
         switch (tYPEidCriaturaAtual) {
@@ -65,16 +132,23 @@ public class Moves {
             case 5:
                 //idoso zombie
             case 3:
-                if (checkCreatures){
-                //    return false;
+                moveMAX = 1;
+                direcao = direcaoGetter(xPretendido,yPretendido,xAnterior,yAnterior);
+
+                if (!checkCriaturasNoCaminho(xAnterior,yAnterior,moveMAX,direcao)){
+                    return false;
                 }
 
                 return check;
             //adulto
             case 1:
             case 6:
-                if (checkCreatures){
-                   // return false;
+                moveMAX = 2;
+                direcao = direcaoGetter(xPretendido,yPretendido,xAnterior,yAnterior);
+                System.out.println(direcao +" check" + checkCriaturasNoCaminho(xAnterior,yAnterior,moveMAX,direcao));
+                if (!checkCriaturasNoCaminho(xAnterior,yAnterior,moveMAX,direcao)){
+
+                    return false;
                 }
                 return (xAnterior - xPretendido> -3 && yAnterior - yPretendido < 3) &&
                         (yAnterior - yPretendido > -3 && xAnterior - xPretendido < 3);
@@ -82,20 +156,24 @@ public class Moves {
             //militar
             case 2:
             case 7:
-
-                if (checkCreatures) {
+                /*
+                moveMAX = 3;
+                direcao = direcaoGetter(xPretendido,yPretendido,xAnterior,yAnterior);
+                if (checkCriaturasNoCaminho(xPretendido,yPretendido,xAnterior,yAnterior,moveMAX,direcao)) {
                     //return false;
-                }
+                }*/
 
                 return (xAnterior - xPretendido> -4 && yAnterior - yPretendido < 4) &&
                         (yAnterior - yPretendido > -4 && xAnterior - xPretendido < 4);
 
             //idoso humano
             case 8:
+                moveMAX = 1;
+                direcao = direcaoGetter(xPretendido,yPretendido,xAnterior,yAnterior);
 
                 if (day){
-                    if (checkCreatures){
-                    //    return false;
+                    if (!checkCriaturasNoCaminho(xAnterior,yAnterior,moveMAX,direcao)){
+                        return false;
                     }
 
                     return check;
@@ -107,10 +185,6 @@ public class Moves {
 
                 if (!day){
 
-                    //saltar por cima ou n
-                    if (checkCreatures){
-                      //  return false;
-                    }
 
                     return (xAnterior -xPretendido > -3 && xAnterior-xPretendido <3) &&
                             (yAnterior-yPretendido> -3 && yAnterior-yPretendido <3);
@@ -119,9 +193,7 @@ public class Moves {
                 }
                 //cao
             case 9:
-                if (checkCreatures){
-                   // return false;
-                }
+
                 if (xPretendido == xAnterior + 1 || xPretendido == xAnterior - 1) {
                     if (xPretendido + 1 > TWDGameManager.numeroColunas ||
                             yPretendido + 1 > TWDGameManager.numeroLinhas) {
@@ -156,9 +228,6 @@ public class Moves {
                 return false;
                 //zombieFILME
             case 10:
-                if (checkCreatures){
-                  //  return false;
-                }
 
                 //anda em L mas para esquerda so pode andar em L para cima
                 //ser for para a direita é em L para baixo
@@ -191,5 +260,51 @@ public class Moves {
                         yPretendido <= TWDGameManager.numeroColunas - 1;
         }
 
+    }
+
+    int direcaoGetter(int xPretendido,int yPretendido,int xAnterior,int yAnterior){
+        //devolve a direcao para crianca idoso e adulto
+
+        //para cima
+        if (xPretendido == xAnterior && yPretendido == yAnterior - 1 ||
+                xPretendido == xAnterior && yPretendido == yAnterior - 2 ){
+            return 0;
+        }
+        // para baixo
+        if (xPretendido == xAnterior && yPretendido == yAnterior + 1 ||
+                xPretendido == xAnterior && yPretendido == yAnterior + 2 ){
+            return 1;
+        }
+        //ladoESQ
+        if (xPretendido == xAnterior-1 && yPretendido == yAnterior ||
+                xPretendido == xAnterior-2 && yPretendido == yAnterior){
+            return 2;
+        }
+        //ladoDIR
+        if (xPretendido == xAnterior+1 && yPretendido == yAnterior ||
+                xPretendido == xAnterior+2 && yPretendido == yAnterior){
+            return 3;
+        }
+        //diagonal direitaCIMA
+        if (xPretendido == xAnterior + 1  && yPretendido == yAnterior - 1 ||
+                xPretendido == xAnterior + 2  && yPretendido == yAnterior - 2){
+            return 4;
+        }
+        //diagonal direitaBAIXO
+        if (xPretendido == xAnterior + 1 && yPretendido == yAnterior + 1 ||
+                xPretendido == xAnterior + 2 && yPretendido == yAnterior + 2){
+            return 5;
+        }
+        //diagonal esqCIMA
+        if (xPretendido == xAnterior - 1 && yPretendido == yAnterior - 1 ||
+                xPretendido == xAnterior - 2 && yPretendido == yAnterior - 2 ){
+            return 6;
+        }
+        //diagonal esqBAIXO
+        if (xPretendido == xAnterior - 1  && yPretendido == yAnterior + 1||
+                xPretendido == xAnterior - 2  && yPretendido == yAnterior + 2){
+            return 7;
+        }
+        return 800;
     }
 }

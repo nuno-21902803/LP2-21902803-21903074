@@ -7,7 +7,9 @@ public class InvalidTWDInitialFileException extends Exception {
 
     ArrayList<String> criaturasERROR = new ArrayList<>();
 
+    public InvalidTWDInitialFileException() {
 
+    }
 
     //funcao que valida se tem +2 criaturas
     public boolean validNrOfCreatures(){
