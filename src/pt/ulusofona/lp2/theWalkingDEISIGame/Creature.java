@@ -13,13 +13,16 @@ public class Creature {
     private Equipamento equipamento = new Equipamento();
     private int numEqApanhadosDestruidos = 0;
     private boolean isDead;
-
+    private boolean isSafe;
+    private int transformacoes = 0;
+    private int zombieKILLED = 0;
 
     public Creature() {
     }
 
     public Creature(int id, int idTipo, String tipoCriatura, String nomeEquipa,
-                    String nome, int x, int y, Equipamento equipamento, int numEqApanhadosDestruidos, boolean isDead) {
+                    String nome, int x, int y, Equipamento equipamento, int numEqApanhadosDestruidos, boolean isDead
+    ,boolean isSafe, int transformacoes, int zombieKILLED) {
         this.id = id;
         this.idTipo = idTipo;
         this.tipoCriatura = tipoCriatura;
@@ -30,6 +33,9 @@ public class Creature {
         this.equipamento = equipamento;
         this.numEqApanhadosDestruidos = numEqApanhadosDestruidos;
         this.isDead = isDead;
+        this.isSafe = isSafe;
+        this.transformacoes = transformacoes;
+        this.zombieKILLED =  zombieKILLED;
     }
 
 
@@ -122,6 +128,31 @@ public class Creature {
 
     public void setDead(boolean dead) {
         isDead = dead;
+    }
+
+    public void setSafe(boolean safe) {
+        isSafe = safe;
+    }
+
+    public boolean getIsSafe() {
+        return this.isSafe;
+    }
+
+    public int getTransformacoes() {
+        return transformacoes;
+    }
+
+    public void setTransformacoes(int transformacoes) {
+        this.transformacoes = transformacoes;
+    }
+
+
+    public int getZombieKILLED() {
+        return zombieKILLED;
+    }
+
+    public void setZombieKILLED(int zombieKILLED) {
+        this.zombieKILLED = zombieKILLED;
     }
 
     @Override

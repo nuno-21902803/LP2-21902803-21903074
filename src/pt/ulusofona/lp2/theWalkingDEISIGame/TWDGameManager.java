@@ -2,6 +2,7 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Stream;
 
 
 public class TWDGameManager {
@@ -129,7 +130,7 @@ public class TWDGameManager {
 
                             Zombie zombieAtual =
                                     new Zombie(idZ, idTipoZ, creatureTYPE_ID(idTipoZ), "Os Outros",
-                                            nomeZ, xZ, yZ, equipamentos, 0, false);
+                                            nomeZ, xZ, yZ, equipamentos, 0, false,false,0);
 
                             criaturas.putIfAbsent(idZ, zombieAtual);
 
@@ -150,7 +151,7 @@ public class TWDGameManager {
                             Vivo vivoAtual =
                                     new Vivo(idH, idTipoH, creatureTYPE_ID(idTipoH)
                                             , "Os Vivos", nomeH, xH, yH, equipamentos,
-                                            0, false, false);
+                                            0, false, false,-1);
 
                             criaturas.putIfAbsent(idH, vivoAtual);
                         } else if (Integer.parseInt(dadosCriatura[1]) == 10) {
@@ -164,7 +165,7 @@ public class TWDGameManager {
 
                             Zombie zombieAtual =
                                     new Zombie(idZ, idTipoZ, creatureTYPE_ID(idTipoZ), "Os Outros",
-                                            nomeZ, xZ, yZ, equipamentos, 0, false);
+                                            nomeZ, xZ, yZ, equipamentos, 0, false,false,0);
 
                             criaturas.putIfAbsent(idZ, zombieAtual);
                         }
@@ -185,7 +186,8 @@ public class TWDGameManager {
                         int xE = Integer.parseInt(dadosEquipamento[2]);
                         int yE = Integer.parseInt(dadosEquipamento[3]);
                         ArrayList<Integer> c = new ArrayList<>();
-                        Equipamento equipamento = new Equipamento(idE, idTipoE, equipmentTYPE_ID(idTipoE), xE, yE, c);
+                        Equipamento equipamento = new Equipamento(idE, idTipoE, equipmentTYPE_ID(idTipoE), xE, yE, c
+                        ,0);
 
                         equipamentoHashMap.putIfAbsent(idE, equipamento);
                         equipmentSTRIKESsetter(idTipoE, idE);
@@ -365,11 +367,13 @@ public class TWDGameManager {
                                                         vivo1.setIdTipo(vivo1.getIdTipo() - 5);
                                                         //zombie tmp para colocar no hash
                                                         //System.out.println("FOI AQUI");
+                                                        int num = zombie1.getTransformacoes();
+                                                        zombie1.setTransformacoes(num+1);
                                                         Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
                                                                 creatureTYPE_ID(vivo1.getIdTipo()),
                                                                 "Os Outros", vivo1.getNome(),
                                                                 vivo1.cordenadaX(), vivo1.cordenadaY(),
-                                                                new Equipamento(), 0, false);
+                                                                new Equipamento(), 0, false,false,0);
                                                         criaturas.put(vivo1.getId(), tmp);
                                                         //remove dos humanos
                                                         idEquipaAtual = 10;
@@ -409,11 +413,13 @@ public class TWDGameManager {
                                                         vivo1.setIdTipo(vivo1.getIdTipo() - 5);
                                                         //zombie tmp para colocar no hash
                                                         //System.out.println("FOI AQUI 2");
+                                                        int num = zombie1.getTransformacoes();
+                                                        ( zombie1).setTransformacoes(num+1);
                                                         Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
                                                                 creatureTYPE_ID(vivo1.getIdTipo()),
                                                                 "Os Outros", vivo1.getNome(),
                                                                 vivo1.cordenadaX(), vivo1.cordenadaY(),
-                                                                new Equipamento(), 0, false);
+                                                                new Equipamento(), 0, false,false,0);
 
                                                         criaturas.put(vivo1.getId(), tmp);
 
@@ -447,11 +453,13 @@ public class TWDGameManager {
                                         vivo1.setIdTipo(vivo1.getIdTipo() - 5);
                                         //zombie tmp para colocar no hash
                                         //System.out.println("FOI AQUI 3");
+                                        int num =  zombie1.getTransformacoes();
+                                         zombie1.setTransformacoes(num+1);
                                         Zombie tmp = new Zombie(vivo1.getId(), vivo1.getIdTipo(),
                                                 creatureTYPE_ID(vivo1.getIdTipo()),
                                                 "Os Outros", vivo1.getNome(),
                                                 vivo1.cordenadaX(), vivo1.cordenadaY(),
-                                                new Equipamento(), 0, false);
+                                                new Equipamento(), 0, false,false,0);
 
                                         criaturas.put(vivo1.getId(), tmp);
 
@@ -527,13 +535,14 @@ public class TWDGameManager {
                                                         //mudar id para idzombie respetivo
                                                         //System.out.println("FOI AQUI 4");
                                                         humano1.setIdTipo(humano1.getIdTipo() - 5);
-
+                                                        int num =  zombie1.getTransformacoes();
+                                                        zombie1.setTransformacoes(num+1);
                                                         //zombie tmp para colocar no hash
                                                         Zombie tmp = new Zombie(humano1.getId(), humano1.getIdTipo(),
                                                                 creatureTYPE_ID(humano1.getIdTipo()),
                                                                 "Os Outros", humano1.getNome(),
                                                                 humano1.cordenadaX(), humano1.cordenadaY(),
-                                                                new Equipamento(), 0, false);
+                                                                new Equipamento(), 0, false,false,0);
 
                                                         criaturas.put(humano1.getId(), tmp);
 
@@ -943,6 +952,8 @@ public class TWDGameManager {
     public boolean attack(Vivo vivo, Zombie zombie, boolean zombieAttack){
         //equipamento atual do humano que ataca o zombie
         Equipamento equipAttack = vivo.getEquipamento();
+        int killed = vivo.getZombieKILLED();
+        int numDEFESA = equipAttack.getNumDEFESAS();
 
         switch (equipAttack.getTypeID()){
                 //qd e uma espada
@@ -953,6 +964,8 @@ public class TWDGameManager {
                     //zombieHashMap.remove(zombie.getId());
 
                     criaturas.get(zombie.getId()).setDead(true);
+                    vivo.setZombieKILLED(killed + 1);
+                    equipAttack.setNumDEFESAS(numDEFESA+1);
 
                     if (!zombieAttack) {
                         vivo.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
@@ -970,6 +983,8 @@ public class TWDGameManager {
 
                     //zombieHashMap.remove(zombie.getId());
                     criaturas.get(zombie.getId()).setDead(true);
+                    vivo.setZombieKILLED(killed + 1);
+                    equipAttack.setNumDEFESAS(numDEFESA+1);
 
                     if (!zombieAttack) {
                         vivo.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
@@ -989,6 +1004,8 @@ public class TWDGameManager {
                     //zombieHashMap.remove(zombie.getId());
 
                     criaturas.get(zombie.getId()).setDead(true);
+                    vivo.setZombieKILLED(killed + 1);
+                    equipAttack.setNumDEFESAS(numDEFESA+1);
 
                     //dar update nos strikes
                     int numStrikes = equipAttack.getStrikesLEFT();
@@ -1016,6 +1033,9 @@ public class TWDGameManager {
 
                // zombieHashMap.remove(zombie.getId());
                 criaturas.get(zombie.getId()).setDead(true);
+                vivo.setZombieKILLED(killed + 1);
+                equipAttack.setNumDEFESAS(numDEFESA+1);
+
                 if (!zombieAttack) {
                     vivo.colocarCoordenada(zombie.cordenadaX(), zombie.cordenadaY());
                 }
@@ -1033,6 +1053,8 @@ public class TWDGameManager {
 
     public boolean defense(Vivo vivo, Zombie zombie, boolean zombieAttack){
         Equipamento equipDefense = vivo.getEquipamento();
+        int numDEFESA = equipDefense.getNumDEFESAS();
+
 
         switch (equipDefense.getTypeID()){
             //qd e um escudo madeira
@@ -1047,16 +1069,34 @@ public class TWDGameManager {
                     //nao tem strickes
                     return false;
                 }
+                equipDefense.setNumDEFESAS(numDEFESA+1);
                 return true;
             //qd é um escudo tatico
             case 3:
+
+            case 10:
+                //defende o ataque
+                equipDefense.setNumDEFESAS(numDEFESA+1);
                 return true;
                 //qd e uma revista maria
             case 4:
-                return zombie.getIdTipo() == 3;
+                if (zombie.getIdTipo() == 3){
+                    equipDefense.setNumDEFESAS(numDEFESA+1);
+                    return true;
+                } else {
+                    return false;
+                }
+
                 //qd e cabeca de alho
             case 5:
-                return !day;
+
+                if (!day){
+                    equipDefense.setNumDEFESAS(numDEFESA+1);
+                    return true;
+                } else {
+                    return false;
+                }
+
             //qd e garrafa de lixivia
             case 7:
                 if (equipDefense.getLitroLEFTfloat() >= 0.3){
@@ -1069,6 +1109,8 @@ public class TWDGameManager {
                     //nao tem strickes
                     return false;
                 }
+
+                equipDefense.setNumDEFESAS(numDEFESA+1);
                 return true;
 
                 //qd e veneno
@@ -1078,6 +1120,8 @@ public class TWDGameManager {
                 if (vivo.getTomouVeneno() && vivo.getNrTurnosEnvenenados() < 3 && vivo.getNrTurnosEnvenenados() > 0){
                     int nr = vivo.getNrTurnosEnvenenados();
                     vivo.setNrTurnosEnvenenados(nr +1);
+
+                    equipDefense.setNumDEFESAS(numDEFESA+1);
                     return true;
                 }
 
@@ -1085,10 +1129,6 @@ public class TWDGameManager {
             case 9:
                 //ou seja tem um uso
                 return false;
-
-            case 10:
-                //defende o ataque
-                return true;
         }
         //sucedeu na defesa
         return true;
@@ -1525,7 +1565,7 @@ public class TWDGameManager {
 
                             Zombie zombieAtual =
                                     new Zombie(idZ, idTipoZ, creatureTYPE_ID(idTipoZ), "Os Outros",
-                                            nomeZ, xZ, yZ, equipamentos,0,false);
+                                            nomeZ, xZ, yZ, equipamentos,0,false,false,0);
 
                             criaturas.putIfAbsent(idZ, zombieAtual);
 
@@ -1546,7 +1586,7 @@ public class TWDGameManager {
                             Vivo vivoAtual =
                                     new Vivo(idH, idTipoH, creatureTYPE_ID(idTipoH)
                                             , "Os Vivos", nomeH, xH, yH, equipamentos,
-                                            0,false, false);
+                                            0,false, false,-1);
 
                             criaturas.putIfAbsent(idH, vivoAtual);
                         } else if (Integer.parseInt(dadosCriatura[1]) == 10){
@@ -1560,7 +1600,7 @@ public class TWDGameManager {
 
                             Zombie zombieAtual =
                                     new Zombie(idZ, idTipoZ, creatureTYPE_ID(idTipoZ), "Os Outros",
-                                            nomeZ, xZ, yZ, equipamentos,0,false);
+                                            nomeZ, xZ, yZ, equipamentos,0,false,false,0);
 
                             criaturas.putIfAbsent(idZ, zombieAtual);
                         }
@@ -1581,7 +1621,7 @@ public class TWDGameManager {
                         int xE = Integer.parseInt(dadosEquipamento[2]);
                         int yE = Integer.parseInt(dadosEquipamento[3]);
                         ArrayList<Integer> c = new ArrayList<>();
-                        Equipamento equipamento = new Equipamento(idE, idTipoE, equipmentTYPE_ID(idTipoE), xE, yE,c);
+                        Equipamento equipamento = new Equipamento(idE, idTipoE, equipmentTYPE_ID(idTipoE), xE, yE,c,0);
 
                         equipamentoHashMap.putIfAbsent(idE,equipamento);
                         equipmentSTRIKESsetter(idTipoE, idE);
@@ -1620,37 +1660,116 @@ public class TWDGameManager {
 
 
     public Map<String, List<String>> getGameStatistics(){
-
-        //lista de controlo
+    //lista de controlo
     ArrayList<Creature> creatures = new ArrayList<>(criaturas.values());
 
-    ArrayList<String> os3ZombiesMaisTramados = new ArrayList<>();
-    ArrayList<String> os3VivosMaisDuros = new ArrayList<>();
-    ArrayList<String> tiposDeEquipamentoMaisUteis = new ArrayList<>();
-    ArrayList<String> tiposDeZombieESeusEquipDestruidos= new ArrayList<>();
-    ArrayList<String> criaturasMaisEquipadas = new ArrayList<>();
+    List<String> os3ZombiesMaisTramados = new ArrayList<>();
+    List<String> os3VivosMaisDuros = new ArrayList<>();
+    List<String> tiposDeEquipamentoMaisUteis = new ArrayList<>();
+    List<String> tiposDeZombieESeusEquipDestruidos= new ArrayList<>();
+    List<String> criaturasMaisEquipadas = new ArrayList<>();
+
+
+
+        String zombieType0 = creatureTYPE_ID(0)+":" +tiposDeZombieESeusEquipDestruidoNUMeq(0)+
+                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(0);
+        String zombieType1 = creatureTYPE_ID(1)+":" +tiposDeZombieESeusEquipDestruidoNUMeq(1)+
+                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(0);
+        String zombieType2 = creatureTYPE_ID(2)+":" +tiposDeZombieESeusEquipDestruidoNUMeq(2)+
+                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(0);
+        String zombieType3 = creatureTYPE_ID(3)+":" +tiposDeZombieESeusEquipDestruidoNUMeq(3)+
+                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(0);;
+        String zombieType4 = creatureTYPE_ID(4)+":" +tiposDeZombieESeusEquipDestruidoNUMeq(4)+
+                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(0);
 
 
     //criaturasMaisEquipadas
         if (criaturas.size() < 5){
             creatures.stream()
-                    .filter(Creature::getIsDead)
-                    //.filter(Creature -> Vivo::getIsSafe)
+                    .filter(Creature -> !Creature.getIsDead())
+                    .filter(Creature -> !Creature.getIsSafe())
                     .sorted((Creature c1, Creature c2) -> c2.getEquipamentos() - c1.getEquipamentos())//decrescente
                     .forEach(Creature -> criaturasMaisEquipadas.add(Creature.getId()+":"
                             +Creature.getNome()+":"+Creature.getEquipamentos()));
         } else {
+
             creatures.stream()
-                    .filter(Creature::getIsDead)
+                    .filter(Creature -> !Creature.getIsDead())
+                    .filter(Creature -> !Creature.getIsSafe())
                     .sorted((Creature c1, Creature c2) -> c2.getEquipamentos() - c1.getEquipamentos()) //decrescente
                     .limit(5)
                     .forEach(Creature -> criaturasMaisEquipadas.add(Creature.getId()+":"
                             +Creature.getNome()+":"+Creature.getEquipamentos()));
+
+
         }
+        System.out.println(criaturasMaisEquipadas);
 
-    //tiposDeZombieESeusEquipDestruidos
+        //tiposDeZombieESeusEquipDestruidos
+        tiposDeZombieESeusEquipDestruidos.add(zombieType0);
+        tiposDeZombieESeusEquipDestruidos.add(zombieType1);
+        tiposDeZombieESeusEquipDestruidos.add(zombieType2);
+        tiposDeZombieESeusEquipDestruidos.add(zombieType3);
+        tiposDeZombieESeusEquipDestruidos.add(zombieType4);
+
+        System.out.println(tiposDeZombieESeusEquipDestruidos);
+
+        //os3ZombiesMaisTramados
+        int count = (int) creatures.stream()
+                .filter(Creature -> Creature.getTransformacoes() >0)
+                .count();
+
+        if (count > 2){
+            creatures.stream()
+                    .filter(Creature -> Creature.getIdTipo() < 5)
+                    .sorted((Creature c1, Creature c2) -> c2.getTransformacoes() - c1.getTransformacoes())
+                    .limit(3)
+                    .forEach(Creature -> os3ZombiesMaisTramados.add(Creature.getId()+":"
+                    +Creature.getNome()+":"+Creature.getTransformacoes()));
+        } else {
+
+            creatures.stream()
+                    .filter(Creature -> Creature.getIdTipo() < 5)
+                    .filter(Creature -> Creature.getTransformacoes() > 0)
+                    .sorted((Creature c1, Creature c2) -> c2.getTransformacoes() - c1.getTransformacoes())
+                    .forEach(Creature -> os3ZombiesMaisTramados.add(Creature.getId()+":"
+                            +Creature.getNome()+":"+Creature.getTransformacoes()));
+
+        }
+        System.out.println(os3ZombiesMaisTramados);
 
 
+    //os3VivosMaisDuros
+        int vivosDestroy = (int) creatures.stream()
+                .filter(Creature -> Creature.getTransformacoes() >0)
+                .count();
+
+        if (vivosDestroy > 2){
+            creatures.stream()
+                    .filter(Creature -> Creature.getIdTipo() > 4)
+                    .sorted((Creature c1, Creature c2) -> c2.getTransformacoes() - c1.getTransformacoes())
+                    .limit(3)
+                    .forEach(Creature -> os3VivosMaisDuros.add(Creature.getId()+":"
+                            +Creature.getNome()+":"+Creature.getZombieKILLED()));
+        } else {
+
+            creatures.stream()
+                    .filter(Creature -> Creature.getIdTipo() > 4)
+                    .filter(Creature -> Creature.getTransformacoes() > 0)
+                    .sorted((Creature c1, Creature c2) -> c2.getTransformacoes() - c1.getTransformacoes())
+                    .forEach(Creature -> os3VivosMaisDuros.add(Creature.getId()+":"
+                            +Creature.getNome()+":"+Creature.getZombieKILLED()));
+
+        }
+        System.out.println(os3VivosMaisDuros);
+
+        //tiposDeEquipamento
+        //MaisUteis
+        equipamentoHashMap.values().stream()
+                .sorted(Comparator.comparingInt(Equipamento::getNumDEFESAS))
+                .forEach(Equipamento -> tiposDeEquipamentoMaisUteis.add(Equipamento.getTypeID()+":"
+                        +Equipamento.getNumDEFESAS()));
+        System.out.println(tiposDeEquipamentoMaisUteis);
 
 
     listMap.put("os3ZombiesMaisTramados",os3ZombiesMaisTramados);
@@ -1663,4 +1782,65 @@ public class TWDGameManager {
     }
 
 
+    public int tiposDeZombieESeusEquipDestruidoNUMeq(int type){
+
+        ArrayList<Creature> creatures = new ArrayList<>(criaturas.values());
+
+        //tiposDeZombieESeusEquipDestruidos
+        switch (type) {
+            case 0: return creatures.stream()
+                    .filter(Creature -> Creature.getIdTipo() == 0) //apenas zombies
+                    .map(Creature::getEquipamentos)
+                    .mapToInt(i -> i).sum();
+
+            case 1: return creatures.stream()
+                    .filter(Creature -> Creature.getIdTipo() == 1) //apenas zombies
+                    .map(Creature::getEquipamentos)
+                    .mapToInt(i -> i).sum();
+            case 2: return creatures.stream()
+                    .filter(Creature -> Creature.getIdTipo() == 2) //apenas zombies
+                    .map(Creature::getEquipamentos)
+                    .mapToInt(i -> i).sum();
+            case 3: return creatures.stream()
+                    .filter(Creature -> Creature.getIdTipo() == 3) //apenas zombies
+                    .map(Creature::getEquipamentos)
+                    .mapToInt(i -> i).sum();
+
+            case 4: return creatures.stream()
+                    .filter(Creature -> Creature.getIdTipo() == 4) //apenas zombies
+                    .map(Creature::getEquipamentos)
+                    .mapToInt(i -> i).sum();
+        }
+        return -1;
+    }
+
+
+    public int tiposDeZombieESeusEquipDestruidoNUMtipo(int type){
+
+        ArrayList<Creature> creatures = new ArrayList<>(criaturas.values());
+
+        //tiposDeZombieESeusEquipDestruidos
+        switch (type) {
+            case 0: return (int) creatures.stream()
+                    .filter(Creature -> Creature.getIdTipo() == 0) //apenas zombies
+                    .count();
+
+            case 1: return (int) creatures.stream()
+                    .filter(Creature -> Creature.getIdTipo() == 1) //apenas zombies
+                    .count();
+
+            case 2: return (int) creatures.stream()
+                    .filter(Creature -> Creature.getIdTipo() == 2) //apenas zombies
+                    .count();
+
+            case 3: return (int) creatures.stream()
+                    .filter(Creature -> Creature.getIdTipo() == 3) //apenas zombies
+                    .count();
+
+            case 4: return (int) creatures.stream()
+                    .filter(Creature -> Creature.getIdTipo() == 4) //apenas zombies
+                    .count();
+        }
+        return 0;
+    }
 }

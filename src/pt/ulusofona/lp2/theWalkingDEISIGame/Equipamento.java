@@ -11,6 +11,7 @@ public class Equipamento {
     private int strikesLEFT = -1;
     private float litroLEFT = -1;
     private ArrayList<Integer> apanhadoPorCreaturesID = new ArrayList<>();
+    private int numDEFESAS = 0;
 
     private boolean usado=false;
     private boolean dropado = false;
@@ -19,13 +20,15 @@ public class Equipamento {
     public Equipamento() {
     }
 
-    public Equipamento(int id, int idTipo, String nome, int x, int y, ArrayList<Integer> apanhadoPorCreatures) {
+    public Equipamento(int id, int idTipo, String nome, int x, int y, ArrayList<Integer> apanhadoPorCreatures,
+                       int numDEFESAS) {
         this.id = id;
         this.idTipo = idTipo;
         this.nome = nome;
         this.x = x;
         this.y = y;
         this.apanhadoPorCreaturesID = apanhadoPorCreatures;
+        this.numDEFESAS = numDEFESAS;
     }
 
     public ArrayList<Integer> getApanhadoPorCreaturesID() {
@@ -49,6 +52,13 @@ public class Equipamento {
     }
 
 
+    public int getNumDEFESAS() {
+        return numDEFESAS;
+    }
+
+    public void setNumDEFESAS(int numDEFESAS) {
+        this.numDEFESAS = numDEFESAS;
+    }
 
     public boolean getIsUsadoPorMilitar() {
         return usado;

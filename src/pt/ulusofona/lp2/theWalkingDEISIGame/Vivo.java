@@ -2,16 +2,17 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 
 public class Vivo extends Creature {
-    private boolean isSafe;
+    //private boolean isSafe;
     private boolean tomouVeneno;
     private boolean deadVeneno;
     private int nrTurnosEnvenenados;
 
 
     public Vivo(int id, int idTipo, String tipoCriatura, String nomeEquipa, String nome, int x, int y,
-                Equipamento equipamento, int n, boolean isDead, boolean isSafe) {
-        super(id, idTipo, tipoCriatura, nomeEquipa, nome, x, y, equipamento, n, isDead);
-        this.isSafe = isSafe;
+                Equipamento equipamento, int numEqApanhadosDestruidos, boolean isDead, boolean isSafe, int
+                transformacoes) {
+        super(id, idTipo, tipoCriatura, nomeEquipa, nome, x, y, equipamento, numEqApanhadosDestruidos, isDead, isSafe
+        ,transformacoes,0);
     }
 
     public int getNrTurnosEnvenenados() {
@@ -31,9 +32,7 @@ public class Vivo extends Creature {
     }
 
 
-    public void setSafe(boolean safe) {
-        isSafe = safe;
-    }
+
 
     public boolean getTomouVeneno() {
         return tomouVeneno;
@@ -43,9 +42,7 @@ public class Vivo extends Creature {
         this.tomouVeneno = tomouVeneno;
     }
 
-    public boolean getIsSafe() {
-        return this.isSafe;
-    }
+
 
 
 }
