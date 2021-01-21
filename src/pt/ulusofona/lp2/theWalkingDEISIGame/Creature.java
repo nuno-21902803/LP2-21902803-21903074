@@ -147,4 +147,6 @@ public class Creature {
                 getEquipamentos() + " @ (" + cordenadaX() + ", " + cordenadaY() + ")";
 
     }
+
+
 }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class InvalidTWDInitialFileException extends Exception {
 
-    ArrayList<String> criaturasERROR = new ArrayList<>();
 
     public InvalidTWDInitialFileException() {
 
@@ -18,11 +17,11 @@ public class InvalidTWDInitialFileException extends Exception {
 
     //funcao que valida a estrutura da criatura
     public boolean validCreatureDefinition(){
-        return false;
+        return TWDGameManager.dadosCriaturaStatic.length > 5;
     }
 
     //retorna a 1st linha que tem erro
     public String getErroneousLine(){
-        return "";
+        return TWDGameManager.linhaErro;
     }
 }

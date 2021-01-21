@@ -27,8 +27,11 @@ public class TWDGameManager {
     int nrTurnos = 0;
     int nrTurnosTotal = 0; //ver se detetou alguma infecao no jogo
 
+    static String linhaErro = "";
+    static String[] dadosCriaturaStatic;
+
     boolean day = true;
-    boolean load = false;
+
 
     int xMorto = -1;
     int yMorto = -1;
@@ -40,7 +43,7 @@ public class TWDGameManager {
 
     void startGame(File ficheiroInicial) throws InvalidTWDInitialFileException, FileNotFoundException {
 
-        if (!load) {
+
             safeCreaturesID.clear();
             safeHavens.clear();
             //--HashsCreatures
@@ -57,7 +60,7 @@ public class TWDGameManager {
             xMorto = -1;
             yMorto = -1;
             //clear das estruturas e vars
-        }
+
 
 
         try {
@@ -85,6 +88,7 @@ public class TWDGameManager {
                 numCriaturas = nrCriaturas;
 
                 if (!new InvalidTWDInitialFileException().validNrOfCreatures()) {
+
                     throw new InvalidTWDInitialFileException();
                 }
 
@@ -92,6 +96,14 @@ public class TWDGameManager {
                 for (int x = 0; x < nrCriaturas; x++) {
                     if (leitorFicheiro.hasNextLine()) {
                         String[] dadosCriatura = leitorFicheiro.nextLine().split(" : ");
+
+                        if (!new InvalidTWDInitialFileException().validCreatureDefinition()){
+                            for (String s : dadosCriatura) {
+                                linhaErro += s;
+                            }
+
+                            throw new InvalidTWDInitialFileException();
+                        }
                         //fazer o split da linha com os " : "
                         //e guardar os dados nos objetos e add na lista respetiva
 
@@ -195,11 +207,10 @@ public class TWDGameManager {
 
             }
             leitorFicheiro.close();
-            load = false;
+
 
 
         } catch (FileNotFoundException exception) {
-            load = false;
             throw new FileNotFoundException();
 
         }
@@ -1446,7 +1457,23 @@ public class TWDGameManager {
     }
 
     public boolean loadGame(File fich){
-        load = true;
+
+        safeCreaturesID.clear();
+        safeHavens.clear();
+        //--HashsCreatures
+        criaturas.clear();
+        //--equi
+        equipamentoHashMap.clear();
+        numeroLinhas = 0;
+        numeroColunas = 0;
+        nrTurnosTotal = 0;
+        idEquipaAtual = 0;
+        idEquipaInicial = 0;
+        nrTurnos = 0;
+        day = true;
+        xMorto = -1;
+        yMorto = -1;
+        //clear das estruturas e vars
 
         try {
 
@@ -1576,11 +1603,9 @@ public class TWDGameManager {
 
             }
             leitorFicheiro.close();
-            load = false;
             return true;
 
         } catch (FileNotFoundException exception) {
-            load = false;
             return false;
         }
 
@@ -1588,12 +1613,33 @@ public class TWDGameManager {
 
 
     public Map<String, List<String>> getGameStatistics(){
+    ArrayList<Creature> creatures = new ArrayList<>();
     ArrayList<String> os3ZombiesMaisTramados = new ArrayList<>();
     ArrayList<String> os3VivosMaisDuros = new ArrayList<>();
     ArrayList<String> tiposDeEquipamentoMaisUteis = new ArrayList<>();
     ArrayList<String> tiposDeZombieESeusEquipDestruidos= new ArrayList<>();
     ArrayList<String> criaturasMaisEquipadas = new ArrayList<>();
 
+    creatures = (ArrayList<Creature>) criaturas.values();
+    //criaturasMaisEquipadas
+        if (criaturas.size() < 5){
+            creatures.stream()
+                    .filter(Creature::getIsDead)
+                    //.filter(Creature -> Vivo::getIsSafe)
+                    .sorted((Creature c1, Creature c2) -> c2.getEquipamentos() - c1.getEquipamentos())//decrescente
+                    .forEach(Creature -> criaturasMaisEquipadas.add(Creature.getId()+":"
+                            +Creature.getNome()+":"+Creature.getEquipamentos()));
+        } else {
+            creatures.stream()
+                    .filter(Creature::getIsDead)
+                    .sorted((Creature c1, Creature c2) -> c2.getEquipamentos() - c1.getEquipamentos()) //decrescente
+                    .limit(5)
+                    .forEach(Creature -> criaturasMaisEquipadas.add(Creature.getId()+":"
+                            +Creature.getNome()+":"+Creature.getEquipamentos()));
+        }
+
+    //tiposDeZombieESeusEquipDestruidos
+    creatures = (ArrayList<Creature>) criaturas.values();
 
 
 

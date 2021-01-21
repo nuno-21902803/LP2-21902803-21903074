@@ -1,7 +1,7 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 
-public class Vivo extends Creature{
+public class Vivo extends Creature {
     private boolean isSafe;
     private boolean tomouVeneno;
     private boolean deadVeneno;
@@ -10,7 +10,7 @@ public class Vivo extends Creature{
 
     public Vivo(int id, int idTipo, String tipoCriatura, String nomeEquipa, String nome, int x, int y,
                 Equipamento equipamento, int n, boolean isDead, boolean isSafe) {
-        super(id, idTipo, tipoCriatura, nomeEquipa, nome, x, y, equipamento,n, isDead);
+        super(id, idTipo, tipoCriatura, nomeEquipa, nome, x, y, equipamento, n, isDead);
         this.isSafe = isSafe;
     }
 

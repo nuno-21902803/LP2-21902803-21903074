@@ -24,21 +24,21 @@ public class Moves {
                 //Cima
             case 0:
                 if (maxMoves == 1){
-                    return gameManager.getElementId(xAnterior, yAnterior + 1) == 0;
+                    return gameManager.getElementId(xAnterior, yAnterior - 1) == 0;
                 }
                 if (maxMoves == 2){
-                    check = gameManager.getElementId(xAnterior, yAnterior + 1) == 0;
-                    return check && gameManager.getElementId(xAnterior, yAnterior + 2) == 0;
+                    check = gameManager.getElementId(xAnterior, yAnterior - 1) == 0;
+                    return check && gameManager.getElementId(xAnterior, yAnterior - 2) == 0;
                 }
                 //baixo
             case 1:
                 if (maxMoves == 1){
-                    return gameManager.getElementId(xAnterior, yAnterior - 1) == 0;
+                    return gameManager.getElementId(xAnterior, yAnterior + 1) == 0;
                 }
                 if (maxMoves == 2){
 
-                    check = gameManager.getElementId(xAnterior, yAnterior - 1) == 0;
-                    return check && gameManager.getElementId(xAnterior, yAnterior - 2) == 0;
+                    check = gameManager.getElementId(xAnterior, yAnterior + 1) == 0;
+                    return check && gameManager.getElementId(xAnterior, yAnterior + 2) == 0;
                 }
 
 
@@ -145,7 +145,7 @@ public class Moves {
             case 6:
                 moveMAX = 2;
                 direcao = direcaoGetter(xPretendido,yPretendido,xAnterior,yAnterior);
-                System.out.println(direcao +" check" + checkCriaturasNoCaminho(xAnterior,yAnterior,moveMAX,direcao));
+
                 if (!checkCriaturasNoCaminho(xAnterior,yAnterior,moveMAX,direcao)){
 
                     return false;
@@ -156,12 +156,11 @@ public class Moves {
             //militar
             case 2:
             case 7:
-                /*
-                moveMAX = 3;
-                direcao = direcaoGetter(xPretendido,yPretendido,xAnterior,yAnterior);
-                if (checkCriaturasNoCaminho(xPretendido,yPretendido,xAnterior,yAnterior,moveMAX,direcao)) {
+
+
+               if (checkCriaturasNoCaminho(xAnterior,yAnterior,moveMAX,direcao)) {
                     //return false;
-                }*/
+                }
 
                 return (xAnterior - xPretendido> -4 && yAnterior - yPretendido < 4) &&
                         (yAnterior - yPretendido > -4 && xAnterior - xPretendido < 4);
