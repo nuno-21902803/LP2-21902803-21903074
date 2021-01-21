@@ -97,12 +97,16 @@ public class TWDGameManager {
                     if (leitorFicheiro.hasNextLine()) {
                         String[] dadosCriatura = leitorFicheiro.nextLine().split(" : ");
                         dadosCriaturaStatic = dadosCriatura;
-                        System.out.println(dadosCriaturaStatic.length);
+                        int count = 0;
                         if (!new InvalidTWDInitialFileException().validCreatureDefinition()){
 
                             for (String s : dadosCriaturaStatic) {
                                 linhaErro += s;
-                                //TODO frase com certa identacao
+                                if (count<dadosCriaturaStatic.length-1) {
+                                    linhaErro += " : ";
+                                    count++;
+                                }
+
                             }
 
                             throw new InvalidTWDInitialFileException();
