@@ -41,7 +41,7 @@ public class TWDGameManager {
     public TWDGameManager() {
     }
 
-    void startGame(File ficheiroInicial) throws InvalidTWDInitialFileException, FileNotFoundException {
+    public void startGame (File ficheiroInicial) throws InvalidTWDInitialFileException, FileNotFoundException {
 
 
             safeCreaturesID.clear();
@@ -59,13 +59,13 @@ public class TWDGameManager {
             day = true;
             xMorto = -1;
             yMorto = -1;
+            linhaErro="";
             //clear das estruturas e vars
 
 
 
         try {
 
-            //TODO METER UM IF COM UMA FUNCAO CRIADA NA INVALIDTWDINITIALFILEEX.... PARA DAR A EXCEPTION
             Scanner leitorFicheiro = new Scanner(new FileInputStream(ficheiroInicial));
             while (leitorFicheiro.hasNextLine()) {
 
@@ -97,11 +97,12 @@ public class TWDGameManager {
                     if (leitorFicheiro.hasNextLine()) {
                         String[] dadosCriatura = leitorFicheiro.nextLine().split(" : ");
                         dadosCriaturaStatic = dadosCriatura;
-
+                        System.out.println(dadosCriaturaStatic.length);
                         if (!new InvalidTWDInitialFileException().validCreatureDefinition()){
-                            System.out.println(dadosCriaturaStatic);
+
                             for (String s : dadosCriaturaStatic) {
                                 linhaErro += s;
+                                //TODO frase com certa identacao
                             }
 
                             throw new InvalidTWDInitialFileException();
