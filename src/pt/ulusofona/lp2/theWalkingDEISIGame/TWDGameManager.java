@@ -96,9 +96,11 @@ public class TWDGameManager {
                 for (int x = 0; x < nrCriaturas; x++) {
                     if (leitorFicheiro.hasNextLine()) {
                         String[] dadosCriatura = leitorFicheiro.nextLine().split(" : ");
+                        dadosCriaturaStatic = dadosCriatura;
 
                         if (!new InvalidTWDInitialFileException().validCreatureDefinition()){
-                            for (String s : dadosCriatura) {
+                            System.out.println(dadosCriaturaStatic);
+                            for (String s : dadosCriaturaStatic) {
                                 linhaErro += s;
                             }
 
