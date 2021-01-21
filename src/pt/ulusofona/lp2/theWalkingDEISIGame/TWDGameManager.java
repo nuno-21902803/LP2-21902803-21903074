@@ -1620,14 +1620,17 @@ public class TWDGameManager {
 
 
     public Map<String, List<String>> getGameStatistics(){
-    ArrayList<Creature> creatures = new ArrayList<>();
+
+        //lista de controlo
+    ArrayList<Creature> creatures = new ArrayList<>(criaturas.values());
+
     ArrayList<String> os3ZombiesMaisTramados = new ArrayList<>();
     ArrayList<String> os3VivosMaisDuros = new ArrayList<>();
     ArrayList<String> tiposDeEquipamentoMaisUteis = new ArrayList<>();
     ArrayList<String> tiposDeZombieESeusEquipDestruidos= new ArrayList<>();
     ArrayList<String> criaturasMaisEquipadas = new ArrayList<>();
 
-    creatures = (ArrayList<Creature>) criaturas.values();
+
     //criaturasMaisEquipadas
         if (criaturas.size() < 5){
             creatures.stream()
@@ -1646,7 +1649,7 @@ public class TWDGameManager {
         }
 
     //tiposDeZombieESeusEquipDestruidos
-    creatures = (ArrayList<Creature>) criaturas.values();
+
 
 
 

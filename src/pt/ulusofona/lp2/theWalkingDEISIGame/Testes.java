@@ -15,15 +15,6 @@ public class Testes {
     static TWDGameManager teste = new TWDGameManager();
 
 
-    @Test
-    public void testFileErrado() throws InvalidTWDInitialFileException, FileNotFoundException {
-        File f = new File("test-files/testesERRADO.txt");
-
-        teste.startGame(f);
-        boolean resultEsperado = false;
-
-        assertEquals("Devia dar false",resultEsperado,true);
-    }
 
     @Test
     public void testGetWorldSize() throws InvalidTWDInitialFileException, FileNotFoundException {
