@@ -1462,7 +1462,7 @@ public class TWDGameManager {
         try {
 
             for (Creature c : criaturas.values()){
-                if (c.getEquipamento() != null){
+                if (c.getEquipamento().getTypeID() != -23){
                     //se tiver equipamento ele mete as memas coordenadas da criatura
                     c.getEquipamento().setX(c.cordenadaX());
                     c.getEquipamento().setY(c.cordenadaY());
@@ -1688,18 +1688,22 @@ public class TWDGameManager {
     List<String> tiposDeZombieESeusEquipDestruidos= new ArrayList<>();
     List<String> criaturasMaisEquipadas = new ArrayList<>();
 
-        //System.out.println("asdasdsa" +criaturas + "OIOASDLAOSDL");
 
-        String zombieType0 = creatureTYPE_ID(0)+":" +tiposDeZombieESeusEquipDestruidoNUMeq(0)+
-                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(0);
-        String zombieType1 = creatureTYPE_ID(1)+":" +tiposDeZombieESeusEquipDestruidoNUMeq(1)+
-                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(1);
-        String zombieType2 = creatureTYPE_ID(2)+":" +tiposDeZombieESeusEquipDestruidoNUMeq(2)+
-                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(2);
-        String zombieType3 = creatureTYPE_ID(3)+":" +tiposDeZombieESeusEquipDestruidoNUMeq(3)+
-                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(3);;
-        String zombieType4 = creatureTYPE_ID(4)+":" +tiposDeZombieESeusEquipDestruidoNUMeq(4)+
-                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(4);
+
+        String zombieType0 = creatureTYPE_ID(0)+":" +tiposDeZombieESeusEquipDestruidoNUMtipo(0) + ":"
+                +tiposDeZombieESeusEquipDestruidoNUMeq(0);
+
+        String zombieType1 =  creatureTYPE_ID(1)+":" +tiposDeZombieESeusEquipDestruidoNUMtipo(1) + ":"
+                +tiposDeZombieESeusEquipDestruidoNUMeq(1);
+
+        String zombieType2 =  creatureTYPE_ID(2)+":" +tiposDeZombieESeusEquipDestruidoNUMtipo(2) + ":"
+                +tiposDeZombieESeusEquipDestruidoNUMeq(2);
+
+        String zombieType3 =  creatureTYPE_ID(3)+":" +tiposDeZombieESeusEquipDestruidoNUMtipo(3) + ":"
+                +tiposDeZombieESeusEquipDestruidoNUMeq(3);
+
+        String zombieType4 =  creatureTYPE_ID(4)+":" +tiposDeZombieESeusEquipDestruidoNUMtipo(4) + ":"
+                +tiposDeZombieESeusEquipDestruidoNUMeq(4);
 
 
     //criaturasMaisEquipadas
@@ -1740,6 +1744,8 @@ public class TWDGameManager {
         if (tiposDeZombieESeusEquipDestruidoNUMtipo(4) != -1){
             tiposDeZombieESeusEquipDestruidos.add(zombieType4);
         }
+
+
 
         System.out.println(tiposDeZombieESeusEquipDestruidos);
 
@@ -1899,4 +1905,6 @@ public class TWDGameManager {
         }
         return -1;
     }
+
+
 }
