@@ -2,7 +2,7 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Stream;
+
 
 
 public class TWDGameManager {
@@ -1483,7 +1483,7 @@ public class TWDGameManager {
             for (Equipamento e : equipamentoHashMap.values()) {
                 writer.write(e.getId() + " : " + e.getTypeID()
                         + " : " + e.cordenadaX() + " : "
-                        + e.cordenadaY() + "\n");
+                        + e.cordenadaY() + " : "+ e.getNumDEFESAS() +"\n");
             }
 
             writer.write(safeHavens.size() + "\n");
@@ -1620,8 +1620,10 @@ public class TWDGameManager {
                         int idTipoE = Integer.parseInt(dadosEquipamento[1]);
                         int xE = Integer.parseInt(dadosEquipamento[2]);
                         int yE = Integer.parseInt(dadosEquipamento[3]);
+                        int numDef = Integer.parseInt(dadosEquipamento[4]);
                         ArrayList<Integer> c = new ArrayList<>();
-                        Equipamento equipamento = new Equipamento(idE, idTipoE, equipmentTYPE_ID(idTipoE), xE, yE,c,0);
+                        Equipamento equipamento = new Equipamento(idE, idTipoE, equipmentTYPE_ID(idTipoE), xE, yE,c,
+                                numDef);
 
                         equipamentoHashMap.putIfAbsent(idE,equipamento);
                         equipmentSTRIKESsetter(idTipoE, idE);
@@ -1658,7 +1660,7 @@ public class TWDGameManager {
 
     }
 
-
+    //TODO load com a info de cenas destruidas
     public Map<String, List<String>> getGameStatistics(){
     //lista de controlo
     ArrayList<Creature> creatures = new ArrayList<>(criaturas.values());
@@ -1778,7 +1780,7 @@ public class TWDGameManager {
     listMap.put("tiposDeZombieESeusEquipamentosDestruidos",tiposDeZombieESeusEquipDestruidos);
     listMap.put("criaturasMaisEquipadas",criaturasMaisEquipadas);
 
-        return listMap;
+    return listMap;
     }
 
 
