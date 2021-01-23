@@ -311,7 +311,7 @@ public class TWDGameManager {
             if (!isZombie) {
                 Vivo vivo = (Vivo) criaturas.get(idCriatura);
                 vivo.setSafe(true);
-                vivo.colocarCoordenada(xMorto, yMorto);
+                vivo.colocarCoordenada(xMorto-100, yMorto-100);
                 safeCreaturesID.add(idCriatura);
 
                 nrTurnosTotal++;
@@ -1589,6 +1589,15 @@ public class TWDGameManager {
                                             , "Os Vivos", nomeH, xH, yH, equipamentos,
                                             numEQ,false, false,-1);
 
+                            //se os X e Y do vivo forem negativos é porque foram salvos ou mortos
+                            //se for safe ele vai para coordenada -100-xmorto, -100-ymorto
+                            if (xH < -99 && yH < -99 ){
+                                vivoAtual.setSafe(true);
+                            }
+                            if ((xH < 0 && xH > -100) && (yH < 0 && yH > -100) ){
+                                vivoAtual.setDead(true);
+                            }
+
                             criaturas.putIfAbsent(idH, vivoAtual);
                         } else if (Integer.parseInt(dadosCriatura[1]) == 10){
                             int idZ = Integer.parseInt(dadosCriatura[0]);
@@ -1677,13 +1686,13 @@ public class TWDGameManager {
         String zombieType0 = creatureTYPE_ID(0)+":" +tiposDeZombieESeusEquipDestruidoNUMeq(0)+
                 ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(0);
         String zombieType1 = creatureTYPE_ID(1)+":" +tiposDeZombieESeusEquipDestruidoNUMeq(1)+
-                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(0);
+                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(1);
         String zombieType2 = creatureTYPE_ID(2)+":" +tiposDeZombieESeusEquipDestruidoNUMeq(2)+
-                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(0);
+                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(2);
         String zombieType3 = creatureTYPE_ID(3)+":" +tiposDeZombieESeusEquipDestruidoNUMeq(3)+
-                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(0);;
+                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(3);;
         String zombieType4 = creatureTYPE_ID(4)+":" +tiposDeZombieESeusEquipDestruidoNUMeq(4)+
-                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(0);
+                ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(4);
 
 
     //criaturasMaisEquipadas
@@ -1709,19 +1718,19 @@ public class TWDGameManager {
         System.out.println(criaturasMaisEquipadas);
 
         //tiposDeZombieESeusEquipDestruidos
-        if (!zombieType0.equals("")){
+        if (tiposDeZombieESeusEquipDestruidoNUMtipo(0) != -1){
         tiposDeZombieESeusEquipDestruidos.add(zombieType0);
         }
-        if (!zombieType1.equals("")) {
+        if (tiposDeZombieESeusEquipDestruidoNUMtipo(1) != -1) {
             tiposDeZombieESeusEquipDestruidos.add(zombieType1);
         }
-        if (!zombieType2.equals("")) {
+        if (tiposDeZombieESeusEquipDestruidoNUMtipo(2) != -1) {
             tiposDeZombieESeusEquipDestruidos.add(zombieType2);
         }
-        if (!zombieType3.equals("")){
+        if (tiposDeZombieESeusEquipDestruidoNUMtipo(3) != -1){
             tiposDeZombieESeusEquipDestruidos.add(zombieType3);
         }
-        if (!zombieType4.equals("")){
+        if (tiposDeZombieESeusEquipDestruidoNUMtipo(4) != -1){
             tiposDeZombieESeusEquipDestruidos.add(zombieType4);
         }
 
@@ -1778,6 +1787,7 @@ public class TWDGameManager {
 
         //tiposDeEquipamento
         //MaisUteis
+
         equipamentoHashMap.values().stream()
                 .sorted(Comparator.comparingInt(Equipamento::getNumDEFESAS))
                 .forEach(Equipamento -> tiposDeEquipamentoMaisUteis.add(Equipamento.getTypeID()+":"
@@ -1853,6 +1863,6 @@ public class TWDGameManager {
                     .filter(Creature -> Creature.getIdTipo() == 4) //apenas zombies
                     .count();
         }
-        return 0;
+        return -1;
     }
 }

@@ -1,7 +1,8 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 public class SafeHaven {
-    int x,y;
+    private final int x;
+    private final int y;
 
     public SafeHaven(int x, int y) {
         this.x = x;
