@@ -10,6 +10,7 @@ public class Main {
         File nd = new File("test-files/testesFile.txt");
         TWDGameManager game = new TWDGameManager();
         game.startGame(nd);
+        game.move(3,3,2,3);
         game.getGameStatistics();
         game.saveGame(new File("OI"));
     }

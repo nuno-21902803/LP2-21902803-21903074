@@ -254,7 +254,6 @@ public class TWDGameManager {
         return safeCreaturesID;
     }
 
-    //move
     public boolean move(int xO, int yO, int xD, int yD) {
 
 
@@ -947,7 +946,6 @@ public class TWDGameManager {
 
         return false;
     }
-    //----
 
     public boolean attack(Vivo vivo, Zombie zombie, boolean zombieAttack){
         //equipamento atual do humano que ataca o zombie
@@ -1464,8 +1462,10 @@ public class TWDGameManager {
             for (Creature c : criaturas.values()){
                 if (c.getEquipamento().getTypeID() != -23){
                     //se tiver equipamento ele mete as memas coordenadas da criatura
+                    equipamentoHashMap.put(c.getId(),c.getEquipamento());
                     c.getEquipamento().setX(c.cordenadaX());
                     c.getEquipamento().setY(c.cordenadaY());
+
                 }
             }
 
@@ -1816,7 +1816,6 @@ public class TWDGameManager {
 
     return listMap;
     }
-
 
     public int tiposDeZombieESeusEquipDestruidoNUMeq(int type){
 
