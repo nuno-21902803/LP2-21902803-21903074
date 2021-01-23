@@ -1459,7 +1459,6 @@ public class TWDGameManager {
     }
 
     public boolean saveGame(File fich){
-
         try {
 
             File file = new File(fich.getAbsolutePath() + ".txt");
@@ -1475,7 +1474,7 @@ public class TWDGameManager {
             for (Creature c : criaturas.values()) {
                 writer.write(c.getId() + " : "
                         + c.getIdTipo() + " : " + c.getNome() + " : "
-                        + c.cordenadaX() + " : " + c.cordenadaY() + "\n");
+                        + c.cordenadaX() + " : " + c.cordenadaY() + " : " + c.getEquipamentos()+ "\n");
             }
 
             writer.write(equipamentoHashMap.size() + "\n");
@@ -1552,7 +1551,7 @@ public class TWDGameManager {
 
                         if (    Integer.parseInt(dadosCriatura[1]) >= 0 &&
                                 Integer.parseInt(dadosCriatura[1]) <= 4 &&
-                                dadosCriatura.length == 5) {
+                                dadosCriatura.length == 6) {
                             //é zombie
 
                             int idZ = Integer.parseInt(dadosCriatura[0]);
@@ -1560,19 +1559,20 @@ public class TWDGameManager {
                             String nomeZ = dadosCriatura[2];
                             int xZ = Integer.parseInt(dadosCriatura[3]);
                             int yZ = Integer.parseInt(dadosCriatura[4]);
+                            int numEQ = Integer.parseInt(dadosCriatura[5]);
                             Equipamento equipamentos = new Equipamento();
 
 
                             Zombie zombieAtual =
                                     new Zombie(idZ, idTipoZ, creatureTYPE_ID(idTipoZ), "Os Outros",
-                                            nomeZ, xZ, yZ, equipamentos,0,false,false,0);
+                                            nomeZ, xZ, yZ, equipamentos,numEQ,false,false,0);
 
                             criaturas.putIfAbsent(idZ, zombieAtual);
 
 
                         } else if (Integer.parseInt(dadosCriatura[1]) >= 5 &&
                                 Integer.parseInt(dadosCriatura[1]) <= 9 &&
-                                dadosCriatura.length == 5 ) {
+                                dadosCriatura.length == 6 ) {
 
                             //é humano
 
@@ -1581,12 +1581,13 @@ public class TWDGameManager {
                             String nomeH = dadosCriatura[2];
                             int xH = Integer.parseInt(dadosCriatura[3]);
                             int yH = Integer.parseInt(dadosCriatura[4]);
+                            int numEQ = Integer.parseInt(dadosCriatura[5]);
                             Equipamento equipamentos = new Equipamento();
 
                             Vivo vivoAtual =
                                     new Vivo(idH, idTipoH, creatureTYPE_ID(idTipoH)
                                             , "Os Vivos", nomeH, xH, yH, equipamentos,
-                                            0,false, false,-1);
+                                            numEQ,false, false,-1);
 
                             criaturas.putIfAbsent(idH, vivoAtual);
                         } else if (Integer.parseInt(dadosCriatura[1]) == 10){
@@ -1671,7 +1672,7 @@ public class TWDGameManager {
     List<String> tiposDeZombieESeusEquipDestruidos= new ArrayList<>();
     List<String> criaturasMaisEquipadas = new ArrayList<>();
 
-
+        //System.out.println("asdasdsa" +criaturas + "OIOASDLAOSDL");
 
         String zombieType0 = creatureTYPE_ID(0)+":" +tiposDeZombieESeusEquipDestruidoNUMeq(0)+
                 ":"+tiposDeZombieESeusEquipDestruidoNUMtipo(0);
@@ -1708,11 +1709,21 @@ public class TWDGameManager {
         System.out.println(criaturasMaisEquipadas);
 
         //tiposDeZombieESeusEquipDestruidos
+        if (!zombieType0.equals("")){
         tiposDeZombieESeusEquipDestruidos.add(zombieType0);
-        tiposDeZombieESeusEquipDestruidos.add(zombieType1);
-        tiposDeZombieESeusEquipDestruidos.add(zombieType2);
-        tiposDeZombieESeusEquipDestruidos.add(zombieType3);
-        tiposDeZombieESeusEquipDestruidos.add(zombieType4);
+        }
+        if (!zombieType1.equals("")) {
+            tiposDeZombieESeusEquipDestruidos.add(zombieType1);
+        }
+        if (!zombieType2.equals("")) {
+            tiposDeZombieESeusEquipDestruidos.add(zombieType2);
+        }
+        if (!zombieType3.equals("")){
+            tiposDeZombieESeusEquipDestruidos.add(zombieType3);
+        }
+        if (!zombieType4.equals("")){
+            tiposDeZombieESeusEquipDestruidos.add(zombieType4);
+        }
 
         System.out.println(tiposDeZombieESeusEquipDestruidos);
 
@@ -1818,7 +1829,6 @@ public class TWDGameManager {
 
 
     public int tiposDeZombieESeusEquipDestruidoNUMtipo(int type){
-
         ArrayList<Creature> creatures = new ArrayList<>(criaturas.values());
 
         //tiposDeZombieESeusEquipDestruidos

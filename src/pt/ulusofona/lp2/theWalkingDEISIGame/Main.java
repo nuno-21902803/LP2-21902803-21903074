@@ -11,6 +11,8 @@ public class Main {
         TWDGameManager game = new TWDGameManager();
         game.startGame(nd);
         game.getGameStatistics();
-
+        game.saveGame(new File("AAA"));
+        game.loadGame(new File("AAA"));
+        game.getGameStatistics();
     }
 }
