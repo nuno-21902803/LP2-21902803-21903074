@@ -1461,6 +1461,14 @@ public class TWDGameManager {
     public boolean saveGame(File fich){
         try {
 
+            for (Creature c : criaturas.values()){
+                if (c.getEquipamento() != null){
+                    //se tiver equipamento ele mete as memas coordenadas da criatura
+                    c.getEquipamento().setX(c.cordenadaX());
+                    c.getEquipamento().setY(c.cordenadaY());
+                }
+            }
+
             File file = new File(fich.getAbsolutePath() + ".txt");
 
             //funcao de escrever p ficheiro
@@ -1670,7 +1678,6 @@ public class TWDGameManager {
 
     }
 
-    //TODO load com a info de cenas destruidas
     public Map<String, List<String>> getGameStatistics(){
     //lista de controlo
     ArrayList<Creature> creatures = new ArrayList<>(criaturas.values());
@@ -1840,28 +1847,55 @@ public class TWDGameManager {
 
     public int tiposDeZombieESeusEquipDestruidoNUMtipo(int type){
         ArrayList<Creature> creatures = new ArrayList<>(criaturas.values());
-
+        int numTIPO = 0;
         //tiposDeZombieESeusEquipDestruidos
         switch (type) {
-            case 0: return (int) creatures.stream()
+            case 0: numTIPO = (int) creatures.stream()
                     .filter(Creature -> Creature.getIdTipo() == 0) //apenas zombies
                     .count();
 
-            case 1: return (int) creatures.stream()
+                    if (numTIPO == 0){
+                        return -1;
+                    }
+                    return numTIPO;
+
+            case 1: numTIPO = (int)creatures.stream()
                     .filter(Creature -> Creature.getIdTipo() == 1) //apenas zombies
                     .count();
 
-            case 2: return (int) creatures.stream()
+                if (numTIPO == 0){
+                    return -1;
+                }
+                return numTIPO;
+
+
+            case 2: numTIPO = (int)creatures.stream()
                     .filter(Creature -> Creature.getIdTipo() == 2) //apenas zombies
                     .count();
 
-            case 3: return (int) creatures.stream()
+                if (numTIPO == 0){
+                    return -1;
+                }
+                return numTIPO;
+
+            case 3: numTIPO = (int)creatures.stream()
                     .filter(Creature -> Creature.getIdTipo() == 3) //apenas zombies
                     .count();
 
-            case 4: return (int) creatures.stream()
+                if (numTIPO == 0){
+                    return -1;
+                }
+                return numTIPO;
+
+            case 4: numTIPO = (int)creatures.stream()
                     .filter(Creature -> Creature.getIdTipo() == 4) //apenas zombies
                     .count();
+
+                if (numTIPO == 0){
+                    return -1;
+                }
+                return numTIPO;
+
         }
         return -1;
     }
