@@ -1276,11 +1276,11 @@ public class TWDGameManager {
     }
 
     public int getEquipmentTypeId(int equipmentId){
-        //TODO isto
+
         Equipamento equipamento = equipamentoHashMap.get(equipmentId);
-        return equipamento.getTypeID();
+
         //se for null percorre a lista de humanos para verificar se existe la um
-     /*   if (equipamento == null){
+       if (equipamento == null){
             for (Creature humano1 : criaturas.values()) {
                 if (humano1 instanceof Vivo) {
                     if (humano1.getEquipamento().getId() == equipmentId) {
@@ -1294,7 +1294,7 @@ public class TWDGameManager {
             return equipamento.getTypeID();
         }
 
-        return 0;*/
+        return 0;
     }
 
     public int getEquipmentId(int creatureId) {
@@ -1671,7 +1671,6 @@ public class TWDGameManager {
                 }
 
             }
-
 
             //coloca o respetivo eq na criatura
             for (Equipamento e : equipamentoHashMap.values()){
