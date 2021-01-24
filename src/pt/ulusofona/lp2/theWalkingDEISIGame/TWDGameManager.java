@@ -1669,6 +1669,17 @@ public class TWDGameManager {
                 }
 
             }
+
+
+            //coloca o respetivo eq na criatura
+            for (Equipamento e : equipamentoHashMap.values()){
+                for (Creature c : criaturas.values()){
+                  if ((e.cordenadaX() == c.cordenadaX()) && (e.cordenadaY() == c.cordenadaY())){
+                     c.setEquipamento(e);
+                  }
+              }
+            }
+
             leitorFicheiro.close();
             return true;
 
@@ -1848,8 +1859,7 @@ public class TWDGameManager {
         }
         return -1;
     }
-
-
+    
     public int tiposDeZombieESeusEquipDestruidoNUMtipo(int type){
         ArrayList<Creature> creatures = new ArrayList<>(criaturas.values());
         int numTIPO = 0;
