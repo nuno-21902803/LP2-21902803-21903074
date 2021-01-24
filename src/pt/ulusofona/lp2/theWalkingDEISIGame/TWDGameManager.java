@@ -1600,8 +1600,10 @@ public class TWDGameManager {
                             //se os X e Y do vivo forem negativos é porque foram salvos ou mortos
                             //se for safe ele vai para coordenada -100-xmorto, -100-ymorto
                             if (xH < -99 && yH < -99 ){
+                                safeCreaturesID.add(vivoAtual.getId());
                                 vivoAtual.setSafe(true);
                             }
+
                             if ((xH < 0 && xH > -100) && (yH < 0 && yH > -100) ){
                                 vivoAtual.setDead(true);
                             }
@@ -1859,7 +1861,7 @@ public class TWDGameManager {
         }
         return -1;
     }
-    
+
     public int tiposDeZombieESeusEquipDestruidoNUMtipo(int type){
         ArrayList<Creature> creatures = new ArrayList<>(criaturas.values());
         int numTIPO = 0;
