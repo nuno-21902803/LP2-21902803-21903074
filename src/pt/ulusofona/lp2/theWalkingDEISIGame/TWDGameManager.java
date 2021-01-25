@@ -1650,7 +1650,7 @@ public class TWDGameManager {
                     }
                 }
 
-
+ 
                 int nrSafeHavens = 0;
                 if (leitorFicheiro.hasNextLine()) {
                     nrSafeHavens = Integer.parseInt(leitorFicheiro.nextLine());
