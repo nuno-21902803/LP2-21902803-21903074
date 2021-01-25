@@ -1294,7 +1294,7 @@ public class TWDGameManager {
             return equipamento.getTypeID();
         }
 
-        return 0;
+        return -23;
     }
 
     public int getEquipmentId(int creatureId) {
@@ -1650,7 +1650,7 @@ public class TWDGameManager {
                     }
                 }
 
- 
+
                 int nrSafeHavens = 0;
                 if (leitorFicheiro.hasNextLine()) {
                     nrSafeHavens = Integer.parseInt(leitorFicheiro.nextLine());
@@ -1693,6 +1693,7 @@ public class TWDGameManager {
     public Map<String, List<String>> getGameStatistics(){
     //lista de controlo
     ArrayList<Creature> creatures = new ArrayList<>(criaturas.values());
+    ArrayList<Equipamento> equipamento = new ArrayList<>(equipamentoHashMap.values());
 
     List<String> os3ZombiesMaisTramados = new ArrayList<>();
     List<String> os3VivosMaisDuros = new ArrayList<>();
@@ -1813,7 +1814,8 @@ public class TWDGameManager {
         //tiposDeEquipamento
         //MaisUteis
 
-        equipamentoHashMap.values().stream()
+        equipamento.stream()
+                .filter(Equipamento -> Equipamento.getNumDEFESAS() > 0)
                 .sorted(Comparator.comparingInt(Equipamento::getNumDEFESAS))
                 .forEach(Equipamento -> tiposDeEquipamentoMaisUteis.add(Equipamento.getTypeID()+":"
                         +Equipamento.getNumDEFESAS()));
