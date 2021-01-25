@@ -1279,6 +1279,7 @@ public class TWDGameManager {
 
         Equipamento equipamento = equipamentoHashMap.get(equipmentId);
 
+
         //se for null percorre a lista de humanos para verificar se existe la um
        if (equipamento == null){
             for (Creature humano1 : criaturas.values()) {
@@ -1650,7 +1651,7 @@ public class TWDGameManager {
                     }
                 }
 
-
+ 
                 int nrSafeHavens = 0;
                 if (leitorFicheiro.hasNextLine()) {
                     nrSafeHavens = Integer.parseInt(leitorFicheiro.nextLine());
@@ -1694,7 +1695,6 @@ public class TWDGameManager {
     //lista de controlo
     ArrayList<Creature> creatures = new ArrayList<>(criaturas.values());
     ArrayList<Equipamento> equipamento = new ArrayList<>(equipamentoHashMap.values());
-
     List<String> os3ZombiesMaisTramados = new ArrayList<>();
     List<String> os3VivosMaisDuros = new ArrayList<>();
     List<String> tiposDeEquipamentoMaisUteis = new ArrayList<>();
@@ -1742,12 +1742,13 @@ public class TWDGameManager {
         System.out.println(criaturasMaisEquipadas);
 
         //tiposDeZombieESeusEquipDestruidos
-        if (tiposDeZombieESeusEquipDestruidoNUMtipo(0) != -1){
-        tiposDeZombieESeusEquipDestruidos.add(zombieType0);
-        }
         if (tiposDeZombieESeusEquipDestruidoNUMtipo(1) != -1) {
             tiposDeZombieESeusEquipDestruidos.add(zombieType1);
         }
+        if (tiposDeZombieESeusEquipDestruidoNUMtipo(0) != -1){
+        tiposDeZombieESeusEquipDestruidos.add(zombieType0);
+        }
+
         if (tiposDeZombieESeusEquipDestruidoNUMtipo(2) != -1) {
             tiposDeZombieESeusEquipDestruidos.add(zombieType2);
         }
@@ -1813,9 +1814,7 @@ public class TWDGameManager {
 
         //tiposDeEquipamento
         //MaisUteis
-
         equipamento.stream()
-                .filter(Equipamento -> Equipamento.getNumDEFESAS() > 0)
                 .sorted(Comparator.comparingInt(Equipamento::getNumDEFESAS))
                 .forEach(Equipamento -> tiposDeEquipamentoMaisUteis.add(Equipamento.getTypeID()+":"
                         +Equipamento.getNumDEFESAS()));
