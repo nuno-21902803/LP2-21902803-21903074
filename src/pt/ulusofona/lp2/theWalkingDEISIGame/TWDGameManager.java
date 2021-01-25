@@ -1741,11 +1741,11 @@ public class TWDGameManager {
         System.out.println(criaturasMaisEquipadas);
 
         //tiposDeZombieESeusEquipDestruidos
-        if (tiposDeZombieESeusEquipDestruidoNUMtipo(0) != -1){
-        tiposDeZombieESeusEquipDestruidos.add(zombieType0);
-        }
         if (tiposDeZombieESeusEquipDestruidoNUMtipo(1) != -1) {
             tiposDeZombieESeusEquipDestruidos.add(zombieType1);
+        }
+        if (tiposDeZombieESeusEquipDestruidoNUMtipo(0) != -1){
+        tiposDeZombieESeusEquipDestruidos.add(zombieType0);
         }
         if (tiposDeZombieESeusEquipDestruidoNUMtipo(2) != -1) {
             tiposDeZombieESeusEquipDestruidos.add(zombieType2);
