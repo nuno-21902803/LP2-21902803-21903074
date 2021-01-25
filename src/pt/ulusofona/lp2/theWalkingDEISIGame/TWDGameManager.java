@@ -1695,6 +1695,8 @@ public class TWDGameManager {
     //lista de controlo
     ArrayList<Creature> creatures = new ArrayList<>(criaturas.values());
     ArrayList<Equipamento> equipamento = new ArrayList<>(equipamentoHashMap.values());
+
+
     List<String> os3ZombiesMaisTramados = new ArrayList<>();
     List<String> os3VivosMaisDuros = new ArrayList<>();
     List<String> tiposDeEquipamentoMaisUteis = new ArrayList<>();
@@ -1815,6 +1817,7 @@ public class TWDGameManager {
         //tiposDeEquipamento
         //MaisUteis
         equipamento.stream()
+                .filter(Equipamento -> Equipamento.getNumDEFESAS() > 0)
                 .sorted(Comparator.comparingInt(Equipamento::getNumDEFESAS))
                 .forEach(Equipamento -> tiposDeEquipamentoMaisUteis.add(Equipamento.getTypeID()+":"
                         +Equipamento.getNumDEFESAS()));
