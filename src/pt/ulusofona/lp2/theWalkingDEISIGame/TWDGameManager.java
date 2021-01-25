@@ -1814,6 +1814,7 @@ public class TWDGameManager {
         //MaisUteis
 
         equipamentoHashMap.values().stream()
+                .filter(Equipamento -> Equipamento.getNumDEFESAS() > 0)
                 .sorted(Comparator.comparingInt(Equipamento::getNumDEFESAS))
                 .forEach(Equipamento -> tiposDeEquipamentoMaisUteis.add(Equipamento.getTypeID()+":"
                         +Equipamento.getNumDEFESAS()));
