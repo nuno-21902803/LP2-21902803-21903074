@@ -1491,7 +1491,7 @@ public class TWDGameManager {
             for (Equipamento e : equipamentoHashMap.values()) {
                 writer.write(e.getId() + " : " + e.getTypeID()
                         + " : " + e.cordenadaX() + " : "
-                        + e.cordenadaY() + " : "+ e.getNumDEFESAS() +"\n");
+                        + e.cordenadaY() + " : "+ e.getNumDEFESAS()  +" : "+ e.getStrikesLEFT() +"\n");
             }
 
             writer.write(safeHavens.size() + "\n");
@@ -1642,10 +1642,11 @@ public class TWDGameManager {
                         int xE = Integer.parseInt(dadosEquipamento[2]);
                         int yE = Integer.parseInt(dadosEquipamento[3]);
                         int numDef = Integer.parseInt(dadosEquipamento[4]);
+                        int strikerLeft = Integer.parseInt(dadosEquipamento[5]);
                         ArrayList<Integer> c = new ArrayList<>();
                         Equipamento equipamento = new Equipamento(idE, idTipoE, equipmentTYPE_ID(idTipoE), xE, yE,c,
                                 numDef);
-
+                        equipamento.setStrikesLEFT(strikerLeft);
                         equipamentoHashMap.putIfAbsent(idE,equipamento);
                         equipmentSTRIKESsetter(idTipoE, idE);
                     }
