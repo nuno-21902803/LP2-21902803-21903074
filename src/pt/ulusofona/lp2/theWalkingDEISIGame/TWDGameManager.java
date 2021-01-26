@@ -20,16 +20,13 @@ public class TWDGameManager {
     HashMap<Integer, Equipamento> equipamentoHashMap = new HashMap<>();
     HashMap<String, List<String>> listMap = new HashMap<String, List<String>>();
 
-    static int numCriaturas;
+
     static int numeroLinhas;
     static int numeroColunas;
     int idEquipaAtual = 0;
     int idEquipaInicial = 0;
     int nrTurnos = 0;
     int nrTurnosTotal = 0; //ver se detetou alguma infecao no jogo
-
-    static String linhaErro = "";
-    static String[] dadosCriaturaStatic;
 
     boolean day = true;
 
@@ -60,7 +57,6 @@ public class TWDGameManager {
             day = true;
             xMorto = -1;
             yMorto = -1;
-            linhaErro="";
             //clear das estruturas e vars
 
 
@@ -86,31 +82,47 @@ public class TWDGameManager {
 
                 int nrCriaturas = 0;
                 nrCriaturas = Integer.parseInt(leitorFicheiro.nextLine());
-                numCriaturas = nrCriaturas;
 
-                if (!new InvalidTWDInitialFileException().validNrOfCreatures()) {
 
+                InvalidTWDInitialFileException ex =
+                        new InvalidTWDInitialFileException(nrCriaturas,0);
+
+                if (!ex.validNrOfCreatures()){
                     throw new InvalidTWDInitialFileException();
                 }
 
-
                 for (int x = 0; x < nrCriaturas; x++) {
                     if (leitorFicheiro.hasNextLine()) {
-                        String[] dadosCriatura = leitorFicheiro.nextLine().split(" : ");
-                        dadosCriaturaStatic = dadosCriatura;
-                        int count = 0;
-                        if (!new InvalidTWDInitialFileException().validCreatureDefinition()){
 
-                            for (String s : dadosCriaturaStatic) {
-                                linhaErro += s;
-                                if (count<dadosCriaturaStatic.length-1) {
-                                    linhaErro += " : ";
+                        String[] dadosCriatura = leitorFicheiro.nextLine().split(" : ");
+
+
+
+
+                        if (dadosCriatura.length != 5){
+                            int count = 0;
+                            StringBuilder lineError = new StringBuilder();
+
+                            for (String s : dadosCriatura) {
+                                lineError.append(s);
+                                if (count<dadosCriatura.length-1) {
+                                    lineError.append(" : ");
                                     count++;
                                 }
 
                             }
 
-                            throw new InvalidTWDInitialFileException();
+                            InvalidTWDInitialFileException ex1 =
+                                    new InvalidTWDInitialFileException(nrCriaturas,dadosCriatura.length);
+
+
+
+                            if (!ex1.validCreatureDefinition()){
+                                ex1.setLinhaError(lineError.toString());
+
+                                throw new InvalidTWDInitialFileException();
+                            }
+
                         }
                         //fazer o split da linha com os " : "
                         //e guardar os dados nos objetos e add na lista respetiva
@@ -213,11 +225,9 @@ public class TWDGameManager {
                     }
 
                 }
-
             }
+
             leitorFicheiro.close();
-
-
 
         } catch (FileNotFoundException exception) {
             throw new FileNotFoundException();
@@ -255,7 +265,7 @@ public class TWDGameManager {
     }
 
     public boolean move(int xO, int yO, int xD, int yD) {
-        getGameStatistics();
+        //getGameStatistics();
 
         int idCriatura = 0;
         boolean isHumano = false;
