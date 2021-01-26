@@ -625,8 +625,19 @@ public class TWDGameManager {
                     return false;
                 }
 
+                //se ele tiver 1 equipamento com ele
+                if (vivo.getEquipamento() != null){
+                    Equipamento eqAnt = vivo.getEquipamento();
+                    eqAnt.setX(xO);
+                    eqAnt.setY(yO);
+                }
+
+
                 vivo.setEquipamento(equipamento);
-                equipamentoHashMap.remove(equipamento.getId());
+                equipamentoHashMap.get(equipamento.getId()).setX(xMorto);
+                equipamentoHashMap.get(equipamento.getId()).setY(yMorto);
+                xMorto--;
+                yMorto--;
 
                 int num = vivo.getEquipamentos();
                 vivo.setNumEqApanhadosDestruidos(num+1);
@@ -667,7 +678,7 @@ public class TWDGameManager {
                         return false;
                     }
 
-                    equipamentoHashMap.put(equipamento.getId(),equipamento);
+                    //equipamentoHashMap.put(equipamento.getId(),equipamento);
 
                     //se ele tiver um equipamento tirar o mesmo
                     vivo.setEquipamento(new Equipamento());
@@ -719,7 +730,10 @@ public class TWDGameManager {
                 //adiciona o equipamento no humano
                 vivo.setEquipamento(equipamento);
                 //remove o equipamento da lista global
-                equipamentoHashMap.remove(equipamento.getId());
+                equipamentoHashMap.get(equipamento.getId()).setX(xMorto);
+                equipamentoHashMap.get(equipamento.getId()).setY(yMorto);
+                xMorto--;
+                yMorto--;
 
                 int num = vivo.getEquipamentos();
                 vivo.setNumEqApanhadosDestruidos(num+1);
@@ -785,7 +799,7 @@ public class TWDGameManager {
                     return false;
                 }
                 //guarda-o na lista global
-                equipamentoHashMap.put(equipamentoAnterior.getId(),equipamentoAnterior);
+                //equipamentoHashMap.put(equipamentoAnterior.getId(),equipamentoAnterior);
 
                 //coloca o eq anterior nas cordenadas anteriores
                 equipamentoAnterior.setX(xO);
@@ -802,7 +816,10 @@ public class TWDGameManager {
                 equipamento = vivo.getEquipamento();
 
                 //remove o que tinha mas adiciona na lista de equipamentos no bairro
-                equipamentoHashMap.remove(equipamento.getId());
+                equipamentoHashMap.get(equipamento.getId()).setX(xMorto);
+                equipamentoHashMap.get(equipamento.getId()).setY(yMorto);
+                xMorto--;
+                yMorto--;
 
                 //verificar se foi apanhado por mais que um militar
                 //se for escudo de madeira
@@ -924,7 +941,10 @@ public class TWDGameManager {
                     return false;
                 } else {
                     //remove da lista
-                    equipamentoHashMap.remove(equipamento.getId());
+                    equipamentoHashMap.get(equipamento.getId()).setX(xMorto);
+                    equipamentoHashMap.get(equipamento.getId()).setY(yMorto);
+                    xMorto--;
+                    yMorto--;
 
                     //aumenta o nrDestruidos
                     int num = zombie.getEquipamentos();
@@ -1742,7 +1762,7 @@ public class TWDGameManager {
 
 
         }
-        System.out.println(criaturasMaisEquipadas);
+        //System.out.println(criaturasMaisEquipadas);
 
         //tiposDeZombieESeusEquipDestruidos
         if (tiposDeZombieESeusEquipDestruidoNUMtipo(1) != -1) {
@@ -1764,7 +1784,7 @@ public class TWDGameManager {
 
 
 
-        System.out.println(tiposDeZombieESeusEquipDestruidos);
+        //System.out.println(tiposDeZombieESeusEquipDestruidos);
 
         //os3ZombiesMaisTramados
         int count = (int) creatures.stream()
@@ -1788,7 +1808,7 @@ public class TWDGameManager {
                             +Creature.getNome()+":"+Creature.getTransformacoes()));
 
         }
-        System.out.println(os3ZombiesMaisTramados);
+        //System.out.println(os3ZombiesMaisTramados);
 
 
     //os3VivosMaisDuros
@@ -1813,10 +1833,11 @@ public class TWDGameManager {
                             +Creature.getNome()+":"+Creature.getZombieKILLED()));
 
         }
-        System.out.println(os3VivosMaisDuros);
+        //System.out.println(os3VivosMaisDuros);
 
         //tiposDeEquipamento
         //MaisUteis
+        System.out.println(equipamento);
         equipamento.stream()
                 .filter(Equipamento -> Equipamento.getNumDEFESAS() > 0)
                 .sorted(Comparator.comparingInt(Equipamento::getNumDEFESAS))
