@@ -1844,7 +1844,7 @@ public class TWDGameManager {
         equipamento.stream()
                 .filter(Equipamento -> Equipamento.getNumDEFESAS() > 0)
                 .sorted(Comparator.comparingInt(Equipamento::getNumDEFESAS))
-                .forEach(Equipamento -> tiposDeEquipamentoMaisUteis.add(Equipamento.getTypeID()+":"
+                .forEach(Equipamento -> tiposDeEquipamentoMaisUteis.add(Equipamento.getTypeID()+" "
                         +Equipamento.getNumDEFESAS()));
         System.out.println(tiposDeEquipamentoMaisUteis);
 
