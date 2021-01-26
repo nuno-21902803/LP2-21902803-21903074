@@ -255,7 +255,7 @@ public class TWDGameManager {
     }
 
     public boolean move(int xO, int yO, int xD, int yD) {
-
+        getGameStatistics();
 
         int idCriatura = 0;
         boolean isHumano = false;
@@ -1793,13 +1793,13 @@ public class TWDGameManager {
 
     //os3VivosMaisDuros
         int vivosDestroy = (int) creatures.stream()
-                .filter(Creature -> Creature.getTransformacoes() >0)
+                .filter(Creature -> Creature.getZombieKILLED() >0)
                 .count();
 
         if (vivosDestroy > 2){
             creatures.stream()
                     .filter(Creature -> Creature.getIdTipo() > 4)
-                    .sorted((Creature c1, Creature c2) -> c2.getTransformacoes() - c1.getTransformacoes())
+                    .sorted((Creature c1, Creature c2) -> c2.getZombieKILLED() - c1.getZombieKILLED())
                     .limit(3)
                     .forEach(Creature -> os3VivosMaisDuros.add(Creature.getId()+":"
                             +Creature.getNome()+":"+Creature.getZombieKILLED()));
@@ -1807,8 +1807,8 @@ public class TWDGameManager {
 
             creatures.stream()
                     .filter(Creature -> Creature.getIdTipo() > 4)
-                    .filter(Creature -> Creature.getTransformacoes() > 0)
-                    .sorted((Creature c1, Creature c2) -> c2.getTransformacoes() - c1.getTransformacoes())
+                    .filter(Creature -> Creature.getZombieKILLED() > 0)
+                    .sorted((Creature c1, Creature c2) -> c2.getZombieKILLED() - c1.getZombieKILLED())
                     .forEach(Creature -> os3VivosMaisDuros.add(Creature.getId()+":"
                             +Creature.getNome()+":"+Creature.getZombieKILLED()));
 

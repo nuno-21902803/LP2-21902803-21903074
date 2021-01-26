@@ -72,30 +72,51 @@ public class Moves {
             case 4:
 
                 if (maxMoves == 2){
-                    check = gameManager.getElementId(xAnterior + 1, yAnterior - 1) == 0;
-                    return check && gameManager.getElementId(xAnterior + 2, yAnterior - 2 ) == 0;
+                    if (xPretendido == xAnterior + 2  && yPretendido == yAnterior - 2){
+                        check = gameManager.getElementId(xAnterior + 1, yAnterior - 1) == 0;
+                        return check;
+                    }
+
                 }
+
+                return true;
                 //diagonal direitaBAIXO
             case 5:
 
                 if (maxMoves == 2){
-                    check = gameManager.getElementId(xAnterior + 1, yAnterior + 1) == 0;
-                    return check && gameManager.getElementId(xAnterior + 2, yAnterior + 2 ) == 0;
+                    if (xPretendido == xAnterior + 2  && yPretendido == yAnterior + 2){
+                        check = gameManager.getElementId(xAnterior + 1, yAnterior + 1) == 0;
+                        return check;
+                    }
+
                 }
+
+                return true;
                 //diagonal esqCIMA
             case 6:
 
                 if (maxMoves == 2){
-                    check = gameManager.getElementId(xAnterior - 1, yAnterior - 1) == 0;
-                    return check && gameManager.getElementId(xAnterior - 2, yAnterior - 2 ) == 0;
+                    if (xPretendido == xAnterior - 2  && yPretendido == yAnterior - 2){
+                        check = gameManager.getElementId(xAnterior - 1, yAnterior - 1) == 0;
+                        return check;
+                    }
+
                 }
+
+                return true;
                 //diagonal esqBAIXO
             case 7:
 
                 if (maxMoves == 2){
-                    check = gameManager.getElementId(xAnterior - 1, yAnterior + 1) == 0;
-                    return check && gameManager.getElementId(xAnterior - 2, yAnterior + 2 ) == 0;
+                    if (xPretendido == xAnterior - 2  && yPretendido == yAnterior + 2){
+                        check = gameManager.getElementId(xAnterior - 1, yAnterior + 1) == 0;
+
+                        return check;
+                    }
+
                 }
+
+                return true;
         }
 
         return false;
