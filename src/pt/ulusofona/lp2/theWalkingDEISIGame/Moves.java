@@ -16,86 +16,82 @@ public class Moves {
         this.idCriaturaAtual = idCriaturaAtual;
     }
 
-
-    public boolean checkCriaturasNoCaminho(int xAnterior, int yAnterior,int maxMoves, int direcao){
+    //ver se ha criaturas no caminho pretendido
+    public boolean checkCriaturasNoCaminho(int xAnterior, int yAnterior,int xPretendido, int yPretendido,int
+            maxMoves, int direcao){
 
     boolean check = false;
         switch (direcao){
                 //Cima
             case 0:
-                if (maxMoves == 1){
-                    return gameManager.getElementId(xAnterior, yAnterior - 1) == 0;
-                }
+
                 if (maxMoves == 2){
-                    check = gameManager.getElementId(xAnterior, yAnterior - 1) == 0;
-                    return check && gameManager.getElementId(xAnterior, yAnterior - 2) == 0;
+                    if (yPretendido == yAnterior -2){
+                        check = gameManager.getElementId(xAnterior, yAnterior - 1) == 0;
+                        return check;
+                    }
+
                 }
+
+                return true;
                 //baixo
             case 1:
-                if (maxMoves == 1){
-                    return gameManager.getElementId(xAnterior, yAnterior + 1) == 0;
-                }
+
                 if (maxMoves == 2){
 
-                    check = gameManager.getElementId(xAnterior, yAnterior + 1) == 0;
-                    return check && gameManager.getElementId(xAnterior, yAnterior + 2) == 0;
+                    if (yPretendido == yAnterior + 2){
+                        check = gameManager.getElementId(xAnterior, yAnterior + 1) == 0;
+                        return check;
+                    }
                 }
 
-
+                return true;
                 //ladoESQ
             case 2:
-                if (maxMoves == 1){
-                    return gameManager.getElementId(xAnterior - 1, yAnterior) == 0;
-                }
+
                 if (maxMoves == 2){
-                    check = gameManager.getElementId(xAnterior - 1, yAnterior) == 0;
-                    return check && gameManager.getElementId(xAnterior - 2, yAnterior ) == 0;
+                    if (xPretendido == xAnterior - 2){
+                        check = gameManager.getElementId(xAnterior - 1, yAnterior) == 0;
+                        return check;
+                    }
                 }
 
-
+                return true;
                 //ladoDIR
             case 3:
-                if (maxMoves == 1){
-                    return gameManager.getElementId(xAnterior + 1, yAnterior) == 0;
-                }
+
                 if (maxMoves == 2){
-                    check = gameManager.getElementId(xAnterior + 1, yAnterior) == 0;
-                    return check &&  gameManager.getElementId(xAnterior + 2, yAnterior ) == 0;
+                    if (xPretendido == xAnterior + 2){
+                        check = gameManager.getElementId(xAnterior + 1, yAnterior) == 0;
+                        return check;
+                    }
                 }
 
-
+                return true;
                 //diagonal direitaCIMA
             case 4:
-                if (maxMoves == 1){
-                    return gameManager.getElementId(xAnterior + 1, yAnterior - 1) == 0;
-                }
+
                 if (maxMoves == 2){
                     check = gameManager.getElementId(xAnterior + 1, yAnterior - 1) == 0;
                     return check && gameManager.getElementId(xAnterior + 2, yAnterior - 2 ) == 0;
                 }
                 //diagonal direitaBAIXO
             case 5:
-                if (maxMoves == 1){
-                    return gameManager.getElementId(xAnterior + 1, yAnterior + 1) == 0;
-                }
+
                 if (maxMoves == 2){
                     check = gameManager.getElementId(xAnterior + 1, yAnterior + 1) == 0;
                     return check && gameManager.getElementId(xAnterior + 2, yAnterior + 2 ) == 0;
                 }
                 //diagonal esqCIMA
             case 6:
-                if (maxMoves == 1){
-                    return gameManager.getElementId(xAnterior - 1, yAnterior - 1) == 0;
-                }
+
                 if (maxMoves == 2){
                     check = gameManager.getElementId(xAnterior - 1, yAnterior - 1) == 0;
                     return check && gameManager.getElementId(xAnterior - 2, yAnterior - 2 ) == 0;
                 }
                 //diagonal esqBAIXO
             case 7:
-                if (maxMoves == 1){
-                    return gameManager.getElementId(xAnterior - 1, yAnterior + 1) == 0;
-                }
+
                 if (maxMoves == 2){
                     check = gameManager.getElementId(xAnterior - 1, yAnterior + 1) == 0;
                     return check && gameManager.getElementId(xAnterior - 2, yAnterior + 2 ) == 0;
@@ -105,8 +101,6 @@ public class Moves {
         return false;
     }
 
-
-    //ver se ha criaturas no caminho pretendido
 
     public boolean validarMove(int xPretendido, int yPretendido, int xAnterior, int yAnterior, int tYPEidCriaturaAtual,
                                boolean day) {
@@ -135,7 +129,7 @@ public class Moves {
                 moveMAX = 1;
                 direcao = direcaoGetter(xPretendido,yPretendido,xAnterior,yAnterior);
 
-                if (!checkCriaturasNoCaminho(xAnterior,yAnterior,moveMAX,direcao)){
+                if (!checkCriaturasNoCaminho(xAnterior,yAnterior,xPretendido,yPretendido,moveMAX,direcao)){
                     return false;
                 }
 
@@ -146,7 +140,7 @@ public class Moves {
                 moveMAX = 2;
                 direcao = direcaoGetter(xPretendido,yPretendido,xAnterior,yAnterior);
 
-                if (!checkCriaturasNoCaminho(xAnterior,yAnterior,moveMAX,direcao)){
+                if (!checkCriaturasNoCaminho(xAnterior,yAnterior,xPretendido,yPretendido,moveMAX,direcao)){
 
                     return false;
                 }
@@ -158,7 +152,7 @@ public class Moves {
             case 7:
 
 
-               if (checkCriaturasNoCaminho(xAnterior,yAnterior,moveMAX,direcao)) {
+               if (checkCriaturasNoCaminho(xAnterior,yAnterior,xPretendido,yPretendido,moveMAX,direcao)) {
                     //return false;
                 }
 
@@ -171,7 +165,7 @@ public class Moves {
                 direcao = direcaoGetter(xPretendido,yPretendido,xAnterior,yAnterior);
 
                 if (day){
-                    if (!checkCriaturasNoCaminho(xAnterior,yAnterior,moveMAX,direcao)){
+                    if (!checkCriaturasNoCaminho(xAnterior,yAnterior,xPretendido,yPretendido,moveMAX,direcao)){
                         return false;
                     }
 

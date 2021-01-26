@@ -347,7 +347,7 @@ public class TWDGameManager {
                                     }
                                     if (vivo1.getEquipamento().getTypeID() != -23) {
                                         int type = -1;
-
+                                        System.out.println(vivo1);
                                         type = vivo1.getEquipamento().getTypeID();
                                         if (type != -1) {
                                             switch (type) {
@@ -1706,19 +1706,19 @@ public class TWDGameManager {
 
 
 
-        String zombieType0 = creatureTYPE_ID(0)+":" +tiposDeZombieESeusEquipDestruidoNUMtipo(0) + ":"
+        String zombieType0 ="Criança:" +tiposDeZombieESeusEquipDestruidoNUMtipo(0) + ":"
                 +tiposDeZombieESeusEquipDestruidoNUMeq(0);
 
-        String zombieType1 =  creatureTYPE_ID(1)+":" +tiposDeZombieESeusEquipDestruidoNUMtipo(1) + ":"
+        String zombieType1 =  "Adulto:" +tiposDeZombieESeusEquipDestruidoNUMtipo(1) + ":"
                 +tiposDeZombieESeusEquipDestruidoNUMeq(1);
 
-        String zombieType2 =  creatureTYPE_ID(2)+":" +tiposDeZombieESeusEquipDestruidoNUMtipo(2) + ":"
+        String zombieType2 = "Militar:" +tiposDeZombieESeusEquipDestruidoNUMtipo(2) + ":"
                 +tiposDeZombieESeusEquipDestruidoNUMeq(2);
 
-        String zombieType3 =  creatureTYPE_ID(3)+":" +tiposDeZombieESeusEquipDestruidoNUMtipo(3) + ":"
+        String zombieType3 = "Idoso:" +tiposDeZombieESeusEquipDestruidoNUMtipo(3) + ":"
                 +tiposDeZombieESeusEquipDestruidoNUMeq(3);
 
-        String zombieType4 =  creatureTYPE_ID(4)+":" +tiposDeZombieESeusEquipDestruidoNUMtipo(4) + ":"
+        String zombieType4 = "Vampiro:" +tiposDeZombieESeusEquipDestruidoNUMtipo(4) + ":"
                 +tiposDeZombieESeusEquipDestruidoNUMeq(4);
 
 
